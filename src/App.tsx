@@ -1,13 +1,8 @@
 import "./App.css";
-import { AnimatedBackground } from "./components";
-import LoginPage from "./pages/auth/Login";
+import { AppRouter } from "./routes/AppRouter";
 
 function App() {
-  return (
-    <AnimatedBackground>
-      <LoginPage />
-    </AnimatedBackground>
-  );
+  return <AppRouter />;
 }
 
 export default App;

@@ -5,7 +5,7 @@ import { showAlert } from "../../utils/alerts";
 import { ApiResponse } from "../../interfaces";
 import "./Login.css";
 
-export default function LoginPage() {
+export function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);

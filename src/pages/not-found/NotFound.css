@@ -1,0 +1,215 @@
+/* Contenedor principal */
+.not-found-container {
+  min-height: 100vh;
+  background: var(--primary-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Contenido centrado */
+.not-found-content {
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+  padding: 40px 30px;
+  background: var(--primary-bg);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+}
+
+/* Código de error 404 */
+.error-code {
+  font-size: 4rem;
+  font-weight: 700;
+  color: var(--institutional-blue);
+  margin-bottom: 20px;
+  line-height: 1;
+  text-shadow: 0 2px 4px rgba(0, 123, 255, 0.1);
+}
+
+/* Icono del parqueadero */
+.error-icon {
+  margin: 20px 0 30px 0;
+  display: flex;
+  justify-content: center;
+  opacity: 0.8;
+}
+
+.error-icon svg {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Título del error */
+.error-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+/* Descripción del error */
+.error-description {
+  font-size: 1rem;
+  color: var(--neutral-gray);
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+/* Sugerencias */
+.error-suggestions {
+  text-align: left;
+  background: var(--secondary-bg);
+  background: linear-gradient(
+    135deg,
+    var(--secondary-bg),
+    rgba(153, 204, 255, 0.3)
+  );
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  border-left: 4px solid var(--institutional-blue);
+}
+
+.error-suggestions p {
+  font-weight: 600;
+  color: var(--blue-dark);
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+}
+
+.error-suggestions ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.error-suggestions li {
+  color: var(--blue-medium);
+  margin-bottom: 8px;
+  padding-left: 20px;
+  position: relative;
+  font-size: 0.9rem;
+}
+
+.error-suggestions li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--institutional-blue);
+  font-weight: bold;
+}
+
+/* Botones de acción */
+.action-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Botón principal */
+.btn-primary {
+  background: var(--institutional-blue);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2);
+}
+
+.btn-primary:hover {
+  background: var(--blue-medium);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* Botón secundario */
+.btn-secondary {
+  background: transparent;
+  color: var(--institutional-blue);
+  border: 2px solid var(--institutional-blue);
+  padding: 10px 22px;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--institutional-blue);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+}
+
+.btn-secondary:active {
+  transform: translateY(0);
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .not-found-content {
+    padding: 30px 20px;
+    margin: 10px;
+  }
+
+  .error-code {
+    font-size: 3rem;
+  }
+
+  .error-title {
+    font-size: 1.5rem;
+  }
+
+  .error-icon svg {
+    width: 100px;
+    height: 100px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .error-code {
+    font-size: 2.5rem;
+  }
+
+  .error-title {
+    font-size: 1.3rem;
+  }
+
+  .error-description {
+    font-size: 0.95rem;
+  }
+}
