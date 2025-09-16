@@ -1,6 +1,6 @@
 /* Contenedor principal */
-.not-found-container {
-  min-height: 100vh;
+.unauthorized-container {
+  min-height: 100dvh;
   background: var(--primary-bg);
   display: flex;
   align-items: center;
@@ -9,7 +9,7 @@
 }
 
 /* Contenido centrado */
-.not-found-content {
+.unauthorized-content {
   text-align: center;
   max-width: 700px;
   width: 100%;
@@ -20,7 +20,7 @@
   border: 1px solid var(--border-color);
 }
 
-/* Código de error 404 */
+/* Código de error 403 */
 .error-code {
   font-size: 4rem;
   font-weight: 700;
@@ -30,7 +30,7 @@
   text-shadow: 0 2px 4px rgba(0, 123, 255, 0.1);
 }
 
-/* Icono del parqueadero */
+/* Icono del parqueadero con símbolo de prohibido */
 .error-icon {
   margin: 20px 0 30px 0;
   display: flex;
@@ -39,16 +39,26 @@
 }
 
 .error-icon svg {
-  animation: float 3s ease-in-out infinite;
+  animation: shake 4s ease-in-out infinite;
 }
 
-@keyframes float {
+@keyframes shake {
   0%,
   100% {
-    transform: translateY(0px);
+    transform: translateX(0px);
   }
-  50% {
-    transform: translateY(-10px);
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-2px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(2px);
   }
 }
 
@@ -72,16 +82,16 @@
 /* Sugerencias */
 .error-suggestions {
   text-align: left;
-  background: var(--secondary-bg);
   background: linear-gradient(
     135deg,
-    var(--secondary-bg),
-    rgba(153, 204, 255, 0.3)
+    rgba(0, 123, 255, 0.1),
+    rgba(0, 123, 255, 0.05)
   );
   padding: 20px;
   border-radius: 8px;
   margin-bottom: 30px;
   border-left: 4px solid var(--institutional-blue);
+  border: 1px solid rgba(0, 123, 255, 0.2);
 }
 
 .error-suggestions p {
@@ -105,7 +115,7 @@
 }
 
 .error-suggestions li::before {
-  content: "→";
+  content: "⚠";
   position: absolute;
   left: 0;
   color: var(--institutional-blue);
@@ -115,7 +125,7 @@
 /* Botones de acción */
 .action-buttons {
   display: flex;
-  gap: 15px;
+  gap: 12px;
   justify-content: center;
   flex-wrap: wrap;
 }
@@ -125,9 +135,9 @@
   background: var(--institutional-blue);
   color: white;
   border: none;
-  padding: 12px 24px;
+  padding: 12px 20px;
   border-radius: 6px;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -149,9 +159,9 @@
   background: transparent;
   color: var(--institutional-blue);
   border: 2px solid var(--institutional-blue);
-  padding: 10px 22px;
+  padding: 10px 18px;
   border-radius: 6px;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -168,9 +178,33 @@
   transform: translateY(0);
 }
 
+/* Botón de logout - estilo diferente para destacar la acción */
+.btn-logout {
+  background: transparent;
+  color: var(--neutral-gray);
+  border: 2px solid var(--neutral-gray);
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+  background: var(--neutral-gray);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(108, 117, 125, 0.2);
+}
+
+.btn-logout:active {
+  transform: translateY(0);
+}
+
 /* Responsividad */
 @media (max-width: 768px) {
-  .not-found-content {
+  .unauthorized-content {
     padding: 30px 20px;
     margin: 10px;
   }
@@ -191,10 +225,12 @@
   .action-buttons {
     flex-direction: column;
     align-items: center;
+    gap: 10px;
   }
 
   .btn-primary,
-  .btn-secondary {
+  .btn-secondary,
+  .btn-logout {
     width: 100%;
     max-width: 200px;
   }
@@ -211,5 +247,9 @@
 
   .error-description {
     font-size: 0.95rem;
+  }
+
+  .action-buttons {
+    gap: 8px;
   }
 }

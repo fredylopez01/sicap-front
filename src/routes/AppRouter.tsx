@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AnimatedBackground } from "../components";
-import { NotFound, LoginPage } from "../pages";
+import { NotFound, LoginPage, Unauthorized } from "../pages";
+import { PrivateRoute } from "./PrivateRoute";
 
 export function AppRouter() {
   return (
@@ -15,6 +16,23 @@ export function AppRouter() {
             </AnimatedBackground>
           }
         />
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <div>Dashboard.....</div>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <PrivateRoute requiredRole="admin">
+              <div>Solo para el admnistrador.....</div>
+            </PrivateRoute>
+          }
+        />
+        <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
