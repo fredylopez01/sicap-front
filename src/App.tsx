@@ -1,10 +1,12 @@
 import "./App.css";
+import { AnimatedBackground } from "./components";
+import LoginPage from "./pages/auth/Login";
 
 function App() {
   return (
-    <>
-      <h1>SICAP - Sistema Inteligente de Acceso a Parqueaderos</h1>
-    </>
+    <AnimatedBackground>
+      <LoginPage />
+    </AnimatedBackground>
   );
 }
 

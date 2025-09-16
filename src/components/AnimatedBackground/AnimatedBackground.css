@@ -1,0 +1,266 @@
+/* Contenedor principal */
+.animated-background {
+  min-height: 100vh;
+  width: 100dvw;
+  position: relative;
+  overflow: hidden;
+  background: var(--secondary-bg);
+}
+
+/* Partículas flotantes */
+.particles-container {
+  position: absolute;
+  inset: 0;
+}
+
+.particle {
+  position: absolute;
+  background-color: white;
+  opacity: 0.1;
+  border-radius: 50%;
+  animation: float linear infinite;
+}
+
+/* Ondas de fondo */
+.waves-container {
+  position: absolute;
+  inset: 0;
+}
+
+.wave-svg {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 50%;
+}
+
+.wave-path {
+  animation: wave 8s ease-in-out infinite;
+}
+
+.wave-path-delayed {
+  animation: wave-delayed 10s ease-in-out infinite;
+}
+
+/* Círculos geométricos flotantes */
+.geometric-shapes {
+  position: absolute;
+  inset: 0;
+}
+
+.shape {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.shape-1 {
+  top: 25%;
+  left: 25%;
+  width: 128px;
+  height: 128px;
+  border: 2px solid var(--secondary-bg);
+  opacity: 0.2;
+  animation: spin-slow 20s linear infinite;
+}
+
+.shape-2 {
+  top: 75%;
+  right: 25%;
+  width: 96px;
+  height: 96px;
+  border: 2px solid var(--blue-dark);
+  opacity: 0.3;
+  animation: bounce-slow 3s ease-in-out infinite;
+}
+
+.shape-3 {
+  top: 50%;
+  left: 75%;
+  width: 64px;
+  height: 64px;
+  background-color: white;
+  opacity: 0.1;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.shape-4 {
+  bottom: 25%;
+  left: 33.333333%;
+  width: 80px;
+  height: 80px;
+  border: 2px solid var(--blue-dark);
+  background-color: var(--blue-medium);
+  opacity: 0.15;
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Grid pattern */
+.grid-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  background-image: linear-gradient(var(--neutral-light) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* Rayos de luz */
+.light-rays {
+  position: absolute;
+  inset: 0;
+}
+
+.light-ray {
+  position: absolute;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--green-stand), transparent);
+}
+
+.ray-1 {
+  left: 25%;
+  background: linear-gradient(to bottom, var(--blue-ligth), transparent);
+  opacity: 0.2;
+  animation: fade 4s ease-in-out infinite;
+}
+
+.ray-2 {
+  left: 50%;
+  background: linear-gradient(to bottom, var(--green-stand), transparent);
+  opacity: 0.15;
+  animation: fade-delayed 6s ease-in-out infinite;
+}
+
+.ray-3 {
+  left: 75%;
+  background: linear-gradient(to bottom, var(--blue-dark), var(--blue-ligth));
+  opacity: 0.1;
+  animation: fade 4s ease-in-out infinite;
+}
+
+/* Contenido principal */
+.main-content {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+/* Animaciones */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px) translateX(0px);
+  }
+  33% {
+    transform: translateY(-10px) translateX(5px);
+  }
+  66% {
+    transform: translateY(5px) translateX(-5px);
+  }
+}
+
+@keyframes wave {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes wave-delayed {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes bounce-slow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes fade {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.1;
+  }
+}
+
+@keyframes fade-delayed {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.05;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
+
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .shape-1 {
+    width: 96px;
+    height: 96px;
+  }
+
+  .shape-2 {
+    width: 72px;
+    height: 72px;
+  }
+
+  .shape-3 {
+    width: 48px;
+    height: 48px;
+  }
+
+  .shape-4 {
+    width: 60px;
+    height: 60px;
+  }
+
+  .grid-pattern {
+    background-size: 30px 30px;
+  }
+}
