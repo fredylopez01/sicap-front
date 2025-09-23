@@ -2,6 +2,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AnimatedBackground } from "../components";
 import { NotFound, LoginPage, Unauthorized } from "../pages";
 import { PrivateRoute } from "./PrivateRoute";
+import { AddBranchForm } from "../pages/branches/AddBranchForm";
+import { BranchProvider } from "../context/BranchContext";
 
 export function AppRouter() {
   return (
@@ -30,6 +32,16 @@ export function AppRouter() {
             <PrivateRoute requiredRole="admin">
               <div>Solo para el admnistrador.....</div>
             </PrivateRoute>
+          }
+        />
+        <Route
+          path="/add-branch"
+          element={
+            <BranchProvider>
+              <AnimatedBackground>
+                <AddBranchForm />
+              </AnimatedBackground>
+            </BranchProvider>
           }
         />
         <Route path="/unauthorized" element={<Unauthorized />} />

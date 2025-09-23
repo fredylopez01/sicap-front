@@ -1,0 +1,269 @@
+/* Contenedor principal - similar a login-container */
+.add-branch-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100%;
+  background: white; /* tarjeta blanca */
+  padding: 1rem;
+  margin: 1rem auto;
+  border-radius: 16px; /* bordes redondeados de la tarjeta */
+  border: 1px solid #e0e0e0; /* borde gris claro */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* sombra para efecto de tarjeta */
+  max-width: 1200px;
+  box-sizing: border-box;
+}
+
+
+/* Header - similar a login-header */
+.add-branch-header {
+  text-align: center;
+  margin-bottom: 1rem;
+  width: 100%;
+  padding: 0.5rem 0; /* menos padding, más limpio */
+}
+
+
+
+.add-branch-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--black);
+}
+
+.add-branch-header p {
+  color: #666;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+/* Formulario principal - similar a login-form */
+.add-branch-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  box-sizing: border-box;
+  padding: 0; /* ya no necesita tanto relleno porque el padre lo da */
+}
+
+
+/* Contenedor para las columnas */
+.form-columns {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 0;
+  overflow: hidden;
+}
+
+/* Secciones del formulario */
+.form-section {
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 0.8rem;
+  background-color: #fafafa;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-section h3 {
+  font-size: 0.9rem;
+  color: #333;
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 600;
+  text-align: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Input groups - similar al login */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  flex: 1;
+  min-height: 0;
+}
+
+.vehicle-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  flex: 1;
+}
+
+/* Botones de acción - similar a login-btn */
+.form-actions {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+
+.submit-btn {
+  padding: 1rem;
+  background: var(--black);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease, transform 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.cancel-btn-container {
+  display: flex;
+  align-items: flex-start;
+}
+
+/* Botón Cancelar dentro del contenedor principal */
+.cancel-btn-container > .cancel-btn {
+  align-self: flex-start;      /* alineado a la izquierda */
+  margin-top: 1rem;            /* separación del header/form */
+  background-color: #000;       /* fondo negro */
+  color: #fff;                  /* texto blanco */
+  padding: 6px 12px;            /* más pequeño que submit */
+  font-size: 0.8rem;            /* tamaño de fuente reducido */
+  border-radius: 6px;           /* bordes ligeramente redondeados */
+  min-width: auto;               /* se ajusta al contenido */
+  display: inline-flex;          /* inline flex para que no ocupe todo */
+  justify-content: center;       /* centra el texto dentro del botón */
+  gap: 4px;                      /* si hay íconos dentro */
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.cancel-btn-container  > .cancel-btn:hover:not(:disabled) {
+  background-color: #333;       /* efecto hover más claro */
+  transform: translateY(-1px);
+}
+
+.cancel-btn-container  > .cancel-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.submit-btn {
+  background: black;
+  color: white;
+}
+
+
+.cancel-btn:disabled,
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .add-branch-container {
+    padding: 0.5rem;
+  }
+  
+  .form-columns {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.8rem;
+  }
+  
+  .form-section {
+    padding: 0.6rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .form-columns {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .add-branch-container {
+    padding: 0.5rem 0.3rem;
+  }
+
+  .add-branch-header,
+  .add-branch-form {
+    max-width: 100%;
+    padding: 0.8rem;
+  }
+
+  .add-branch-header h1 {
+    font-size: 1.2rem;
+  }
+
+  .form-columns {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .add-branch-container > .cancel-btn {
+    padding: 4px 10px;
+    font-size: 0.75rem;
+  }
+  .submit-btn {
+    width: 100%;
+    max-width: 200px;
+  }
+}
+
+/* Animaciones similares al login */
+.add-branch-form {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estilos para campos de números */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Optimización para evitar scroll horizontal */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
