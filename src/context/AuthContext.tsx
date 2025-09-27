@@ -5,27 +5,22 @@ import {
   useEffect,
   type ReactNode,
 } from "react";
-
-export type Person = {
-  username: string;
-  password: string;
-  role: string;
-};
+import { User } from "../interfaces";
 
 interface AuthContextType {
-  user: Person | null;
+  user: User | null;
   token: string | null;
   isValidToken: boolean;
-  login: (userData: Person, token: string) => void;
+  login: (userData: User, token: string) => void;
   logout: () => void;
-  updateUser: (userData: Person) => void;
+  updateUser: (userData: User) => void;
   checkTokenValidity: () => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<Person | null>(() => {
+  const [user, setUser] = useState<User | null>(() => {
     try {
       const storedUser = localStorage.getItem("userData");
       return storedUser ? JSON.parse(storedUser) : null;
@@ -74,31 +69,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // Verificar token al cargar la aplicación
-  useEffect(() => {
-    const validateToken = async () => {
-      if (token) {
-        await checkTokenValidity();
-      } else {
-        setIsValidToken(false);
-      }
-    };
-
-    validateToken();
-  }, [token]);
-
   // Verificar periódicamente si el token sigue siendo válido
   useEffect(() => {
     if (!token) return;
 
     const interval = setInterval(() => {
       checkTokenValidity();
-    }, 120 * 60 * 1000); // Verificar cada 2 horas
+    }, 180 * 60 * 1000); // Verificar cada 3 horas
 
     return () => clearInterval(interval);
   }, [token]);
 
-  const login = (userData: Person, authToken: string) => {
+  const login = (userData: User, authToken: string) => {
     setUser(userData);
     setToken(authToken);
     setIsValidToken(true);
@@ -114,7 +96,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem("userData");
   };
 
-  const updateUser = (userData: Person) => {
+  const updateUser = (userData: User) => {
     setUser(userData);
     localStorage.setItem("userData", JSON.stringify(userData));
   };

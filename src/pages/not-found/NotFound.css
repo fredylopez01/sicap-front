@@ -1,6 +1,6 @@
 /* Contenedor principal */
 .not-found-container {
-  min-height: 100vh;
+  min-height: 90vh;
   background: var(--primary-bg);
   display: flex;
   align-items: center;
@@ -20,10 +20,17 @@
   border: 1px solid var(--border-color);
 }
 
+.error-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
 /* Código de error 404 */
 .error-code {
   font-size: 4rem;
-  font-weight: 700;
+  font-weight: 300;
   color: var(--institutional-blue);
   margin-bottom: 20px;
   line-height: 1;
@@ -32,7 +39,7 @@
 
 /* Icono del parqueadero */
 .error-icon {
-  margin: 20px 0 30px 0;
+  margin: 10px 0 10px 0;
   display: flex;
   justify-content: center;
   opacity: 0.8;
@@ -54,7 +61,7 @@
 
 /* Título del error */
 .error-title {
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   font-weight: 600;
   color: var(--black);
   margin-bottom: 16px;
@@ -63,10 +70,10 @@
 
 /* Descripción del error */
 .error-description {
-  font-size: 1rem;
+  font-size: 0.85rem;
   color: var(--neutral-gray);
   line-height: 1.6;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 /* Sugerencias */
@@ -88,7 +95,7 @@
   font-weight: 600;
   color: var(--blue-dark);
   margin-bottom: 12px;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
 
 .error-suggestions ul {
@@ -101,7 +108,7 @@
   margin-bottom: 8px;
   padding-left: 20px;
   position: relative;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
 .error-suggestions li::before {
@@ -127,7 +134,7 @@
   border: none;
   padding: 12px 24px;
   border-radius: 6px;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -151,7 +158,7 @@
   border: 2px solid var(--institutional-blue);
   padding: 10px 22px;
   border-radius: 6px;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
