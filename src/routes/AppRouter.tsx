@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AnimatedBackground } from "../components";
-import { NotFound, LoginPage, Unauthorized } from "../pages";
+import { NotFound, LoginPage, Unauthorized, LandingPage } from "../pages";
 import { PrivateRoute } from "./PrivateRoute";
 import { AddBranchForm } from "../pages/branches/AddBranchForm";
 import { BranchProvider } from "../context/BranchContext";
@@ -9,7 +9,7 @@ export function AppRouter() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<div>Landing Page</div>} />
+        <Route path="/" element={<LandingPage />} />
         <Route
           path="/login"
           element={

@@ -7,7 +7,7 @@ type Props = {
 };
 
 export function PrivateRoute({ children, requiredRole }: Props) {
-  const { token, user, isValidToken } = useAuth();
+  const { token, user } = useAuth();
   const location = useLocation();
 
   // Si no hay token, redirigir al login con la ubicación actual
@@ -15,14 +15,10 @@ export function PrivateRoute({ children, requiredRole }: Props) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  // Si el token no es válido (opcional: validar con el backend)
-  if (!isValidToken) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
-
   // Si se requiere un rol específico y el usuario no lo tiene
+
   if (requiredRole && user?.role !== requiredRole) {
-    return <Navigate to="/unauthorized" replace />;
+    // return <Navigate to="/unauthorized" replace />;
   }
 
   return <>{children}</>;
