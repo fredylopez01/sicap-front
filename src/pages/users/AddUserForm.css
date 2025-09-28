@@ -1,0 +1,223 @@
+/* Contenedor principal */
+.add-user-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100%;
+    background: white;
+    padding: 1rem;
+    margin: 1rem auto;
+    border-radius: 16px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    box-sizing: border-box;
+}
+
+/* Header */
+.add-user-header {
+    text-align: center;
+    margin-bottom: 1rem;
+    width: 100%;
+    padding: 0.5rem 0;
+}
+
+.add-user-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--black);
+}
+
+/* Formulario principal */
+.add-user-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+/* Contenedor para las columnas */
+.form-columns {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 0;
+    overflow: hidden;
+}
+
+/* Secciones del formulario */
+.form-section {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 0.8rem;
+    background-color: #fafafa;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-section h3 {
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-weight: 600;
+    text-align: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* Input groups */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    flex: 1;
+    min-height: 0;
+}
+
+/* Botones de acción */
+.form-actions {
+    display: flex;
+    gap: 0.8rem;
+    justify-content: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+.submit-btn {
+    padding: 1rem;
+    background: var(--black);
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease, transform 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.cancel-btn-container {
+    display: flex;
+    align-items: flex-start;
+}
+
+.cancel-btn-container>.cancel-btn {
+    align-self: flex-start;
+    margin-top: 1rem;
+    background-color: #000;
+    color: #fff;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    border-radius: 6px;
+    min-width: auto;
+    display: inline-flex;
+    justify-content: center;
+    gap: 4px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.cancel-btn-container>.cancel-btn:hover:not(:disabled) {
+    background-color: #333;
+    transform: translateY(-1px);
+}
+
+.cancel-btn-container>.cancel-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .add-user-container {
+        padding: 0.5rem;
+    }
+
+    .form-columns {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.8rem;
+    }
+
+    .form-section {
+        padding: 0.6rem;
+    }
+}
+
+@media (max-width: 1024px) {
+    .form-columns {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .add-user-container {
+        padding: 0.5rem 0.3rem;
+    }
+
+    .add-user-header,
+    .add-user-form {
+        max-width: 100%;
+        padding: 0.8rem;
+    }
+
+    .add-user-header h1 {
+        font-size: 1.2rem;
+    }
+
+    .form-columns {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+    }
+
+    .form-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .add-user-container>.cancel-btn {
+        padding: 4px 10px;
+        font-size: 0.75rem;
+    }
+
+    .submit-btn {
+        width: 100%;
+        max-width: 200px;
+    }
+}
+
+/* Animaciones */
+.add-user-form {
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

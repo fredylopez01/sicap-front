@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AnimatedBackground } from "../components";
-import { NotFound, LoginPage, Unauthorized, LandingPage } from "../pages";
+import { NotFound, LoginPage, Unauthorized, LandingPage, AddUserForm } from "../pages";
 import { PrivateRoute } from "./PrivateRoute";
 import { AddBranchForm } from "../pages/branches/AddBranchForm";
 import { BranchProvider } from "../context/BranchContext";
@@ -42,6 +42,16 @@ export function AppRouter() {
                 <AddBranchForm />
               </AnimatedBackground>
             </BranchProvider>
+          }
+        />
+        <Route
+          path="/add-user"
+          element={
+            //<PrivateRoute requiredRole="admin">
+            <AnimatedBackground>
+              <AddUserForm />
+            </AnimatedBackground>
+            //</PrivateRoute>
           }
         />
         <Route path="/unauthorized" element={<Unauthorized />} />
