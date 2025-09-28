@@ -4,6 +4,7 @@ import { NotFound, LoginPage, Unauthorized, LandingPage } from "../pages";
 import { PrivateRoute } from "./PrivateRoute";
 import { AddBranchForm } from "../pages/branches/AddBranchForm";
 import { BranchProvider } from "../context/BranchContext";
+import Dashboard from "@/pages/dashboard/Dashboard";
 
 export function AppRouter() {
   return (
@@ -21,9 +22,7 @@ export function AppRouter() {
         <Route
           path="/dashboard"
           element={
-            <PrivateRoute>
-              <div>Dashboard.....</div>
-            </PrivateRoute>
+            <Dashboard />
           }
         />
         <Route

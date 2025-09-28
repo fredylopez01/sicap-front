@@ -1,6 +1,6 @@
 .login-container {
-  width: 450px;
-  padding: 2.5rem 2rem;
+  width: 500px;
+  padding: 3rem 2.5rem;
   background: var(--primary-bg);
   border: 1px solid var(--border-color);
   border-radius: 16px;
@@ -9,24 +9,24 @@
 
 .login-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 }
 
 .login-header h1 {
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: 700;
   color: var(--black);
 }
 
 .login-btn {
   width: 100%;
-  padding: 0.7rem;
+  padding: 1rem;
   background: var(--black);
   border: none;
   border-radius: 10px;
   color: #fff;
   font-weight: 600;
-  font-size: 0.5rem;
+  font-size: 1rem;
   cursor: pointer;
   transition: all 0.3s ease, transform 0.2s ease;
   display: flex;
@@ -48,10 +48,17 @@
 .forgot-password a {
   color: var(--black);
   text-decoration: none;
-  font-size: 0.8rem;
+  font-size: 0.875rem;
   transition: color 0.3s ease;
 }
 
 .forgot-password a:hover {
   color: var(--blue-medium);
+}
+
+.register-link {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--text-light);
 }
