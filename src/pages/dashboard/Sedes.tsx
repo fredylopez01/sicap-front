@@ -1,7 +1,14 @@
 import { Button } from "@/components/ui/button"
+import { useNavigate } from "react-router-dom";
 
 
 export default function Sedes() {
+  const navigate = useNavigate();
+
+  const handleRedirect = () => {
+    navigate("/dashboard/sedes/new"); 
+  };
+
   return (
     <div className="w-full min-h-screen flex flex-col bg-gray-100">
       {/* Header */}
@@ -12,7 +19,7 @@ export default function Sedes() {
         </div>
 
         <div className="flex flex-wrap items-center gap-2 md:flex-row">
-            <Button>Crear sede</Button>
+            <Button onClick={handleRedirect}>Crear sede</Button>
         </div>
        </header>
 

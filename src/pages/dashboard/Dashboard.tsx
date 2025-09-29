@@ -19,8 +19,8 @@ export default function Dashboard({ children }: DashboardProps) {
 
         {/* Contenido principal */}
         <main className="flex-1 p-4 bg-gray-100">
-          <header className="flex items-center justify-between mb-4">
-            <SidebarTrigger />
+          <header className="flex items-center justify-between mb-4 ">
+            <SidebarTrigger/>
           </header>
 
           {/* Aquí se renderizan las vistas hijas */}
