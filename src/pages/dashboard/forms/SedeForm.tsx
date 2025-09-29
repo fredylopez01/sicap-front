@@ -22,14 +22,13 @@ export default function SedeForm() {
 
   return (
     <div>
-        <div className="flex flex-col items-center text-center">
-            <h1 className="text-4xl text-gray-900 mb-2">
-                Crear Sede
-            </h1>
-            <p className="text-gray-500 text-lg mb-6">
-                Completa el siguiente formulario con la informacion de la nueva sede
-            </p>
+        <header className="p-6 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+            <h1 className="text-2xl font-bold text-gray-800">Creando una nueva sede</h1>
+            <p className="text-gray-600">Completa el siguiente formulario con la informacion de la nueva sede</p>
         </div>
+
+       </header>
 
         <div className="flex justify-center items-center min-h-screen bg-gray-100 mx-[1rem] md:mx-[5rem]">
             <div className="w-full max-w-4xl bg-white rounded-xl shadow-md p-8">
