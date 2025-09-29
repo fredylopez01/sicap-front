@@ -40,9 +40,15 @@ export default function Sedes() {
     setSedes(response);
   }, []);
 
-  const handleRedirect = () => {
+  const handleRedirectNewSede = () => {
     navigate("/dashboard/sedes/new"); 
   };
+
+  const handleRedirectSede = (id: number) => {
+    navigate(`/dashboard/sedes/${id}`); 
+  };
+
+
 
   return (
     <div className="w-full min-h-screen flex flex-col bg-gray-100">
@@ -54,7 +60,7 @@ export default function Sedes() {
         </div>
 
         <div className="flex flex-wrap items-center gap-2 md:flex-row">
-            <Button onClick={handleRedirect}>Crear sede</Button>
+            <Button onClick={handleRedirectNewSede}>Crear sede</Button>
         </div>
        </header>
 
@@ -75,6 +81,7 @@ export default function Sedes() {
                 <li
                 key={sede.id_sede}
                 className="p-2 bg-gray-100 rounded hover:bg-gray-200 cursor-pointer"
+                onClick={() => handleRedirectSede(sede.id_sede)}
                 >
                 {sede.nombre}
                 </li>

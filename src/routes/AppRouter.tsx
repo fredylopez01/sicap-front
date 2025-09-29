@@ -5,6 +5,7 @@ import { PrivateRoute } from "./PrivateRoute";
 import Dashboard from "@/pages/dashboard/Dashboard";
 import Sedes from "@/pages/dashboard/Sedes";
 import SedeForm from "@/pages/dashboard/forms/SedeForm"
+import SedePage from "@/pages/dashboard/SedePage";
 
 
 export function AppRouter() {
@@ -41,6 +42,14 @@ export function AppRouter() {
           element={
             <Dashboard>
               <SedeForm />
+            </Dashboard>
+          }
+        />
+        <Route
+          path="/dashboard/sedes/:id"
+          element={
+            <Dashboard>
+              <SedePage />
             </Dashboard>
           }
         />
