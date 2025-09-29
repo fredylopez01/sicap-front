@@ -62,15 +62,22 @@
   
   box-sizing: border-box;
   font-family: "Plus Jakarta Sans", sans-serif !important;
-  font-size: 1.1rem;
+  font-size: 1rem;
+  max-width: 100%;
 }
+
+html, body {
+  overflow-x: hidden;
+}
+
 
 body {
   /* font-family: "Inter", sans-serif; */
   min-height: 100dvh;
   width: 100dvw;
   
-  background: linear-gradient(135deg, var(--primary-bg), var(--secondary-bg));
+  /*background: linear-gradient(135deg, var(--primary-bg), var(--secondary-bg));
+  */
   color: var(--text-dark);
 }
 

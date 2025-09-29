@@ -5,6 +5,9 @@ import { PrivateRoute } from "./PrivateRoute";
 import { AddBranchForm } from "../pages/branches/AddBranchForm";
 import { BranchProvider } from "../context/BranchContext";
 import Dashboard from "@/pages/dashboard/Dashboard";
+import Sedes from "@/pages/dashboard/Sedes";
+import SedeForm from "@/pages/dashboard/forms/SedeForm"
+
 
 export function AppRouter() {
   return (
@@ -20,9 +23,35 @@ export function AppRouter() {
           }
         />
         <Route
+          path="/dashboard/"
+          element={
+            <Dashboard>
+              <div>Bienvenido al dashboard</div>
+            </Dashboard>
+          }
+        />
+        <Route
+          path="/dashboard/sedes"
+          element={
+            <Dashboard>
+              <Sedes />
+            </Dashboard>
+          }
+        />
+        <Route
+          path="/dashboard/sedes/new"
+          element={
+            <Dashboard>
+              <SedeForm />
+            </Dashboard>
+          }
+        />
+        <Route
           path="/dashboard"
           element={
-            <Dashboard />
+            <Dashboard>
+              <div>🏠 Bienvenido al dashboard</div>
+            </Dashboard>
           }
         />
         <Route
