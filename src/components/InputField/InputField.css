@@ -1,21 +1,22 @@
 .form-group {
-  margin-bottom: 1.7rem;
+  margin-bottom: 1.5rem;
 }
 
 .form-group label {
   display: block;
   margin-bottom: 0.6rem;
   font-weight: 500;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--text-dark);
 }
 
-.form-group input {
+.form-group input,
+.form-group select {
   width: 100%;
   padding: 0.9rem 1rem;
   border: 1px solid var(--border-color);
   border-radius: 10px;
-  font-size: 1rem;
+  font-size: 0.85rem;
   color: var(--black);
   background: #fff;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -25,7 +26,8 @@
   color: var(--neutral-gray);
 }
 
-.form-group input:focus {
+.form-group input:focus,
+.form-group select:focus {
   border-color: var(--blue-medium-light);
   box-shadow: 0 0 0 3px var(--blue-light);
   outline: none;
