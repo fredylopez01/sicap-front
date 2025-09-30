@@ -1,13 +1,10 @@
-import { ReactNode } from "react"
 import { AppSidebar } from "@/components/Sidebar/app-sidebar"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { adminSidebar, userSidebar } from "@/config/sidebarItems"
+import { Outlet } from "react-router-dom"
 
-interface DashboardProps {
-  children: ReactNode
-}
 
-export default function Dashboard({ children }: DashboardProps) {
+export default function Dashboard() {
   const role = "admin" // esto vendría de tu contexto de auth
   const sidebarConfig = role === "admin" ? adminSidebar : userSidebar
 
@@ -24,7 +21,7 @@ export default function Dashboard({ children }: DashboardProps) {
           </header>
 
           {/* Aquí se renderizan las vistas hijas */}
-          {children}
+          <Outlet />
         </main>
       </div>
     </SidebarProvider>

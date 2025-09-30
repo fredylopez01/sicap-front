@@ -21,54 +21,14 @@ export function AppRouter() {
             </AnimatedBackground>
           }
         />
-        <Route
-          path="/dashboard/"
-          element={
-            <Dashboard>
-              <div>Bienvenido al dashboard</div>
-            </Dashboard>
-          }
-        />
-        <Route
-          path="/dashboard/sedes"
-          element={
-            <Dashboard>
-              <Sedes />
-            </Dashboard>
-          }
-        />
-        <Route
-          path="/dashboard/sedes/new"
-          element={
-            <Dashboard>
-              <SedeForm />
-            </Dashboard>
-          }
-        />
-        <Route
-          path="/dashboard/sedes/:id"
-          element={
-            <Dashboard>
-              <SedePage />
-            </Dashboard>
-          }
-        />
-        <Route
-          path="/dashboard"
-          element={
-            <Dashboard>
-              <div>🏠 Bienvenido al dashboard</div>
-            </Dashboard>
-          }
-        />
-        <Route
-          path="/admin"
-          element={
-            <PrivateRoute requiredRole="admin">
-              <div>Solo para el admnistrador.....</div>
-            </PrivateRoute>
-          }
-        />
+        
+        <Route path="/dashboard" element={<Dashboard/>}>
+          <Route path="" element={<div>🏠 Bienvenido al dashboard</div>}/>
+          <Route path="sedes" element={<Sedes/>}/>
+          <Route path="sedes/new" element={<SedeForm/>}/>
+          <Route path="sedes/:id" element={<SedePage/>}/>
+        </Route>
+        
         <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
