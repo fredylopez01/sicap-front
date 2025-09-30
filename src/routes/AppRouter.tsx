@@ -4,9 +4,8 @@ import { NotFound, LoginPage, Unauthorized, LandingPage } from "../pages";
 import { PrivateRoute } from "./PrivateRoute";
 import Dashboard from "@/pages/dashboard/Dashboard";
 import Sedes from "@/pages/dashboard/Sedes";
-import SedeForm from "@/pages/dashboard/forms/SedeForm"
+import SedeForm from "@/pages/dashboard/forms/SedeForm";
 import SedePage from "@/pages/dashboard/SedePage";
-
 
 export function AppRouter() {
   return (
@@ -21,14 +20,15 @@ export function AppRouter() {
             </AnimatedBackground>
           }
         />
-        
-        <Route path="/dashboard" element={<Dashboard/>}>
-          <Route path="" element={<div>🏠 Bienvenido al dashboard</div>}/>
-          <Route path="sedes" element={<Sedes/>}/>
-          <Route path="sedes/new" element={<SedeForm/>}/>
-          <Route path="sedes/:id" element={<SedePage/>}/>
+
+        <Route path="/dashboard" element={<Dashboard />}>
+          <Route path="" element={<div>🏠 Bienvenido al dashboard</div>} />
+          <Route path="sedes" element={<Sedes />} />
+          <Route path="sedes/new" element={<SedeForm />} />
+          <Route path="sedes/:id" element={<SedePage />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
-        
+
         <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

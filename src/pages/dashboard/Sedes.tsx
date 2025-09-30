@@ -1,14 +1,12 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import dataExample from "./sedesExample.json";
 import { useEffect, useState } from "react";
-import { Sede } from "@/interfaces/sede";
-
+import { Sede } from "@/interfaces/sede"; // Asume que la interfaz Sede está definida
+import "./Sedes.css"; // Importamos el archivo CSS
 
 export default function Sedes() {
   const navigate = useNavigate();
   const [sedes, setSedes] = useState<Sede[]>([]);
-
 
   useEffect(() => {
     // Simulación de respuesta del backend
@@ -41,55 +39,53 @@ export default function Sedes() {
   }, []);
 
   const handleRedirectNewSede = () => {
-    navigate("/dashboard/sedes/new"); 
+    navigate("/dashboard/sedes/new");
   };
 
   const handleRedirectSede = (id: number) => {
-    navigate(`/dashboard/sedes/${id}`); 
+    navigate(`/dashboard/sedes/${id}`);
   };
 
-
-
   return (
-    <div className="w-full min-h-screen flex flex-col bg-gray-100">
+    <div className="sedes-container">
       {/* Header */}
-      <header className="p-6 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-            <h1 className="text-2xl font-bold text-gray-800">Sedes</h1>
-            <p className="text-gray-600">Gestión de las sedes de la organización</p>
+      <header className="sedes-header">
+        <div className="header-info">
+          <h1 className="header-title">Sedes</h1>
+          <p className="header-subtitle">
+            Gestión de las sedes de la organización
+          </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2 md:flex-row">
-            <Button onClick={handleRedirectNewSede}>Crear sede</Button>
+        <div className="header-actions">
+          <Button onClick={handleRedirectNewSede}>Crear sede</Button>
         </div>
-       </header>
-
+      </header>
 
       {/* Contenido dividido */}
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-3 gap-6 p-6">
+      <div className="content-grid-wrapper">
         {/* Panel principal */}
-        <section className="col-span-2 bg-white rounded-xl shadow p-4 flex flex-col">
-          <h2 className="text-lg font-semibold mb-4">Mapa / Visualización</h2>
-          <div className="flex-1 bg-gray-100 rounded-lg"></div>
+        <section className="main-panel">
+          <h2 className="panel-title">Mapa / Visualización</h2>
+          <div className="map-placeholder"></div>
         </section>
 
         {/* Panel lateral */}
-        <aside className="bg-white rounded-xl shadow p-4 flex flex-col">
-          <h2 className="text-lg font-semibold mb-4">Lista de sedes</h2>
-          <ul className="space-y-2 flex-1 overflow-y-auto">
+        <aside className="sidebar-panel">
+          <h2 className="panel-title">Lista de sedes</h2>
+          <ul className="sede-list">
             {sedes.map((sede) => (
-                <li
+              <li
                 key={sede.id_sede}
-                className="p-2 bg-gray-100 rounded hover:bg-gray-200 cursor-pointer"
+                className="sede-list-item"
                 onClick={() => handleRedirectSede(sede.id_sede)}
-                >
+              >
                 {sede.nombre}
-                </li>
+              </li>
             ))}
           </ul>
-
         </aside>
       </div>
     </div>
-  )
+  );
 }
