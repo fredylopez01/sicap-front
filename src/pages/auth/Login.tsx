@@ -1,15 +1,12 @@
+
 import React, { useEffect, useState } from "react";
 import { InputField, Spinner } from "../../components/index";
 import { apiRequest } from "../../services/index";
 import { showAlert } from "../../utils/alerts";
 import { ApiResponse } from "../../interfaces";
 import "./Login.css";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
 
 export function LoginPage() {
-  const navigate = useNavigate();
-  const { login } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -25,7 +22,7 @@ export function LoginPage() {
     setLoading(true);
 
     try {
-      const result: ApiResponse<any> = await apiRequest<any>(
+      const result: ApiResponse<string> = await apiRequest<string>(
         "/api/auth/login",
         "POST",
         {
@@ -35,17 +32,16 @@ export function LoginPage() {
       );
 
       if (result.success && result.data) {
-        login(result.data.user, result.data.token);
+        localStorage.setItem("authToken", result.data);
         showAlert(result.message || "¡Login exitoso!", "success");
 
-        // setTimeout(() => {
-        //   window.location.href = "/dashboard";
-        // }, 1000);
-        navigate("/dashboard"); // con react-router-dom
+        setTimeout(() => {
+          window.location.href = "/dashboard";
+        }, 1500);
       } else {
         showAlert(result.message || "Error al iniciar sesión.");
       }
-    } catch (error: any) {
+    } catch {
       showAlert("Error de conexión. Intenta de nuevo.");
     } finally {
       setLoading(false);
@@ -56,7 +52,7 @@ export function LoginPage() {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "F1") {
         e.preventDefault();
-        setUsername("carlos.perez@parking.com");
+        setUsername("admin");
         setPassword("admin123");
       } else if (e.key === "F2") {
         e.preventDefault();
