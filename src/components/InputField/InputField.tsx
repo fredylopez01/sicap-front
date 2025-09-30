@@ -7,7 +7,8 @@ interface InputFieldProps {
   type?: string;
   placeholder?: string;
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  options?: Array<{ value: string; label: string }>;
 }
 
 export function InputField({
@@ -17,19 +18,35 @@ export function InputField({
   placeholder,
   value,
   onChange,
+  options,
 }: InputFieldProps) {
   return (
     <div className="form-group">
       <label htmlFor={id}>{label}</label>
-      <input
-        id={id}
-        type={type}
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-        required
-        autoComplete={id}
-      />
+      {type === "select" && options ? (
+        <select
+          id={id}
+          value={value}
+          onChange={onChange}
+          required
+        >
+          {options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      ) : (
+        <input
+          id={id}
+          type={type}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          required
+          autoComplete={id}
+        />
+      )}
     </div>
   );
 }
