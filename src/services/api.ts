@@ -9,6 +9,26 @@ export const api = axios.create({
   },
 });
 
+export async function apiRequest<T>(
+  endpoint: string,
+  method: string = "GET",
+  data?: any
+): Promise<T> {
+  try {
+    const response = await api({
+      method,
+      url: endpoint,
+      data,
+    });
+    return response.data;
+  } catch (error: any) {
+    if (error.response) {
+      throw error.response.data;
+    }
+    throw error;
+  }
+}
+
 // Interceptor para incluir el token en cada petición
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("authToken");

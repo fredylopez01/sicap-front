@@ -1,6 +1,12 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AnimatedBackground } from "../components";
-import { NotFound, LoginPage, Unauthorized, LandingPage } from "../pages";
+import {
+  NotFound,
+  LoginPage,
+  Unauthorized,
+  LandingPage,
+  AddUserForm,
+} from "../pages";
 import { PrivateRoute } from "./PrivateRoute";
 import Dashboard from "@/pages/dashboard/Dashboard";
 import Sedes from "@/pages/dashboard/Sedes";
@@ -20,7 +26,6 @@ export function AppRouter() {
             </AnimatedBackground>
           }
         />
-
         <Route path="/dashboard" element={<Dashboard />}>
           <Route path="" element={<div>🏠 Bienvenido al dashboard</div>} />
           <Route path="sedes" element={<Sedes />} />
@@ -28,6 +33,15 @@ export function AppRouter() {
           <Route path="sedes/:id" element={<SedePage />} />
           <Route path="*" element={<NotFound />} />
         </Route>
+        <Route
+          path="/admin"
+          element={
+            <PrivateRoute requiredRole="admin">
+              <div>Solo para el admnistrador.....</div>
+            </PrivateRoute>
+          }
+        />
+        <Route path="/add-user" element={<AddUserForm />} />
 
         <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="*" element={<NotFound />} />
