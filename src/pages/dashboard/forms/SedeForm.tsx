@@ -3,24 +3,78 @@ import { showAlert } from "../../../utils/alerts";
 import ErrorSpan from "@/components/ui/errorSpan";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useState } from "react"; // Importado para el estado de carga
 import "./SedeForm.css";
+import { ApiResponse } from "@/interfaces";
+import { apiRequest } from "@/services/api";
+
+interface FormData {
+  nombre: string;
+  direccion: string;
+  ciudad: string;
+  departamento: string;
+  telefono: string;
+  horario_apertura: string;
+  horario_cierre: string;
+}
 
 export default function SedeForm() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+    reset,
+  } = useForm<FormData>();
+
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false); // Estado de carga para el botón
 
-  const handleRedirect = () => {
-    navigate("/dashboard/sedes");
-  };
+  const onSubmit = handleSubmit(async (data) => {
+    setLoading(true);
 
-  const onSubmit = handleSubmit((data) => {
-    showAlert("Nueva sede creada", "success");
-    handleRedirect();
-    console.log(data);
+    // Mapeo y preparación de la data (opcional, dependiendo de tu backend)
+    const sedeData = {
+      name: data.nombre,
+      address: data.direccion,
+      city: data.ciudad,
+      department: data.departamento,
+      phone: data.telefono,
+      openingTime: `1970-01-01T${data.horario_apertura}:00.000Z`,
+      closingTime: `1970-01-01T${data.horario_cierre}:00.000Z`,
+    };
+
+    console.log(sedeData);
+
+    try {
+      // Llamada al backend para crear la sede
+      const result: ApiResponse<any> = await apiRequest<any>(
+        "/api/branches/",
+        "POST",
+        sedeData
+      );
+
+      console.log("Respuesta de la API:", result);
+
+      if (result.success) {
+        showAlert(
+          result.message || "¡Nueva sede creada exitosamente!",
+          "success"
+        );
+
+        // Limpiar formulario y redirigir
+        reset();
+        navigate("/dashboard/sedes");
+      } else {
+        // Muestra el mensaje de error que venga del backend
+        showAlert(
+          result.message || "Error al crear la sede. Intenta de nuevo."
+        );
+      }
+    } catch (error: any) {
+      showAlert(error.message || "Error de conexión con el servidor.");
+    } finally {
+      setLoading(false);
+    }
   });
 
   return (
@@ -173,13 +227,14 @@ export default function SedeForm() {
               )}
             </div>
 
-            {/* Botón ocupa toda la fila */}
+            {/* Botón */}
             <div className="form-actions-container">
               <Button
                 type="submit"
-                className="submit-button" // Usamos una clase simple para el botón
+                className="submit-button"
+                disabled={loading} // Se deshabilita al enviar
               >
-                Crear sede
+                {loading ? "Creando sede..." : "Crear sede"}
               </Button>
             </div>
           </form>
