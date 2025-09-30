@@ -23,7 +23,8 @@
   font-size: 1.1rem;
 }
 
-body {
+body,
+#root {
   /* font-family: "Inter", sans-serif; */
   min-height: 100dvh;
   width: 100dvw;
