@@ -5,8 +5,10 @@ import { apiRequest } from "../../services/api";
 import { ApiResponse } from "../../interfaces";
 import "./AddUserForm.css";
 import { isStrongPassword, isValidEmail } from "../../utils/validations";
+import { useNavigate } from "react-router-dom";
 
 export function AddUserForm() {
+  const navigate = useNavigate();
   const [cedula, setCedula] = useState("");
   const [names, setNames] = useState("");
   const [lastNames, setLastNames] = useState("");
@@ -78,12 +80,12 @@ export function AddUserForm() {
     }
 
     // Validación de Contraseña Segura - Deshabilitada por pruebas
-    // if (!isStrongPassword(password.trim())) {
-    //   showAlert(
-    //     "La contraseña debe tener al menos 8 caracteres, e incluir: una mayúscula, una minúscula, un número y un carácter especial (ej: !@#$%)."
-    //   );
-    //   return;
-    // }
+    if (!isStrongPassword(password.trim())) {
+      showAlert(
+        "La contraseña debe tener al menos 8 caracteres, e incluir: una mayúscula, una minúscula, un número y un carácter especial (ej: !@#$%)."
+      );
+      return;
+    }
 
     setLoading(true);
 
@@ -117,9 +119,7 @@ export function AddUserForm() {
         resetForm();
 
         // Redirigir después de un momento
-        setTimeout(() => {
-          window.location.href = "/users";
-        }, 1500);
+        navigate("/dashboard/usuarios");
       } else {
         showAlert(result.message || "Error al crear el usuario.");
       }
@@ -145,7 +145,7 @@ export function AddUserForm() {
   };
 
   const handleCancel = () => {
-    window.location.href = "/";
+    navigate("/dashboard/usuarios");
   };
 
   return (

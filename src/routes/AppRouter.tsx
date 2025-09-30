@@ -31,6 +31,7 @@ export function AppRouter() {
           <Route path="sedes" element={<Sedes />} />
           <Route path="sedes/new" element={<SedeForm />} />
           <Route path="sedes/:id" element={<SedePage />} />
+          <Route path="add-user" element={<AddUserForm />} />
           <Route path="*" element={<NotFound />} />
         </Route>
         <Route
@@ -41,7 +42,6 @@ export function AppRouter() {
             </PrivateRoute>
           }
         />
-        <Route path="/add-user" element={<AddUserForm />} />
 
         <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="*" element={<NotFound />} />
