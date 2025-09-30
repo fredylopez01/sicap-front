@@ -6,25 +6,28 @@ import {
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
-  SidebarMenuItem
-} from "@/components/ui/sidebar"
+  SidebarMenuItem,
+} from "@/components/ui/sidebar";
 
 import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
-  DropdownMenuItem
-} from "@/components/ui/dropdown-menu"
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
 
-import { ChevronUp, User2 } from "lucide-react"
-import logo from "/logo.jpg"
-import { SidebarGroup as SidebarGroupType } from "@/interfaces/sidebar"
+import { ChevronUp, User2 } from "lucide-react";
+import logo from "/logo.jpg";
+import { SidebarGroup as SidebarGroupType } from "@/interfaces/sidebar";
+import { useAuth } from "@/context/AuthContext";
 
 interface AppSidebarProps {
-  groups: SidebarGroupType[]
+  groups: SidebarGroupType[];
 }
 
 export function AppSidebar({ groups }: AppSidebarProps) {
+  const { user, logout } = useAuth();
+
   return (
     <Sidebar>
       {/* HEADER con logo */}
@@ -71,19 +74,18 @@ export function AppSidebar({ groups }: AppSidebarProps) {
               <DropdownMenuTrigger asChild>
                 <div>
                   <SidebarMenuButton className="w-full">
-                    <User2 /> Username
+                    <User2 /> {user?.userHash || "Username"}
                     <ChevronUp className="ml-auto" />
                   </SidebarMenuButton>
                 </div>
               </DropdownMenuTrigger>
-
 
               <DropdownMenuContent
                 side="top"
                 className="w-[--radix-popper-anchor-width]"
               >
                 <DropdownMenuItem>
-                  <span>Sign out</span>
+                  <span onClick={logout}>Sign out</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -91,5 +93,5 @@ export function AppSidebar({ groups }: AppSidebarProps) {
         </SidebarMenu>
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }
