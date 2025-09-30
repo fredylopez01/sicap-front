@@ -18,7 +18,7 @@ export function PrivateRoute({ children, requiredRole }: Props) {
   // Si se requiere un rol específico y el usuario no lo tiene
 
   if (requiredRole && user?.role !== requiredRole) {
-    // return <Navigate to="/unauthorized" replace />;
+    return <Navigate to="/unauthorized" replace />;
   }
 
   return <>{children}</>;

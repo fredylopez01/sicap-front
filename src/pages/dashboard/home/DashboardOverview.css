@@ -1,0 +1,117 @@
+.dashboard-overview {
+  background-color: var(--primary-bg);
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow);
+  margin-top: 1rem; /* Margen superior si se usa debajo de un header */
+}
+
+.overview-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--black);
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.5rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background-color: var(--border-color); /* Fondo ligeramente gris */
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  border-left: 5px solid transparent; /* Para destacar con color */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.stat-label {
+  font-size: 1rem;
+  color: var(--neutral-gray);
+  margin-bottom: 0.5rem;
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  display: block;
+  color: var(--black);
+}
+
+.stat-hint {
+  font-size: 0.85rem;
+  color: var(--neutral-gray);
+  margin-top: 0.5rem;
+}
+
+/* Disponibilidad Alta (Muchos espacios libres) */
+.stat-card.available-spaces.status-high {
+  border-left-color: var(--green-stand);
+}
+.stat-card.available-spaces.status-high .stat-value {
+  color: var(--green-stand);
+}
+
+/* Disponibilidad Media (Moderada) */
+.stat-card.available-spaces.status-medium {
+  border-left-color: orange; /* Amarillo/Naranja de precaución */
+}
+.stat-card.available-spaces.status-medium .stat-value {
+  color: orange;
+}
+
+/* Disponibilidad Baja (Casi lleno) */
+.stat-card.available-spaces.status-low {
+  border-left-color: #dc3545; /* Rojo de alerta */
+}
+.stat-card.available-spaces.status-low .stat-value {
+  color: #dc3545;
+}
+
+.quick-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.action-button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.primary-action {
+  background-color: var(--institutional-blue);
+  color: var(--primary-bg);
+}
+
+.primary-action:hover {
+  background-color: var(--blue-dark);
+}
+
+.secondary-action {
+  background-color: transparent;
+  color: var(--institutional-blue);
+  border: 1px solid var(--institutional-blue);
+}
+
+.secondary-action:hover {
+  background-color: var(--border-color);
+}
+
+.dashboard-overview.loading-state {
+  text-align: center;
+  color: var(--neutral-gray);
+}

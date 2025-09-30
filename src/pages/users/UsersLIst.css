@@ -1,0 +1,111 @@
+.users-page-container {
+  max-height: 100vh;
+  padding: 0.3rem 1.5rem;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.3rem 0 1.5rem; /* Padding vertical */
+  border-bottom: 2px solid var(--border-color);
+  margin-bottom: 1.5rem;
+}
+
+.header-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--black);
+}
+
+.create-button {
+  background-color: var(--institutional-blue);
+  color: var(--primary-bg);
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 0.3rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.create-button:hover {
+  background-color: var(--blue-medium); /* Un azul ligeramente más oscuro */
+}
+
+/* ---------------------------------- */
+/* 2. Área de Contenido y Tabla */
+/* ---------------------------------- */
+
+.content-area {
+  padding-bottom: 1.5rem;
+}
+
+.card-container {
+  /* Simula la tarjeta blanca que contiene la tabla */
+  background-color: var(--primary-bg);
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+}
+
+.table-responsive {
+  /* Asegura desplazamiento en pantallas pequeñas */
+  overflow-x: auto;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.users-table th,
+.users-table td {
+  padding: 1rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.users-table th {
+  background-color: var(--secondary-bg); /* Fondo suave para el encabezado */
+  color: var(--black);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+.users-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.users-table tbody tr:hover {
+  background-color: #f7f7ff; /* Un hover muy sutil */
+}
+
+/* ---------------------------------- */
+/* 3. Estilos de Estados y Roles */
+/* ---------------------------------- */
+
+.status-active {
+  color: var(--green-stand);
+  font-weight: 600;
+}
+
+.status-inactive {
+  color: var(--neutral-gray);
+  font-weight: 500;
+}
+
+/* Estilos de error y carga */
+.status-message {
+  padding: 1rem;
+  text-align: center;
+  color: var(--neutral-gray);
+}
+
+.status-message.error {
+  color: #dc3545; /* Rojo de error */
+  font-weight: 500;
+}
