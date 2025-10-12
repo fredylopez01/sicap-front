@@ -12,7 +12,7 @@ import { PrivateRoute } from "./PrivateRoute";
 import Dashboard from "@/pages/dashboard/Dashboard";
 import Sedes from "@/pages/dashboard/Sedes";
 import SedeForm from "@/pages/dashboard/forms/SedeForm";
-import SedePage from "@/pages/dashboard/SedePage";
+import Zones from "@/pages/dashboard/sedes/sede/Zones";
 import DashboardOverview from "@/pages/dashboard/home/DashboardOverview";
 
 export function AppRouter() {
@@ -54,10 +54,10 @@ export function AppRouter() {
             }
           />
           <Route
-            path="sedes/:id"
+            path="sedes/:branchId"
             element={
               <PrivateRoute requiredRole="ADMIN">
-                <SedePage />
+                <Zones />
               </PrivateRoute>
             }
           />

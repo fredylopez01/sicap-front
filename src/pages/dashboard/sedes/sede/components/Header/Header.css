@@ -1,0 +1,85 @@
+/* ====== Contenedor principal ====== */
+.zones-header {
+  display: flex;
+  justify-content: space-between; /* Botón a la derecha */
+  align-items: center;
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 0.75rem; /* border-radius */
+  padding: 1.5rem 2rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb; /* separador sutil */
+  flex-wrap: wrap; /* para que se adapte en pantallas pequeñas */
+}
+
+/* ====== Bloque de información (izquierda) ====== */
+.zones-header > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+/* ====== Título ====== */
+.title {
+  font-size: 1.5rem; /* text-2xl */
+  font-weight: 700; /* font-bold */
+  color: #1f2937; /* text-gray-800 */
+  margin-top: 0.25rem;
+}
+
+/* ====== Grupo de badges ====== */
+.zones-header > div:first-child > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* ====== Estado de la sede ====== */
+.status-badge-active {
+  background-color: #3b82f6 !important; /* azul */
+  color: #ffffff !important;
+  border: none !important;
+}
+
+.status-badge-disabled {
+  background-color: #ef4444 !important; /* rojo */
+  color: #ffffff !important;
+  border: none !important;
+}
+
+/* ====== Texto descriptivo ====== */
+.zones-header p {
+  font-size: 0.95rem;
+  color: #4b5563;
+  margin-top: 0.25rem;
+}
+
+/* ====== Contenedor del botón (derecha) ====== */
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Botón pequeño de volver */
+.zones-header > div:first-child > button {
+  width: auto !important;
+  max-width: 10rem;
+  padding: 0.25rem 0.5rem;
+}
+
+/* ====== Responsividad ====== */
+@media (max-width: 768px) {
+  .zones-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .button-container {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
