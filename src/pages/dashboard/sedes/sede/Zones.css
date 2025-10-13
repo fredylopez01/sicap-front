@@ -1,0 +1,60 @@
+.main-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+/* HEADER */
+.header-container {
+  width: 100%;
+  min-height: 8rem;
+  margin-top: 1rem;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* CONTENIDO PRINCIPAL */
+.content-container {
+  display: flex;
+  flex: 1;
+  gap: 1.5rem;
+  min-height: 0; /* Para evitar overflow en flexbox */
+}
+
+/* ZONAS */
+.zones-container {
+  flex: 2.2; /* Más grande */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  height: 100%;
+}
+
+/* HORARIO / SCHEDULE */
+.schedule-container {
+  flex: 1;
+  border-radius: 10px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 1024px) {
+  .content-container {
+    flex-direction: column;
+  }
+
+  .zones-container,
+  .schedule-container {
+    flex: none;
+    width: 100%;
+  }
+}
