@@ -31,12 +31,12 @@ export default function ZonaSheet({
   const [vehicleType, setVehicleType] = useState(vehicleTypeName);
   const [totalCapacity, setTotalCapacity] = useState(zone.totalCapacity);
 
-  // 🔹 Nuevo estado para los tipos de vehículo
+  //Nuevo estado para los tipos de vehículo
   const [vehicleTypes, setVehicleTypes] = useState<VehicleType[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // 🔹 Cargar los tipos de vehículo desde el backend
+  //Cargar los tipos de vehículo desde el backend
   useEffect(() => {
     const fetchVehicleTypes = async () => {
       try {
@@ -103,7 +103,7 @@ export default function ZonaSheet({
 
   return (
     <Sheet>
-      <SheetTrigger className="p-2 rounded-md bg-gray-200 hover:bg-gray-300 flex items-center justify-center">
+      <SheetTrigger className="w- p-2 rounded-md bg-gray-200 hover:bg-gray-300 flex items-center justify-center">
         <MoreVertical className="w-5 h-5" />
       </SheetTrigger>
 
