@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Zone, VehicleType } from "@/interfaces/zona";
 import {
   Sheet,
   SheetClose,
@@ -12,32 +13,64 @@ import {
 } from "@/components/ui/sheet";
 import { MoreVertical } from "lucide-react";
 import { InputField } from "@/components/InputField/InputField";
-
-interface Zone {
-  id: number;
-  name: string;
-  vehicleType: string;
-  totalCapacity: number;
-  description?: string;
-}
+import { apiRequest } from "@/services";
+import { ApiResponse } from "@/interfaces";
 
 interface ZonaSheetProps {
   zone: Zone;
-  onUpdate?: () => void; // callback para refrescar la lista de zonas
+  vehicleTypeName: string;
+  onUpdateZone?: (id: number) => void;
 }
 
-export default function ZonaSheet({ zone, onUpdate }: ZonaSheetProps) {
+export default function ZonaSheet({
+  zone,
+  vehicleTypeName,
+  onUpdateZone,
+}: ZonaSheetProps) {
   const [description, setDescription] = useState(zone.description || "");
-  const [vehicleType, setVehicleType] = useState(zone.vehicleType);
+  const [vehicleType, setVehicleType] = useState(vehicleTypeName);
   const [totalCapacity, setTotalCapacity] = useState(zone.totalCapacity);
 
-  const vehicleOptions = [
-    { value: "Motorcycle", label: "Moto" },
-    { value: "Car", label: "Automóvil" },
-    { value: "Truck", label: "Camión" },
-  ];
+  // 🔹 Nuevo estado para los tipos de vehículo
+  const [vehicleTypes, setVehicleTypes] = useState<VehicleType[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // 🔹 Cargar los tipos de vehículo desde el backend
+  useEffect(() => {
+    const fetchVehicleTypes = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const result: ApiResponse<VehicleType[]> = await apiRequest<
+          VehicleType[]
+        >("/api/vehicleTypes", "GET");
+
+        if (result.success && result.data) {
+          setVehicleTypes(result.data);
+        } else {
+          setError(result.message || "Error al cargar los tipos de vehículo.");
+        }
+      } catch (err: any) {
+        console.error("Error al cargar vehicleTypes:", err);
+        setError(err.message || "Error de conexión con el servidor");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchVehicleTypes();
+  }, []);
+
+  //Convertir la respuesta del backend a opciones para el select
+  const vehicleOptions = vehicleTypes.map((vt) => ({
+    value: vt.name,
+    label: vt.name,
+  }));
 
   const handleUpdate = async () => {
+    /*
     const payload = {
       description,
       vehicleType,
@@ -57,7 +90,7 @@ export default function ZonaSheet({ zone, onUpdate }: ZonaSheetProps) {
       const data = await res.json();
       if (data.success) {
         alert("Zona actualizada correctamente");
-        if (onUpdate) await onUpdate();
+        if (onUpdateZone) await onUpdateZone(zone.id);
       } else {
         alert("Error al actualizar la zona");
       }
@@ -65,21 +98,23 @@ export default function ZonaSheet({ zone, onUpdate }: ZonaSheetProps) {
       console.error(error);
       alert("Error de conexión con el servidor");
     }
+    */
   };
 
   return (
     <Sheet>
-      <SheetTrigger className="p-2 rounded-md !bg-gray-200 hover:!bg-gray-300 flex items-center justify-center">
+      <SheetTrigger className="p-2 rounded-md bg-gray-200 hover:bg-gray-300 flex items-center justify-center">
         <MoreVertical className="w-5 h-5" />
       </SheetTrigger>
 
-      <SheetContent>
+      {/*Aparece desde la derecha y con tamaño controlado */}
+      <SheetContent side="right" className="w-[350px] sm:w-[500px]">
         <SheetHeader>
           <SheetTitle>Detalles de la zona</SheetTitle>
           <SheetDescription>Edita la información de la zona</SheetDescription>
         </SheetHeader>
 
-        <div className="grid flex-1 gap-6 px-4 mt-4">
+        <div className="grid flex-1 auto-rows-min gap-4 px-4 mt-4">
           <InputField
             id="description"
             label="Descripción"
@@ -100,7 +135,7 @@ export default function ZonaSheet({ zone, onUpdate }: ZonaSheetProps) {
             id="totalCapacity"
             label="Capacidad total"
             type="number"
-            value={totalCapacity}
+            value={totalCapacity.toString()}
             onChange={(e) => setTotalCapacity(Number(e.target.value))}
           />
         </div>
