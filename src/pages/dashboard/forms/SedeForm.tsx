@@ -195,38 +195,6 @@ export default function SedeForm() {
               )}
             </div>
 
-            {/* Horario apertura */}
-            <div className="input-field">
-              <label htmlFor="horario_apertura" className="input-label">
-                Horario de apertura
-              </label>
-              <input
-                type="time"
-                id="horario_apertura"
-                {...register("horario_apertura", { required: true })}
-                className="input-base"
-              />
-              {errors.horario_apertura?.type === "required" && (
-                <ErrorSpan message="El horario de apertura es obligatorio" />
-              )}
-            </div>
-
-            {/* Horario cierre */}
-            <div className="input-field">
-              <label htmlFor="horario_cierre" className="input-label">
-                Horario de cierre
-              </label>
-              <input
-                type="time"
-                id="horario_cierre"
-                {...register("horario_cierre", { required: true })}
-                className="input-base"
-              />
-              {errors.horario_cierre?.type === "required" && (
-                <ErrorSpan message="El horario de cierre es obligatorio" />
-              )}
-            </div>
-
             {/* Botón */}
             <div className="form-actions-container">
               <Button

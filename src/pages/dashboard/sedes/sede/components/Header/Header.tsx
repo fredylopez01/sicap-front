@@ -1,6 +1,7 @@
 import { Branch } from "@/interfaces/zona";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import ZoneDialogForm from "../Dialog/ZoneDialogForm";
 import "./Header.css";
 
 interface HeaderProps {
@@ -49,7 +50,7 @@ export default function Header({
 
       <div className="button-container">
         {handleRedirectNewZone && (
-          <Button onClick={handleRedirectNewZone}>Crear zona</Button>
+          <ZoneDialogForm branchIdProp={branch?.id}></ZoneDialogForm>
         )}
       </div>
     </div>
