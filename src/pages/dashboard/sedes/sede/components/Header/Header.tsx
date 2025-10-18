@@ -1,7 +1,5 @@
 import { Branch } from "@/interfaces/zona";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import ZoneDialogForm from "../Dialog/ZoneDialogForm";
 import "./Header.css";
 
 interface HeaderProps {
@@ -14,44 +12,56 @@ interface HeaderProps {
 export default function Header({
   branch,
   handleBack,
-  handleRedirectNewZone,
   zonasCount = 0,
 }: HeaderProps) {
   return (
-    <div className="zones-header">
-      <div>
+    <div>
+      <div className="branch-top">
         <Button size="sm" variant="outline" onClick={handleBack}>
           Volver a Sedes
         </Button>
+      </div>
 
-        <h1 className="title">Zonas {branch && `- ${branch.name}`}</h1>
+      <div className="branch-header">
+        <h2 className="branch-title">{branch?.name || "Sede principal"}</h2>
 
-        <div>
-          <Badge variant="secondary">{branch?.city}</Badge>
-          <Badge variant="secondary">{branch?.department}</Badge>
-          <Badge variant="secondary">{branch?.phone}</Badge>
-          <Badge variant="secondary">{branch?.address}</Badge>
-          {branch?.status == "active" ? (
-            <Badge variant="outline" className="status-badge-active">
-              {branch?.status}
-            </Badge>
-          ) : (
-            <Badge variant="outline" className="status-badge-disabled">
-              {branch?.status}
-            </Badge>
-          )}
+        <div className="branch-content">
+          {/* Columna 1: Botones */}
+          <div className="branch-column">
+            <Button size="sm" variant="default">
+              Editar datos de sede
+            </Button>
+            <Button size="sm" variant="destructive">
+              Eliminar sede
+            </Button>
+          </div>
+
+          {/* Columna 2: Dirección y Departamento */}
+          <div className="branch-column">
+            <p>
+              <strong>Dirección:</strong> {branch?.address || "—"}
+            </p>
+            <p>
+              <strong>Departamento:</strong> {branch?.department || "—"}
+            </p>
+          </div>
+
+          {/* Columna 3: Ciudad y Teléfono */}
+          <div className="branch-column">
+            <p>
+              <strong>Ciudad:</strong> {branch?.city || "—"}
+            </p>
+            <p>
+              <strong>Teléfono:</strong> {branch?.phone || "—"}
+            </p>
+          </div>
         </div>
-        <p>
+
+        <p className="branch-summary">
           {branch
             ? `${zonasCount} zona(s) registrada(s)`
             : "Gestión de zonas de parqueo de la sede"}
         </p>
-      </div>
-
-      <div className="button-container">
-        {handleRedirectNewZone && (
-          <ZoneDialogForm branchIdProp={branch?.id}></ZoneDialogForm>
-        )}
       </div>
     </div>
   );

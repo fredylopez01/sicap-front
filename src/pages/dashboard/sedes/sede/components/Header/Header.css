@@ -1,85 +1,84 @@
 /* ====== Contenedor principal ====== */
-.zones-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  background-color: #ffffff;
-  border-radius: 0.75rem; /* border-radius */
-  padding: 1.5rem 2rem;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e5e7eb; /* separador sutil */
-  flex-wrap: wrap; /* para que se adapte en pantallas pequeñas */
+.branch-top {
+  margin-bottom: 1.5rem;
 }
 
-/* ====== Bloque de información (izquierda) ====== */
-.zones-header > div:first-child {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  flex: 1;
+/* ====== Cabecera principal ====== */
+.branch-header {
+  display: block;
+  background-color: #ffffff; /* Antes era negro */
+  color: #1f2937; /* Texto oscuro */
+  border-radius: 0.75rem;
+  padding: 16px;
+  width: 100%;
+  font-family: sans-serif;
 }
 
 /* ====== Título ====== */
-.title {
-  font-size: 1.5rem; /* text-2xl */
-  font-weight: 700; /* font-bold */
-  color: #1f2937; /* text-gray-800 */
-  margin-top: 0.25rem;
+.branch-title {
+  font-size: 25px;
+  font-weight: 600;
+  color: #1f2937; /* Título oscuro */
+  margin-bottom: 12px;
 }
 
-/* ====== Grupo de badges ====== */
-.zones-header > div:first-child > div {
+/* ====== Contenido principal ====== */
+.branch-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; /* Mantener 3 columnas */
+}
+
+/* ====== Columnas ====== */
+.branch-column {
+  padding: 8px 16px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+  flex-direction: column;
+  gap: 6px;
+  justify-content: center;
+  background-color: #f9fafb; /* Fondo claro */
+  border-radius: 0.5rem;
 }
 
-/* ====== Estado de la sede ====== */
-.status-badge-active {
-  background-color: #3b82f6 !important; /* azul */
-  color: #ffffff !important;
-  border: none !important;
+.branch-column:not(:last-child) {
+  border-right: 1px solid #e5e7eb;
 }
 
-.status-badge-disabled {
-  background-color: #ef4444 !important; /* rojo */
-  color: #ffffff !important;
-  border: none !important;
+/* ====== Botones ====== */
+.branch-column .btn,
+.branch-column button {
+  font-size: 14px;
+  padding: 6px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #ffffff;
+  border: none;
 }
 
-/* ====== Texto descriptivo ====== */
-.zones-header p {
-  font-size: 0.95rem;
-  color: #4b5563;
-  margin-top: 0.25rem;
+.branch-column .btn:hover,
+.branch-column button:hover {
+  background-color: #1d4ed8;
 }
 
-/* ====== Contenedor del botón (derecha) ====== */
-.button-container {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  flex-shrink: 0;
+/* ====== Texto final ====== */
+.branch-summary {
+  font-size: 14px;
+  color: #4b5563; /* Gris medio */
+  margin-top: 10px;
 }
 
-/* Botón pequeño de volver */
-.zones-header > div:first-child > button {
-  width: auto !important;
-  max-width: 10rem;
-  padding: 0.25rem 0.5rem;
-}
-
-/* ====== Responsividad ====== */
+/* ====== Responsivo ====== */
 @media (max-width: 768px) {
-  .zones-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
+  .branch-content {
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
 
-  .button-container {
-    width: 100%;
-    justify-content: flex-start;
+  .branch-column:not(:last-child) {
+    border-right: none;
+    border-bottom: 1px dashed #e5e7eb;
+  }
+
+  .branch-header {
+    padding: 12px;
   }
 }
