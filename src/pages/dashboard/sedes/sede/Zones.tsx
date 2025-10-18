@@ -6,6 +6,7 @@ import { apiRequest } from "@/services";
 import Header from "./components/Header/Header";
 import ZonesContent from "./components/ZonesContent/ZonesContent";
 import Schedule from "./components/Schedule/Schedule";
+import VehicleTypesContent from "./components/VehicleTypesContent/VehicleTypesContent";
 import "./Zones.css";
 
 export default function Zonas() {
@@ -126,6 +127,10 @@ export default function Zonas() {
           handleRedirectNewZone={handleRedirectNewZone}
           zonasCount={zones.length}
         />
+      </div>
+
+      <div className="vehicleTypes-container">
+        <VehicleTypesContent></VehicleTypesContent>
       </div>
 
       <div className="content-container">
