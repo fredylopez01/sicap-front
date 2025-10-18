@@ -1,9 +1,10 @@
 import { Branch } from "@/interfaces/zona";
 import { Button } from "@/components/ui/button";
+import BranchSheet from "../Sheet/BranchSheet";
 import "./Header.css";
 
 interface HeaderProps {
-  branch: Branch | null;
+  branch: Branch;
   handleBack: () => void;
   handleRedirectNewZone?: () => void;
   zonasCount?: number;
@@ -28,9 +29,7 @@ export default function Header({
         <div className="branch-content">
           {/* Columna 1: Botones */}
           <div className="branch-column">
-            <Button size="sm" variant="default">
-              Editar datos de sede
-            </Button>
+            <BranchSheet branch={branch}></BranchSheet>
             <Button size="sm" variant="destructive">
               Eliminar sede
             </Button>

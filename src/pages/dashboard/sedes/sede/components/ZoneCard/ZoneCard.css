@@ -16,17 +16,15 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
-/* SECCIÓN DE CONTENIDO */
 .content-section {
   display: flex;
   flex-direction: column;
 }
 
-/* SECCIÓN DE ACCIONES */
 .action-section {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 1rem;
 }
 
@@ -36,7 +34,6 @@
   align-items: flex-start;
 }
 
-/* TÍTULO DE LA ZONA */
 .zone-title {
   font-size: 1.5rem;
   font-weight: 700;
@@ -44,7 +41,6 @@
   margin: 0;
 }
 
-/* DESCRIPCIÓN */
 .zone-description {
   color: #374151;
   font-size: 0.95rem;
@@ -52,7 +48,6 @@
   line-height: 1.5;
 }
 
-/* ATRIBUTOS (tipo, tarifa, capacidad) */
 .zone-atribute {
   color: #374151;
   font-size: 0.95rem;
@@ -68,7 +63,6 @@
   color: #111827;
 }
 
-/* RESPONSIVE */
 @media (max-width: 640px) {
   .zone-card {
     grid-template-columns: 1fr;

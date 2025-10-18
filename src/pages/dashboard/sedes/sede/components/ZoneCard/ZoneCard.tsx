@@ -1,6 +1,5 @@
 import { Zone } from "@/interfaces/zona";
 import { Button } from "@/components/ui/button";
-import ZonaSheet from "../Sheet/ZonaSheet";
 import "./ZoneCard.css";
 
 interface ZoneCardProps {
@@ -15,8 +14,6 @@ export default function ZoneCard({
   zone,
   vehicleTypeName,
   vehicleTypeRate,
-  onUpdateZone,
-  onDelete,
   onRedirect,
 }: ZoneCardProps) {
   return (
@@ -32,14 +29,6 @@ export default function ZoneCard({
       </div>
 
       <div className="action-section">
-        <div className="sheet-container">
-          <ZonaSheet
-            zone={zone}
-            vehicleTypeName={vehicleTypeName}
-            onUpdateZone={onUpdateZone}
-          ></ZonaSheet>
-        </div>
-
         <Button onClick={() => onRedirect && onRedirect(zone.id)}>
           Ir a la zona
         </Button>

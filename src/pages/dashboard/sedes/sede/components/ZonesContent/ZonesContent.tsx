@@ -18,10 +18,6 @@ interface ZonesContentProps {
   formatDate: (dateString: string) => string;
 }
 
-const onUpdateZone = () => {};
-
-const onDeleteZone = () => {};
-
 export default function ZonesContent({
   zones,
   loading,
@@ -30,7 +26,6 @@ export default function ZonesContent({
   handleRedirectZone,
   getVehicleTypeName,
   getVehicleTypeRate,
-  formatDate,
 }: ZonesContentProps) {
   return (
     <div className="content-wrapper">
@@ -67,8 +62,6 @@ export default function ZonesContent({
                     zone={zone}
                     vehicleTypeName={getVehicleTypeName(zone.vehicleTypeId)}
                     vehicleTypeRate={getVehicleTypeRate(zone.vehicleTypeId)}
-                    onUpdateZone={onUpdateZone}
-                    onDelete={onDeleteZone}
                     onRedirect={handleRedirectZone}
                   />
                   <Separator />
