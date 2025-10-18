@@ -1,20 +1,17 @@
-
-
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ApiResponse } from "@/interfaces";
 import { Zone, VehicleType, Branch } from "@/interfaces/zona";
 import { apiRequest } from "@/services";
-import Header from "./components/Header/Header"
+import Header from "./components/Header/Header";
 import ZonesContent from "./components/ZonesContent/ZonesContent";
 import Schedule from "./components/Schedule/Schedule";
 import "./Zones.css";
 
-
 export default function Zonas() {
   const navigate = useNavigate();
   const { branchId } = useParams<{ branchId: string }>();
-  
+
   const [zones, setZonas] = useState<Zone[]>([]);
   const [vehicleTypes, setVehicleTypes] = useState<VehicleType[]>([]);
   const [branch, setBranch] = useState<Branch | null>(null);
@@ -35,16 +32,15 @@ export default function Zonas() {
         setError(null);
 
         // 1. Cargar TODAS las sedes y filtrar la específica
-        const branchesResult: ApiResponse<Branch[]> = await apiRequest<Branch[]>(
-          "/api/branches",
-          "GET"
-        );
+        const branchesResult: ApiResponse<Branch[]> = await apiRequest<
+          Branch[]
+        >("/api/branches", "GET");
 
         if (branchesResult.success && branchesResult.data) {
           const currentBranch = branchesResult.data.find(
             (b) => b.id === Number(branchId)
           );
-          
+
           if (currentBranch) {
             setBranch(currentBranch);
           } else {
@@ -67,13 +63,13 @@ export default function Zonas() {
         }
 
         // 3. Cargar tipos de vehículo (requiere autenticación)
-        const vehicleTypesResult: ApiResponse<VehicleType[]> = 
-          await apiRequest<VehicleType[]>("/api/vehicleTypes", "GET");
+        const vehicleTypesResult: ApiResponse<VehicleType[]> = await apiRequest<
+          VehicleType[]
+        >("/api/vehicleTypes", "GET");
 
         if (vehicleTypesResult.success && vehicleTypesResult.data) {
           setVehicleTypes(vehicleTypesResult.data);
         }
-
       } catch (err: any) {
         console.error("Error al cargar datos:", err);
         setError(
@@ -89,13 +85,13 @@ export default function Zonas() {
 
   // Obtener nombre del tipo de vehículo
   const getVehicleTypeName = (vehicleTypeId: number): string => {
-    const type = vehicleTypes.find(vt => vt.id === vehicleTypeId);
+    const type = vehicleTypes.find((vt) => vt.id === vehicleTypeId);
     return type ? type.name : "Tipo no disponible";
   };
 
   // Obtener tarifa del tipo de vehículo
   const getVehicleTypeRate = (vehicleTypeId: number): number => {
-    const type = vehicleTypes.find(vt => vt.id === vehicleTypeId);
+    const type = vehicleTypes.find((vt) => vt.id === vehicleTypeId);
     return type ? type.hourlyRate : 0;
   };
 
@@ -113,10 +109,10 @@ export default function Zonas() {
 
   // Formatear fecha
   const formatDate = (dateString: string): string => {
-    return new Date(dateString).toLocaleDateString('es-CO', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
+    return new Date(dateString).toLocaleDateString("es-CO", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
   };
 
@@ -147,8 +143,7 @@ export default function Zonas() {
           />
         </div>
         <div className="schedule-container">
-
-        <Schedule></Schedule>
+          <Schedule></Schedule>
         </div>
       </div>
     </div>

@@ -62,6 +62,10 @@ export function AppRouter() {
             }
           />
           <Route
+            path="sedes/:branchId/zonas/new"
+            element={<PrivateRoute requiredRole="ADMIN"></PrivateRoute>}
+          />
+          <Route
             path="usuarios"
             element={
               <PrivateRoute requiredRole="ADMIN">
