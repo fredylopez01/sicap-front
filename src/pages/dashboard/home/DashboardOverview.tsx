@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./DashboardOverview.css";
+import { CreateEntryModal } from "../records/entry/CreateEntryModal";
 
 // Interfaz para la data del resumen del parqueadero
 interface ParkingData {
@@ -18,7 +19,7 @@ const fetchParkingData = (): Promise<ParkingData> => {
         occupiedSpaces: 112,
         vehiclesRegisteredToday: 45,
       });
-    }, 800);
+    }, 500);
   });
 };
 
@@ -87,9 +88,7 @@ export default function DashboardOverview() {
       </div>
 
       <div className="quick-actions">
-        <button className="action-button primary-action">
-          Registrar Entrada Rápida
-        </button>
+        <CreateEntryModal />
         <button className="action-button secondary-action">
           Ver Mapa de Espacios
         </button>

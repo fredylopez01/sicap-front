@@ -150,6 +150,7 @@ export default function ZoneDialogForm({
               value={totalCapacity.toString()}
               onChange={(e) => setTotalCapacity(Number(e.target.value))}
             />
+            <span>{error}</span>
           </div>
 
           <DialogFooter className="mt-4">
