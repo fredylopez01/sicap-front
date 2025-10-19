@@ -1,50 +1,101 @@
 import { useEffect, useState } from "react";
 import "./DashboardOverview.css";
+import { CreateEntryModal } from "../records/entry/CreateEntryModal";
+import { RecordTable } from "../records/recordsList/RecordTable";
+import { ApiResponse, DailySummary } from "@/interfaces";
+import { showAlert } from "@/utils/alerts";
+import { apiRequest } from "@/services";
+import { useAuth } from "@/context/AuthContext";
 
-// Interfaz para la data del resumen del parqueadero
+// Interfaz para la data de espacios (Existente)
 interface ParkingData {
   totalSpaces: number;
   occupiedSpaces: number;
-  vehiclesRegisteredToday: number;
 }
 
-// SIMULACIÓN DE API
-// En un entorno real, usarías apiRequest<ParkingData> al endpoint correcto.
+// SIMULACIÓN DE API para ESPACIOS (EXISTENTE)
 const fetchParkingData = (): Promise<ParkingData> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
         totalSpaces: 150,
         occupiedSpaces: 112,
-        vehiclesRegisteredToday: 45,
       });
-    }, 800);
+    }, 500);
   });
 };
 
 export default function DashboardOverview() {
-  const [data, setData] = useState<ParkingData | null>(null);
+  const { user } = useAuth();
+  const [parkingData, setParkingData] = useState<ParkingData | null>(null);
+  const [dailySummary, setDailySummary] = useState<DailySummary | null>(null);
+  const [dateSummary, setDateSummary] = useState("");
   const [loading, setLoading] = useState(true);
+
+  const fetchDailySummary = async () => {
+    const API_URL = `/api/vehicleRecords/dailySummary/${user!.branchId}`;
+    try {
+      setLoading(true);
+
+      const result: ApiResponse<DailySummary> = await apiRequest<DailySummary>(
+        API_URL,
+        "POST",
+        { date: dateSummary }
+      );
+
+      if (result.success) {
+        if (result.data?.date) setDailySummary(result.data);
+      } else {
+        showAlert(
+          result.message || "No se pudo cargar la lista de registros.",
+          "error"
+        );
+      }
+    } catch (err: any) {
+      showAlert(
+        "Error de conexión con el servidor. Intenta recargar.",
+        "error"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
-      const fetchedData = await fetchParkingData();
-      setData(fetchedData);
+
+      const [fetchedParkingData] = await Promise.all([fetchParkingData()]);
+
+      setParkingData(fetchedParkingData);
+      fetchDailySummary();
+
       setLoading(false);
     };
     loadData();
   }, []);
 
-  const availableSpaces = data ? data.totalSpaces - data.occupiedSpaces : 0;
+  const availableSpaces = parkingData
+    ? parkingData.totalSpaces - parkingData.occupiedSpaces
+    : 0;
 
   // Determina la clase del indicador basado en la disponibilidad
   const getAvailabilityStatusClass = () => {
-    if (!data) return "status-unknown";
-    const percentage = (availableSpaces / data.totalSpaces) * 100;
-    if (percentage > 30) return "status-high"; // Más del 30% libre
-    if (percentage > 10) return "status-medium"; // Entre 10% y 30% libre
-    return "status-low"; // Menos del 10% libre (casi lleno)
+    if (!parkingData) return "status-unknown";
+    const percentage = (availableSpaces / parkingData.totalSpaces) * 100;
+    if (percentage > 30) return "status-high";
+    if (percentage > 10) return "status-medium";
+    return "status-low";
+  };
+
+  // Función para formatear moneda (copiada de RecordTable para la Card de Recaudación)
+  const formatCurrency = (amount: number | null | undefined): string => {
+    if (amount === null || amount === undefined) return "-";
+    return new Intl.NumberFormat("es-CO", {
+      style: "currency",
+      currency: "COP",
+      minimumFractionDigits: 0,
+    }).format(Number(amount));
   };
 
   if (loading) {
@@ -57,42 +108,68 @@ export default function DashboardOverview() {
 
   return (
     <div className="dashboard-overview">
-      <h2 className="overview-title">Resumen Operacional del Parqueadero</h2>
+      <div className="overview-header">
+        <h2 className="overview-title">Resumen Operacional</h2>
+        <div className="quick-actions">
+          <CreateEntryModal />
+          <button className="action-button secondary-action">
+            Ver Mapa de Espacios
+          </button>
+        </div>
+      </div>
 
       <div className="stats-grid">
-        {/* Card 1: Espacios Disponibles (El más importante) */}
+        {/* Card 1: Espacios Disponibles */}
         <div
           className={`stat-card available-spaces ${getAvailabilityStatusClass()}`}
         >
           <p className="stat-label">Espacios Disponibles</p>
           <span className="stat-value">{availableSpaces}</span>
-          <p className="stat-hint">De {data?.totalSpaces || 0} totales</p>
+          <p className="stat-hint">
+            De {parkingData?.totalSpaces || 0} totales
+          </p>
         </div>
 
-        {/* Card 2: Espacios Ocupados */}
-        <div className="stat-card occupied-spaces">
-          <p className="stat-label">Espacios Ocupados</p>
-          <span className="stat-value">{data?.occupiedSpaces || 0}</span>
-          <p className="stat-hint">Vehículos actualmente dentro</p>
-        </div>
-
-        {/* Card 3: Registros del Día */}
-        <div className="stat-card daily-registers">
-          <p className="stat-label">Vehículos Registrados Hoy</p>
+        {/* Card 2: Total Vehículos Ingresados Hoy (NUEVO) */}
+        <div className="stat-card daily-registers available-spaces status-high">
+          <p className="stat-label">Entradas Hoy</p>
           <span className="stat-value">
-            {data?.vehiclesRegisteredToday || 0}
+            {dailySummary?.totalVehiclesEntered ?? 0}
           </span>
-          <p className="stat-hint">Entradas y salidas</p>
+          <p className="stat-hint">Vehículos registrados</p>
+        </div>
+
+        {/* Card 3: Total Vehículos Egresados Hoy (NUEVO) */}
+        <div className="stat-card daily-registers available-spaces status-low">
+          <p className="stat-label">Salidas Hoy</p>
+          <span className="stat-value">
+            {dailySummary?.totalVehiclesExited ?? 0}
+          </span>
+          <p className="stat-hint">Vehículos que egresaron</p>
+        </div>
+
+        {/* Card 4: Recaudación Total del Día (NUEVO) */}
+        <div className="stat-card occupied-spaces">
+          <p className="stat-label">Recaudación Hoy</p>
+          <span className="stat-value">
+            {formatCurrency(dailySummary?.totalRevenue)}
+          </span>
+          <p className="stat-hint">Total de ingresos brutos</p>
         </div>
       </div>
 
-      <div className="quick-actions">
-        <button className="action-button primary-action">
-          Registrar Entrada Rápida
-        </button>
-        <button className="action-button secondary-action">
-          Ver Mapa de Espacios
-        </button>
+      {/* Tabla de Registros Recientes */}
+      <div className="recent-records-section">
+        <h3 className="section-title-over-view">
+          Registros Recientes del Día ({dailySummary?.date})
+        </h3>
+        {dailySummary?.records && dailySummary.records.length > 0 ? (
+          <RecordTable records={dailySummary.records} />
+        ) : (
+          <div className="empty-state">
+            Al parecer no se ha presentado ningún tipo de actividad hoy.
+          </div>
+        )}
       </div>
     </div>
   );

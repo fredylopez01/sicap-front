@@ -1,25 +1,28 @@
 .dashboard-overview {
-  background-color: var(--primary-bg);
-  padding: 2rem;
-  border-radius: 0.5rem;
-  box-shadow: var(--shadow);
-  margin-top: 1rem; /* Margen superior si se usa debajo de un header */
+  padding: 0.3rem;
+  border-radius: 0 0.5rem 0.5rem;
+}
+.overview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .overview-title {
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--black);
-  margin-bottom: 1.5rem;
-  border-bottom: 1px solid var(--border-color);
   padding-bottom: 0.5rem;
 }
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .stat-card {
@@ -42,7 +45,7 @@
 }
 
 .stat-value {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 800;
   display: block;
   color: var(--black);
@@ -72,7 +75,7 @@
 
 /* Disponibilidad Baja (Casi lleno) */
 .stat-card.available-spaces.status-low {
-  border-left-color: #dc3545; /* Rojo de alerta */
+  border-left-color: #e63244; /* Rojo de alerta */
 }
 .stat-card.available-spaces.status-low .stat-value {
   color: #dc3545;
@@ -84,10 +87,11 @@
 }
 
 .action-button {
-  padding: 0.75rem 1.5rem;
+  padding: 0.3rem 0.5rem;
   border: none;
   border-radius: 0.3rem;
   cursor: pointer;
+  font-size: 1rem;
   font-weight: 500;
   transition: background-color 0.2s ease;
 }
@@ -114,4 +118,9 @@
 .dashboard-overview.loading-state {
   text-align: center;
   color: var(--neutral-gray);
+}
+
+.section-title-over-view {
+  font-weight: bold;
+  margin-bottom: 1rem;
 }

@@ -1,0 +1,61 @@
+.wrapper {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.summary {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.loadingContainer {
+  background-color: #f9fafb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loadingContent {
+  text-align: center;
+}
+
+.spinner-records {
+  width: 48px;
+  height: 48px;
+  color: #3b82f6;
+  margin: 0 auto 16px;
+  animation: spin 1s linear infinite;
+}
+
+.loadingText {
+  color: #4b5563;
+}
+
+.errorContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.errorBox {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 24px;
+  width: 100%;
+  text-align: center;
+}
+
+.errorText {
+  color: #991b1b;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

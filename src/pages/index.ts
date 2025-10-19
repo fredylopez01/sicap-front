@@ -4,3 +4,4 @@ export * from "./unauthorized/Unauthorized";
 export * from "./landing/LandingPage";
 export * from "./users/AddUserForm";
 export * from "./users/UsersList";
+export * from "./dashboard/records/RecordsPage";

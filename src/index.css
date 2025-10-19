@@ -14,8 +14,11 @@
   --black: #000000; /* corporativo */
   --black-hover: #17171a;
   --institutional-blue: #007bff; /* Azul institucional */
+  --institutional-blue-hover: #4489d3; /* Azul institucional */
   --green-stand: #28a745; /* Verde oscuro */
+  --green-stand-hover: #41a759; /* Verde oscuro */
   --neutral-gray: #6c757d; /* Gris para textos secundarios */
+  --neutral-gray-hover: #7e8992; /* Gris para textos secundarios */
   --border-color: #e5e7eb; /* Gris claro */
   --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   --blue-dark: #003f7f;
