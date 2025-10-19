@@ -32,7 +32,7 @@ export default function Zonas() {
         setLoading(true);
         setError(null);
 
-        // 1. Cargar TODAS las sedes y filtrar la específica
+        // 1. Cargar todas las sedes y filtrar la específica
         const branchesResult: ApiResponse<Branch[]> = await apiRequest<
           Branch[]
         >("/api/branches", "GET");
@@ -51,7 +51,7 @@ export default function Zonas() {
           }
         }
 
-        // 2. Cargar zonas de la sede (endpoint público)
+        // 2. Cargar zonas de la sede
         const zonasResult: ApiResponse<Zone[]> = await apiRequest<Zone[]>(
           `/api/zones/${branchId}`,
           "GET"
@@ -63,7 +63,7 @@ export default function Zonas() {
           setError(zonasResult.message || "No se pudieron cargar las zonas.");
         }
 
-        // 3. Cargar tipos de vehículo (requiere autenticación)
+        // 3. Cargar tipos de vehículo
         const vehicleTypesResult: ApiResponse<VehicleType[]> = await apiRequest<
           VehicleType[]
         >("/api/vehicleTypes", "GET");
@@ -137,6 +137,7 @@ export default function Zonas() {
         <div className="zones-container">
           {/* Contenido */}
           <ZonesContent
+            branch={branch}
             zones={zones}
             loading={loading}
             error={error}

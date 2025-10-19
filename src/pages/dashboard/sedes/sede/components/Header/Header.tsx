@@ -4,7 +4,7 @@ import BranchSheet from "../Sheet/BranchSheet";
 import "./Header.css";
 
 interface HeaderProps {
-  branch: Branch;
+  branch: Branch | null;
   handleBack: () => void;
   handleRedirectNewZone?: () => void;
   zonasCount?: number;

@@ -167,7 +167,7 @@ export default function VehicleTypeDialogForm({
 
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded text-sm mt-2">
-              ⚠️ {error}
+              {error}
             </div>
           )}
 
