@@ -103,8 +103,6 @@ export function AddUserForm() {
         hireDate: hireDate,
       };
 
-      console.log(userData);
-
       // Llamada al backend
       const result: ApiResponse<any> = await apiRequest<any>(
         "/api/users",
