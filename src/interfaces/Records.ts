@@ -37,3 +37,12 @@ export interface FiltersRecord {
   exitStartDate: string;
   exitEndDate: string;
 }
+
+export interface DailySummary {
+  date: string;
+  branchId: number;
+  records: ParkingRecordFiltered[];
+  totalVehiclesEntered: number;
+  totalVehiclesExited: number;
+  totalRevenue: number;
+}

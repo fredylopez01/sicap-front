@@ -1,5 +1,6 @@
 import { ParkingRecordFiltered } from "@/interfaces";
-import { ArrowDown, ArrowUp } from "lucide-react";
+import { ArrowDown, ArrowUp, ClipboardEdit } from "lucide-react";
+import "./RecordTable.css";
 
 interface RecordTableProps {
   records: ParkingRecordFiltered[];
@@ -48,6 +49,7 @@ export function RecordTable({ records }: RecordTableProps) {
               <th className="th">Horas</th>
               <th className="th">Total</th>
               <th className="th">Estado</th>
+              <th className="th">Acciones</th>
             </tr>
           </thead>
           <tbody className="tbody">
@@ -101,6 +103,11 @@ export function RecordTable({ records }: RecordTableProps) {
                   >
                     {record.status === "active" ? "Activo" : "Finalizado"}
                   </span>
+                </td>
+                <td className="td">
+                  <button type="button">
+                    <ClipboardEdit className="normalText" />
+                  </button>
                 </td>
               </tr>
             ))}
