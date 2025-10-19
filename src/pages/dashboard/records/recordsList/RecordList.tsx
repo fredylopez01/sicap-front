@@ -78,6 +78,22 @@ export function RecordList() {
     fetchRecords(defaultFilters);
   };
 
+  const handleRecordUpdate = (
+    partialUpdate: Partial<ParkingRecordFiltered>
+  ) => {
+    setRecords((prevRecords) =>
+      prevRecords.map((record) => {
+        if (record.id === partialUpdate.id) {
+          return {
+            ...record,
+            ...partialUpdate,
+          };
+        }
+        return record;
+      })
+    );
+  };
+
   return (
     <div className="container">
       <div className="wrapper">
@@ -102,7 +118,10 @@ export function RecordList() {
             </div>
           </div>
         ) : (
-          <RecordTable records={records} />
+          <RecordTable
+            records={records}
+            onRecordUpdatedTable={handleRecordUpdate}
+          />
         )}
 
         <div className="summary">Mostrando {records.length} registros</div>

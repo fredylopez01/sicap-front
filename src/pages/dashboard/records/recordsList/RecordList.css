@@ -33,8 +33,6 @@
 }
 
 .errorContainer {
-  min-height: 100vh;
-  background-color: #f9fafb;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -45,7 +43,8 @@
   border: 1px solid #fecaca;
   border-radius: 8px;
   padding: 24px;
-  max-width: 448px;
+  width: 100%;
+  text-align: center;
 }
 
 .errorText {

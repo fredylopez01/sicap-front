@@ -45,6 +45,10 @@
   white-space: nowrap;
 }
 
+.td.td-actions-records {
+  padding-left: 0;
+}
+
 .plateText {
   font-weight: 500;
   color: #111827;
