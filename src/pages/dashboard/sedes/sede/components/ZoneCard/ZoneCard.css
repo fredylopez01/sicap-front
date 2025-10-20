@@ -51,15 +51,10 @@
 
 /* Botón de redirección */
 .action-section > div:last-child button {
-  background-color: #0f172a;
   color: #fff;
   border-radius: 8px;
   font-weight: 500;
   transition: background-color 0.2s ease;
-}
-
-.action-section > div:last-child button:hover {
-  background-color: #1e293b;
 }
 
 .sheet-container {

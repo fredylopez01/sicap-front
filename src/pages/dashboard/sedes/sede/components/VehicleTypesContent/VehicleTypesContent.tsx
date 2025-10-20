@@ -124,6 +124,18 @@ export default function VehicleTypesContent() {
             <div key={vehicleType.id} className="vehicle-type-card">
               <div className="vehicle-type-header">
                 <h3 className="vehicle-type-name">{vehicleType.name}</h3>
+                <VehicleTypeDialogForm
+                  isEditing={true}
+                  vehicleTypeToEdit={vehicleType}
+                  onVehicleTypeUpdated={(updatedType) => {
+                    setVehicleTypes((prev) =>
+                      prev.map((vt) =>
+                        vt.id === updatedType.id ? updatedType : vt
+                      )
+                    );
+                  }}
+                  branchIdProp={branchId ? Number(branchId) : undefined}
+                />
               </div>
 
               <p className="vehicle-type-description">
