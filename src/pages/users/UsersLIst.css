@@ -107,6 +107,13 @@
   font-weight: 500;
 }
 
+.btn-delete-user {
+  cursor: pointer;
+  font-size: 1rem;
+  background-color: transparent;
+  color: red;
+}
+
 .status-message {
   padding: 1rem;
   text-align: center;

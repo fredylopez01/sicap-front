@@ -43,7 +43,7 @@ export function AddUserForm() {
 
   // Placeholder para las opciones de sede.
   const [branchOptions, setBranchOptions] = useState<BranchOption[]>([
-    { value: "", label: "Selecciona una sede" },
+    { value: "0", label: "Selecciona una sede" },
   ]);
 
   useEffect(() => {
@@ -350,10 +350,8 @@ export function AddUserForm() {
                 value={branchId}
                 onChange={(e) => setBranchId(e.target.value)}
                 options={[
-                  ...[
-                    { value: "", label: "Selecciona una sede" },
-                    ...branchOptions,
-                  ],
+                  { value: "-1", label: "Selecciona una sede" },
+                  ...branchOptions,
                 ]}
               />
               {errors.branchId && <ErrorSpan message={errors.branchId} />}

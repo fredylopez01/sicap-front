@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import "./UsersList.css";
 import { ApiResponse, User } from "@/interfaces";
 import { apiRequest } from "@/services";
-import { CircleUserRound, Plus } from "lucide-react";
+import { CircleUserRound, Plus, Trash2 } from "lucide-react";
 import { EditUserModal } from "./EditUserForm/EditUserModal";
+import { showAlert, showConfirmAlert } from "@/utils/alerts";
 
 export function UsersList() {
   const navigate = useNavigate();
@@ -14,28 +15,28 @@ export function UsersList() {
 
   const API_URL = "/api/users/";
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        setLoading(true);
-        const result: ApiResponse<User[]> = await apiRequest<User[]>(
-          API_URL,
-          "GET"
-        );
+  const fetchUsers = async () => {
+    try {
+      setLoading(true);
+      const result: ApiResponse<User[]> = await apiRequest<User[]>(
+        API_URL,
+        "GET"
+      );
 
-        if (result.success && result.data) {
-          setUsers(result.data);
-        } else {
-          setError(result.message || "No se pudo cargar la lista de usuarios.");
-        }
-      } catch (err: any) {
-        console.error("Error fetching users:", err);
-        setError("Error de conexión con el servidor. Intenta recargar.");
-      } finally {
-        setLoading(false);
+      if (result.success && result.data) {
+        setUsers(result.data);
+      } else {
+        setError(result.message || "No se pudo cargar la lista de usuarios.");
       }
-    };
+    } catch (err: any) {
+      console.error("Error fetching users:", err);
+      setError("Error de conexión con el servidor. Intenta recargar.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchUsers();
   }, []);
 
@@ -64,6 +65,37 @@ export function UsersList() {
         }
         return user;
       })
+    );
+  };
+
+  const deleteUser = async (id: number) => {
+    try {
+      setLoading(true);
+      const result: ApiResponse<User[]> = await apiRequest<User[]>(
+        API_URL + id,
+        "DELETE"
+      );
+
+      if (result.success) {
+        showAlert(result.message, "success");
+        fetchUsers();
+      } else {
+        showAlert(result.message);
+      }
+    } catch (err: any) {
+      console.error("Error eliminando userio:", err);
+      setError("Error de conexión con el servidor. Intenta recargar.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteUser = (id: number) => {
+    showConfirmAlert(
+      "Eliminar usuario",
+      "Está seguro de eliminar a este usuario, esta acción es irreversible",
+      "Eliminar",
+      () => deleteUser(id)
     );
   };
 
@@ -142,6 +174,13 @@ export function UsersList() {
                           user={user}
                           onUserUpdated={updatedUser}
                         />
+                        <button
+                          type="button"
+                          className="btn-delete-user"
+                          onClick={() => handleDeleteUser(user.id)}
+                        >
+                          <Trash2 size={17} />
+                        </button>
                       </td>
                     </tr>
                   ))}
