@@ -1,15 +1,15 @@
 .users-page-container {
   max-height: 100vh;
-  padding: 0.3rem 1.5rem;
+  padding: 0 0.3rem;
 }
 
 .page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.3rem 0 1.5rem; /* Padding vertical */
+  padding: 0rem 0 1rem;
   border-bottom: 2px solid var(--border-color);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .header-title {
@@ -21,48 +21,44 @@
 .create-button {
   background-color: var(--institutional-blue);
   color: var(--primary-bg);
-  padding: 0.6rem 1.2rem;
+  padding: 6px 12px;
   border: none;
   border-radius: 0.3rem;
+  font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
 .create-button:hover {
-  background-color: var(--blue-medium); /* Un azul ligeramente más oscuro */
+  background-color: var(--blue-medium);
 }
-
-/* ---------------------------------- */
-/* 2. Área de Contenido y Tabla */
-/* ---------------------------------- */
 
 .content-area {
   padding-bottom: 1.5rem;
 }
 
 .card-container {
-  /* Simula la tarjeta blanca que contiene la tabla */
   background-color: var(--primary-bg);
   border-radius: 0.5rem;
   box-shadow: var(--shadow);
-  padding: 1.5rem;
 }
 
 .table-responsive {
-  /* Asegura desplazamiento en pantallas pequeñas */
   overflow-x: auto;
+  border-radius: 0.5rem;
 }
 
 .users-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
+  border-radius: 0.5rem;
 }
 
 .users-table th,
 .users-table td {
-  padding: 1rem 0.75rem;
+  padding: 1rem 0.4rem;
   text-align: left;
   border-bottom: 1px solid var(--border-color);
 }
@@ -78,15 +74,28 @@
 
 .users-table tbody tr:last-child td {
   border-bottom: none;
+  font-size: 0.9rem;
 }
 
 .users-table tbody tr:hover {
-  background-color: #f7f7ff; /* Un hover muy sutil */
+  background-color: #f7f7ff;
 }
 
-/* ---------------------------------- */
-/* 3. Estilos de Estados y Roles */
-/* ---------------------------------- */
+.table-row {
+  font-size: 0.9rem;
+}
+
+.td-user-avatar-icon {
+  font-weight: normal;
+  color: var(--blue-medium);
+}
+
+.td-name-user {
+  font-size: 0.9rem;
+}
+.td-email-user {
+  font-size: 0.75rem;
+}
 
 .status-active {
   color: var(--green-stand);
@@ -98,7 +107,6 @@
   font-weight: 500;
 }
 
-/* Estilos de error y carga */
 .status-message {
   padding: 1rem;
   text-align: center;

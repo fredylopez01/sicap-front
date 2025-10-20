@@ -1,4 +1,5 @@
 .btn-record-details {
+  cursor: pointer;
   background-color: transparent;
   color: rgb(29, 27, 27);
 }

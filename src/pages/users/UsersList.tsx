@@ -1,19 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./UsersList.css";
-import { ApiResponse } from "@/interfaces";
+import { ApiResponse, User } from "@/interfaces";
 import { apiRequest } from "@/services";
-
-// Interfaz para un solo usuario, basándose en los datos proporcionados
-interface User {
-  id: number;
-  email: string;
-  role: "ADMIN" | "USER" | string;
-  isActive: boolean;
-  createdAt: string;
-  updatedAt: string;
-  lastLogin: string;
-}
+import { CircleUserRound, Plus } from "lucide-react";
+import { EditUserModal } from "./EditUserForm/EditUserModal";
 
 export function UsersList() {
   const navigate = useNavigate();
@@ -65,13 +56,27 @@ export function UsersList() {
     });
   };
 
+  const updatedUser = (updatedUser: User) => {
+    setUsers((prevUsers) =>
+      prevUsers.map((user) => {
+        if (user.id === updatedUser.id) {
+          return updatedUser;
+        }
+        return user;
+      })
+    );
+  };
+
   return (
     <div className="users-page-container">
       {/* Header de la página */}
       <header className="page-header">
         <h1 className="header-title">Gestión de Usuarios</h1>
-        <button className="create-button" onClick={handleRedirectNewUser}>
-          Crear usuario
+        <button
+          className="create-button flex items-center"
+          onClick={handleRedirectNewUser}
+        >
+          <Plus size={19} /> Crear usuario
         </button>
       </header>
 
@@ -86,19 +91,32 @@ export function UsersList() {
               <table className="users-table">
                 <thead>
                   <tr>
-                    <th>ID</th>
-                    <th>Email</th>
+                    <th>Nombre</th>
+                    <th>Teléfono</th>
                     <th>Rol</th>
                     <th>Estado</th>
                     <th>Último Acceso</th>
                     <th>Registro</th>
+                    <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
                   {users.map((user) => (
                     <tr key={user.id} className="table-row">
-                      <td data-label="ID">{user.id}</td>
-                      <td data-label="Email">{user.email}</td>
+                      <td data-label="Email">
+                        <div className="flex items-center gap-1">
+                          <div className="td-user-avatar-icon">
+                            <CircleUserRound size={40} strokeWidth={0.5} />
+                          </div>
+                          <div className="flex flex-col">
+                            <div className="td-name-user">
+                              {user.names + " " + user.lastNames}
+                            </div>
+                            <div className="td-email-user">{user.email}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td data-label="Phone">{user.phone}</td>
                       <td
                         data-label="Rol"
                         className={`role-${user.role.toLowerCase()}`}
@@ -114,10 +132,16 @@ export function UsersList() {
                         {user.isActive ? "Activo" : "Inactivo"}
                       </td>
                       <td data-label="Último Acceso">
-                        {formatDateTime(user.lastLogin)}
+                        {formatDateTime(user.lastLogin || "")}
                       </td>
                       <td data-label="Registro">
                         {formatDateTime(user.createdAt)}
+                      </td>
+                      <td>
+                        <EditUserModal
+                          user={user}
+                          onUserUpdated={updatedUser}
+                        />
                       </td>
                     </tr>
                   ))}
