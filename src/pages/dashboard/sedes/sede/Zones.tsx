@@ -84,6 +84,35 @@ export default function Zonas() {
     fetchData();
   }, [branchId]);
 
+  // Función para eliminar la sede
+  const handleDeleteBranch = async (id: number) => {
+    if (
+      !window.confirm(
+        "¿Deseas eliminar esta sede? Esta acción no se puede deshacer."
+      )
+    )
+      return;
+
+    try {
+      setLoading(true);
+      const response: ApiResponse<null> = await apiRequest(
+        `/api/branches/${id}`,
+        "DELETE"
+      );
+      if (response.success) {
+        alert("Sede eliminada correctamente");
+        navigate("/dashboard/sedes"); // Redirige a la lista de sedes
+      } else {
+        alert(response.message || "Error al eliminar la sede");
+      }
+    } catch (err: any) {
+      console.error("Error al eliminar sede:", err);
+      alert(err.message || "Error de conexión al eliminar la sede");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Obtener nombre del tipo de vehículo
   const getVehicleTypeName = (vehicleTypeId: number): string => {
     const type = vehicleTypes.find((vt) => vt.id === vehicleTypeId);
@@ -126,6 +155,7 @@ export default function Zonas() {
           handleBack={handleBack}
           handleRedirectNewZone={handleRedirectNewZone}
           zonasCount={zones.length}
+          onDeleteBranch={handleDeleteBranch}
         />
       </div>
 

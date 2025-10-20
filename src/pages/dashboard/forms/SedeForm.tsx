@@ -39,8 +39,6 @@ export default function SedeForm() {
       city: data.ciudad,
       department: data.departamento,
       phone: data.telefono,
-      openingTime: `1970-01-01T${data.horario_apertura}:00.000Z`,
-      closingTime: `1970-01-01T${data.horario_cierre}:00.000Z`,
     };
 
     console.log(sedeData);

@@ -8,13 +8,25 @@ interface HeaderProps {
   handleBack: () => void;
   handleRedirectNewZone?: () => void;
   zonasCount?: number;
+  onDeleteBranch?: (branchId: number) => void; // <-- nueva prop
 }
 
 export default function Header({
   branch,
   handleBack,
   zonasCount = 0,
+  onDeleteBranch,
 }: HeaderProps) {
+  const handleDeleteClick = () => {
+    if (!branch) return;
+
+    if (window.confirm(`¿Deseas eliminar la sede "${branch.name}"?`)) {
+      if (onDeleteBranch) {
+        onDeleteBranch(branch.id);
+      }
+    }
+  };
+
   return (
     <div>
       <div className="branch-top">
@@ -27,15 +39,17 @@ export default function Header({
         <h2 className="branch-title">{branch?.name || "Sede principal"}</h2>
 
         <div className="branch-content">
-          {/* Columna 1: Botones */}
           <div className="branch-column">
             <BranchSheet branch={branch}></BranchSheet>
-            <Button size="sm" variant="destructive">
+            <Button
+              size="sm"
+              variant="destructive"
+              onClick={handleDeleteClick} // <-- aquí se llama
+            >
               Eliminar sede
             </Button>
           </div>
 
-          {/* Columna 2: Dirección y Departamento */}
           <div className="branch-column">
             <p>
               <strong>Dirección:</strong> {branch?.address || "—"}
@@ -45,7 +59,6 @@ export default function Header({
             </p>
           </div>
 
-          {/* Columna 3: Ciudad y Teléfono */}
           <div className="branch-column">
             <p>
               <strong>Ciudad:</strong> {branch?.city || "—"}
