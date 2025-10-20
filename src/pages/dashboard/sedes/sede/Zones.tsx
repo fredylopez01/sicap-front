@@ -5,7 +5,7 @@ import { Zone, VehicleType, Branch } from "@/interfaces/zona";
 import { apiRequest } from "@/services";
 import Header from "./components/Header/Header";
 import ZonesContent from "./components/ZonesContent/ZonesContent";
-import Schedule from "./components/Schedule/Schedule";
+import Schedule from "./components/ScheduleContent/ScheduleContent";
 import VehicleTypesContent from "./components/VehicleTypesContent/VehicleTypesContent";
 import "./Zones.css";
 
