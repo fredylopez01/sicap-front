@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { MoreVertical } from "lucide-react";
 import {
   Dialog,
   DialogClose,
@@ -15,6 +16,7 @@ import { ApiResponse } from "@/interfaces";
 import {
   Schedule,
   CreateScheduleRequest,
+  UpdateScheduleRequest,
   DayOfWeek,
   DAY_OPTIONS,
 } from "@/interfaces/Schedule";
@@ -22,30 +24,41 @@ import { InputField } from "@/components/InputField/InputField";
 import { showAlert } from "@/utils/alerts";
 
 interface ScheduleDialogFormProps {
-  branchIdProp?: number;
+  branchIdProp: number;
   onScheduleCreated?: (schedule: Schedule) => void;
+  onScheduleUpdated?: (schedule: Schedule) => void;
+  isEditing?: boolean;
+  scheduleToEdit?: Schedule; // Schedule existente para editar
 }
 
 export default function ScheduleDialogForm({
   branchIdProp,
   onScheduleCreated,
+  onScheduleUpdated,
+  isEditing = false,
+  scheduleToEdit,
 }: ScheduleDialogFormProps) {
-  const [dayOfWeek, setDayOfWeek] = useState<DayOfWeek | "">("");
-  const [openingTime, setOpeningTime] = useState("");
-  const [closingTime, setClosingTime] = useState("");
+  const [dayOfWeek, setDayOfWeek] = useState<DayOfWeek | "">("monday");
+  const [openingTime, setOpeningTime] = useState<string>("");
+  const [closingTime, setClosingTime] = useState<string>("");
   const [isActive, setIsActive] = useState(true);
   const [open, setOpen] = useState(false);
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Opciones para el select de día
+  // Cargar datos si está en modo edición
+  useEffect(() => {
+    if (isEditing && scheduleToEdit && open) {
+      setDayOfWeek(scheduleToEdit.dayOfWeek);
+      setIsActive(scheduleToEdit.isActive);
+    }
+  }, [isEditing, scheduleToEdit, open]);
+
   const dayOptions = DAY_OPTIONS.map((day) => ({
     value: day.value,
     label: day.label,
   }));
 
-  // Opciones para el select de estado
   const statusOptions = [
     { value: "true", label: "Activo" },
     { value: "false", label: "Inactivo" },
@@ -53,25 +66,21 @@ export default function ScheduleDialogForm({
 
   // Validaciones
   const validateForm = (): boolean => {
-    if (!dayOfWeek) {
+    if (!isEditing && !dayOfWeek) {
       setError("El día de la semana es requerido");
       showAlert("El día de la semana es requerido", "error");
       return false;
     }
-
     if (!openingTime) {
       setError("La hora de apertura es requerida");
       showAlert("La hora de apertura es requerida", "error");
       return false;
     }
-
     if (!closingTime) {
       setError("La hora de cierre es requerida");
       showAlert("La hora de cierre es requerida", "error");
       return false;
     }
-
-    // Validar que la hora de cierre sea mayor que la de apertura
     if (closingTime <= openingTime) {
       setError("La hora de cierre debe ser posterior a la hora de apertura");
       showAlert(
@@ -80,13 +89,11 @@ export default function ScheduleDialogForm({
       );
       return false;
     }
-
-    if (!branchIdProp) {
+    if (!branchIdProp && !isEditing) {
       setError("No se ha especificado la sede");
       showAlert("No se ha especificado la sede", "error");
       return false;
     }
-
     return true;
   };
 
@@ -99,17 +106,16 @@ export default function ScheduleDialogForm({
     setError(null);
   };
 
-  // Crear horario
+  // Crear nuevo horario
   const onCreateSchedule = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!validateForm()) return;
 
     const payload: CreateScheduleRequest = {
-      branchId: branchIdProp ?? 0,
+      branchId: branchIdProp,
       dayOfWeek: dayOfWeek as DayOfWeek,
-      openingTime: `${openingTime}:00`, // Convertir "HH:mm" a "HH:mm:ss"
-      closingTime: `${closingTime}:00`,
+      openingTime: openingTime,
+      closingTime: closingTime,
     };
 
     try {
@@ -124,26 +130,78 @@ export default function ScheduleDialogForm({
 
       if (response.success && response.data) {
         showAlert("Horario creado correctamente", "success");
-
-        // Callback para actualizar la lista en el componente padre
-        if (onScheduleCreated) {
-          onScheduleCreated(response.data);
-        }
-
-        // Limpiar y cerrar
+        if (onScheduleCreated) onScheduleCreated(response.data);
         resetForm();
         setOpen(false);
       } else {
         setError(response.message || "Error al crear el horario");
         showAlert("Error al crear el horario: " + response.message, "error");
       }
-    } catch (error: any) {
-      console.error("Error en la creación:", error);
-      const errorMessage = error.message || "Error de conexión con el servidor";
+    } catch (err: any) {
+      console.error("Error en la creación:", err);
+      const errorMessage = err.message || "Error de conexión con el servidor";
       setError(errorMessage);
       showAlert(errorMessage, "error");
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Actualizar horario existente
+  const onUpdateSchedule = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+
+    if (!scheduleToEdit) {
+      setError("No se ha especificado el horario a actualizar");
+      showAlert("No se ha especificado el horario a actualizar", "error");
+      return;
+    }
+
+    const payload: UpdateScheduleRequest = {
+      openingTime: openingTime,
+      closingTime: closingTime,
+      isActive: isActive,
+    };
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      const response: ApiResponse<Schedule> = await apiRequest<Schedule>(
+        `/api/schedules/${scheduleToEdit.id}`,
+        "PUT",
+        payload
+      );
+
+      if (response.success && response.data) {
+        showAlert("Horario actualizado correctamente", "success");
+        if (onScheduleUpdated) onScheduleUpdated(response.data);
+        resetForm();
+        setOpen(false);
+      } else {
+        setError(response.message || "Error al actualizar el horario");
+        showAlert(
+          "Error al actualizar el horario: " + response.message,
+          "error"
+        );
+      }
+    } catch (err: any) {
+      console.error("Error en la actualización:", err);
+      const errorMessage = err.message || "Error de conexión con el servidor";
+      setError(errorMessage);
+      showAlert(errorMessage, "error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Manejar envío del formulario
+  const handleSubmit = (e: React.FormEvent) => {
+    if (isEditing) {
+      onUpdateSchedule(e);
+    } else {
+      onCreateSchedule(e);
     }
   };
 
@@ -158,15 +216,25 @@ export default function ScheduleDialogForm({
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <Button variant="default">Crear Horario</Button>
+        {isEditing ? (
+          <button className="w-10 p-2 rounded-md bg-gray-200 hover:bg-gray-300 flex items-center justify-center">
+            <MoreVertical className="w-5 h-5" />
+          </button>
+        ) : (
+          <Button variant="default">Crear Horario</Button>
+        )}
       </DialogTrigger>
 
       <DialogContent className="w-[340px] sm:w-[400px]">
-        <form onSubmit={onCreateSchedule}>
+        <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>Crear Horario</DialogTitle>
+            <DialogTitle>
+              {isEditing ? "Editar Horario" : "Crear Horario"}
+            </DialogTitle>
             <DialogDescription>
-              Configura el horario de atención para un día de la semana.
+              {isEditing
+                ? "Modifica el horario de atención."
+                : "Configura el horario de atención para un día de la semana."}
             </DialogDescription>
           </DialogHeader>
 
@@ -177,18 +245,36 @@ export default function ScheduleDialogForm({
           )}
 
           <div className="grid mt-2 gap-3">
-            {/* Día de la semana */}
-            <InputField
-              id="dayOfWeek"
-              label="Día de la semana *"
-              type="select"
-              value={dayOfWeek}
-              onChange={(e) => {
-                setDayOfWeek(e.target.value as DayOfWeek);
-                setError(null);
-              }}
-              options={dayOptions}
-            />
+            {/* Día de la semana - Solo en modo crear */}
+            {!isEditing && (
+              <InputField
+                id="dayOfWeek"
+                label="Día de la semana *"
+                type="select"
+                value={dayOfWeek}
+                onChange={(e) => {
+                  setDayOfWeek(e.target.value as DayOfWeek);
+                  setError(null);
+                }}
+                options={dayOptions}
+              />
+            )}
+
+            {/* Mostrar día en modo edición (no editable) */}
+            {isEditing && scheduleToEdit && (
+              <div className="flex flex-col gap-1">
+                <label className="text-sm font-medium text-gray-700">
+                  Día de la semana
+                </label>
+                <div className="px-3 py-2 bg-gray-100 rounded border border-gray-300 text-gray-700 font-medium">
+                  {DAY_OPTIONS.find((d) => d.value === scheduleToEdit.dayOfWeek)
+                    ?.label || scheduleToEdit.dayOfWeek}
+                </div>
+                <p className="text-xs text-gray-500">
+                  El día no se puede modificar
+                </p>
+              </div>
+            )}
 
             {/* Hora de apertura */}
             <InputField
@@ -222,17 +308,19 @@ export default function ScheduleDialogForm({
             )}
 
             {/* Estado */}
-            <InputField
-              id="isActive"
-              label="Estado"
-              type="select"
-              value={isActive.toString()}
-              onChange={(e) => {
-                setIsActive(e.target.value === "true");
-                setError(null);
-              }}
-              options={statusOptions}
-            />
+            {isEditing && (
+              <InputField
+                id="isActive"
+                label="Estado"
+                type="select"
+                value={isActive.toString()}
+                onChange={(e) => {
+                  setIsActive(e.target.value === "true");
+                  setError(null);
+                }}
+                options={statusOptions}
+              />
+            )}
           </div>
 
           <DialogFooter className="mt-4">
@@ -242,7 +330,13 @@ export default function ScheduleDialogForm({
               </Button>
             </DialogClose>
             <Button type="submit" disabled={loading}>
-              {loading ? "Creando..." : "Crear horario"}
+              {loading
+                ? isEditing
+                  ? "Guardando..."
+                  : "Creando..."
+                : isEditing
+                ? "Guardar cambios"
+                : "Crear horario"}
             </Button>
           </DialogFooter>
         </form>

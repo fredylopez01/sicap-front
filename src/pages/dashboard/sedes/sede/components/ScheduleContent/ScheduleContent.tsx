@@ -54,6 +54,15 @@ export default function ScheduleContent() {
     setSchedules((prev) => sortSchedulesByDay([...prev, newSchedule]));
   };
 
+  // Callback cuando se actualiza un horario
+  const handleScheduleUpdated = (updatedSchedule: Schedule) => {
+    setSchedules((prev) =>
+      sortSchedulesByDay(
+        prev.map((s) => (s.id === updatedSchedule.id ? updatedSchedule : s))
+      )
+    );
+  };
+
   // Ordenar horarios por día de la semana
   const sortSchedulesByDay = (schedules: Schedule[]): Schedule[] => {
     const dayOrder: DayOfWeek[] = [
@@ -78,9 +87,11 @@ export default function ScheduleContent() {
 
   // Formatear rango de horario
   const formatTimeRange = (schedule: Schedule): string => {
-    return `${formatTime(schedule.openingTime)} - ${formatTime(
-      schedule.closingTime
-    )}`;
+    console.log(schedule);
+
+    return `${formatTime(
+      schedule.openingTime.split("T")[1].split(".")[0]
+    )} - ${formatTime(schedule.closingTime.split("T")[1].split(".")[0])}`;
   };
 
   // Obtener color del estado
@@ -103,7 +114,7 @@ export default function ScheduleContent() {
           </p>
         </div>
         <ScheduleDialogForm
-          branchIdProp={branchId ? Number(branchId) : undefined}
+          branchIdProp={Number(branchId)}
           onScheduleCreated={handleScheduleCreated}
         />
       </div>
@@ -148,13 +159,22 @@ export default function ScheduleContent() {
                 <h3 className="schedule-day">
                   {DAY_NAMES[schedule.dayOfWeek]}
                 </h3>
-                <span
-                  className={`schedule-status ${getStatusColor(
-                    schedule.isActive
-                  )}`}
-                >
-                  {getStatusText(schedule.isActive)}
-                </span>
+                <div className="header-actions">
+                  <span
+                    className={`schedule-status ${getStatusColor(
+                      schedule.isActive
+                    )}`}
+                  >
+                    {getStatusText(schedule.isActive)}
+                  </span>
+                  {/* Botón de editar */}
+                  <ScheduleDialogForm
+                    branchIdProp={Number(branchId)}
+                    isEditing={true}
+                    scheduleToEdit={schedule}
+                    onScheduleUpdated={handleScheduleUpdated}
+                  />
+                </div>
               </div>
 
               <div className="schedule-info">

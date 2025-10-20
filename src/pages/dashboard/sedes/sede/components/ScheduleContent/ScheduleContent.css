@@ -153,6 +153,12 @@
   gap: 0.5rem;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .schedule-day {
   font-size: 1rem;
   font-weight: 600;
