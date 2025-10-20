@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/dialog";
 import { apiRequest } from "@/services";
 import { ApiResponse, ParkingRecordFiltered } from "@/interfaces";
-import { Space, Zone } from "@/interfaces/zona";
 import "./RecordDetailsModal.css";
 import { Ellipsis, Loader2 } from "lucide-react";
 import { RecordInfo } from "./RecordInfo";
@@ -22,74 +21,7 @@ interface props {
 }
 
 export function RecordDetailsModal({ record, onRecordUpdated }: props) {
-  const [zoneId, setZoneId] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [zones, setZones] = useState<Zone[]>([]);
-  const [spaces, setSpaces] = useState<Space[]>([]);
-  const [error, setError] = useState<string | null>(null);
-
-  //Obtener zonas
-  useEffect(() => {
-    const fetchVehicleTypes = async () => {
-      try {
-        setError(null);
-
-        const result: ApiResponse<Zone[]> = await apiRequest(
-          `/api/zones/${record.branchId}`,
-          "GET"
-        );
-
-        if (result.success && result.data) {
-          setZones(result.data);
-          if (result.data.length > 0) {
-            setZoneId(result.data[0].id);
-          } else {
-            setZoneId(0);
-          }
-        } else {
-          setError(result.message || "Error al cargar zonas");
-        }
-      } catch (err: any) {
-        console.error("Error al cargar vehicleTypes:", err);
-        setError(err.message || "Error de conexión con el servidor");
-      } finally {
-      }
-    };
-
-    fetchVehicleTypes();
-  }, []);
-
-  //Obtener espacios
-  useEffect(() => {
-    const fetchVehicleTypes = async () => {
-      try {
-        setError(null);
-        const result: ApiResponse<Space[]> = await apiRequest(
-          `/api/spaces/${zoneId}`,
-          "GET"
-        );
-
-        if (result.success && result.data) {
-          setSpaces(result.data);
-        } else {
-          setError(result.message || "Error al cargar zonas");
-        }
-      } catch (err: any) {
-        console.error("Error al cargar zonas:", err);
-        setError(err.message || "Error de conexión con el servidor");
-      }
-    };
-
-    fetchVehicleTypes();
-  }, [zoneId, zones]);
-
-  const spaceOptions = spaces.map((space) => ({
-    id: space.id,
-    spaceNumber:
-      space.spaceNumber +
-      "  " +
-      (space.physicalStatus === "available" ? "Disponible" : "No disponible"),
-  }));
 
   const handleSave = async (
     id: number,
@@ -162,12 +94,7 @@ export function RecordDetailsModal({ record, onRecordUpdated }: props) {
               </DialogDescription>
             </DialogHeader>
 
-            <RecordInfo
-              record={record}
-              spaces={spaceOptions}
-              onSave={handleSave}
-            />
-            <span>{error}</span>
+            <RecordInfo record={record} onSave={handleSave} />
           </DialogContent>
         )}
       </form>

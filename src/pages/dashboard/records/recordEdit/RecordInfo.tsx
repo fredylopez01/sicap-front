@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Car,
   Clock,
@@ -10,21 +10,19 @@ import {
   X,
 } from "lucide-react";
 import "./RecordInfo.css";
-import { ParkingRecordFiltered } from "@/interfaces";
+import { ApiResponse, ParkingRecordFiltered } from "@/interfaces";
+import { Space, Zone } from "@/interfaces/zona";
+import { apiRequest } from "@/services";
 
 interface ParkingInfoProps {
   record: ParkingRecordFiltered;
+  zones?: Array<{ id: number; zoneName: string }>;
   spaces?: Array<{ id: number; spaceNumber: string }>;
   onSave?: (id: number, updatedRecord: Partial<ParkingRecordFiltered>) => void;
   onCancel?: () => void;
 }
 
-export function RecordInfo({
-  record,
-  spaces = [],
-  onSave,
-  onCancel,
-}: ParkingInfoProps) {
+export function RecordInfo({ record, onSave, onCancel }: ParkingInfoProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedData, setEditedData] = useState({
     licensePlate: record.licensePlate,
@@ -33,6 +31,65 @@ export function RecordInfo({
     parkedHours: record.parkedHours || "",
     observations: record.observations,
   });
+  const [zoneId, setZoneId] = useState(0);
+  const [zones, setZones] = useState<Zone[]>([]);
+  const [spaces, setSpaces] = useState<Space[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  //Obtener zonas
+  useEffect(() => {
+    const fetchVehicleTypes = async () => {
+      try {
+        setError(null);
+
+        const result: ApiResponse<Zone[]> = await apiRequest(
+          `/api/zones/${record.branchId}`,
+          "GET"
+        );
+
+        if (result.success && result.data) {
+          setZones(result.data);
+          if (result.data.length > 0) {
+            setZoneId(result.data[0].id);
+          } else {
+            setZoneId(0);
+          }
+        } else {
+          setError(result.message || "Error al cargar zonas");
+        }
+      } catch (err: any) {
+        console.error("Error al cargar vehicleTypes:", err);
+        setError(err.message || "Error de conexión con el servidor");
+      } finally {
+      }
+    };
+
+    fetchVehicleTypes();
+  }, []);
+
+  //Obtener espacios
+  useEffect(() => {
+    const fetchVehicleTypes = async () => {
+      try {
+        setError(null);
+        const result: ApiResponse<Space[]> = await apiRequest(
+          `/api/spaces/${zoneId}`,
+          "GET"
+        );
+
+        if (result.success && result.data) {
+          setSpaces(result.data);
+        } else {
+          setError(result.message || "Error al cargar zonas");
+        }
+      } catch (err: any) {
+        console.error("Error al cargar zonas:", err);
+        setError(err.message || "Error de conexión con el servidor");
+      }
+    };
+
+    fetchVehicleTypes();
+  }, [zoneId, zones]);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -124,6 +181,25 @@ export function RecordInfo({
           </div>
           <div className="pr-header-right">
             <div className="pr-space-info flex gap-3 items-center">
+              {isEditing && (
+                <>
+                  <p className="pr-space-label">Zona</p>
+                  <select
+                    value={zoneId}
+                    onChange={(e) => setZoneId(Number(e.target.value))}
+                    className="pr-select-space"
+                  >
+                    <option value={0} disabled selected>
+                      Selecciona
+                    </option>
+                    {zones.map((zone) => (
+                      <option key={zone.id} value={zone.id}>
+                        {zone.name}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              )}
               <p className="pr-space-label">Espacio</p>
               {isEditing ? (
                 <select
@@ -289,6 +365,7 @@ export function RecordInfo({
           </button>
         </div>
       )}
+      <span>{error}</span>
     </div>
   );
 }
