@@ -1,20 +1,23 @@
 import { Zone } from "@/interfaces/zona";
 import { Button } from "@/components/ui/button";
+import ZoneDialogForm from "../Dialog/ZoneForm/ZoneDialogForm";
 import "./ZoneCard.css";
 
 interface ZoneCardProps {
   zone: Zone;
   vehicleTypeName: string;
   vehicleTypeRate: number;
-  onUpdateZone?: (id: number) => void;
+  onUpdateZone?: (updatedZone: Zone) => void;
   onDelete?: (id: number) => void;
   onRedirect?: (id: number) => void;
 }
+
 export default function ZoneCard({
   zone,
   vehicleTypeName,
   vehicleTypeRate,
   onRedirect,
+  onUpdateZone,
 }: ZoneCardProps) {
   return (
     <div className="zone-card">
@@ -29,9 +32,22 @@ export default function ZoneCard({
       </div>
 
       <div className="action-section">
-        <Button onClick={() => onRedirect && onRedirect(zone.id)}>
-          Ir a la zona
-        </Button>
+        <div>
+          {/* Botón de edición (usa el formulario en modo edición) */}
+          <ZoneDialogForm
+            isEditing={true}
+            zoneToEdit={zone}
+            onZoneUpdated={(updatedZone) =>
+              onUpdateZone && onUpdateZone(updatedZone)
+            }
+          />
+        </div>
+        <div>
+          {/* Botón de redirección */}
+          <Button onClick={() => onRedirect && onRedirect(zone.id)}>
+            Ir a la zona
+          </Button>
+        </div>
       </div>
     </div>
   );

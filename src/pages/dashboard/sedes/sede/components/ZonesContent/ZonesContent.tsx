@@ -17,6 +17,7 @@ interface ZonesContentProps {
   getVehicleTypeName: (vehicleTypeId: number) => string;
   getVehicleTypeRate: (vehicleTypeId: number) => number;
   formatDate: (dateString: string) => string;
+  onZoneCreated?: (newZone: Zone) => void;
 }
 
 export default function ZonesContent({
@@ -28,7 +29,12 @@ export default function ZonesContent({
   handleRedirectZone,
   getVehicleTypeName,
   getVehicleTypeRate,
+  onZoneCreated,
 }: ZonesContentProps) {
+  const handleZoneCreated = (newZone: Zone) => {
+    if (onZoneCreated) onZoneCreated(newZone);
+  };
+
   return (
     <div className="content-wrapper">
       <div className="zones-content-header">
@@ -40,7 +46,10 @@ export default function ZonesContent({
         </div>
 
         {branch ? (
-          <ZoneDialogForm branchIdProp={branch.id} />
+          <ZoneDialogForm
+            branchIdProp={Number(branch.id)}
+            onZoneCreated={handleZoneCreated}
+          />
         ) : (
           <Button disabled variant="outline">
             Cargando sede...
@@ -70,7 +79,10 @@ export default function ZonesContent({
               <h3>No hay zonas registradas</h3>
               <p>Crea la primera zona de parqueo para esta sede</p>
               {branch ? (
-                <ZoneDialogForm branchIdProp={branch.id} />
+                <ZoneDialogForm
+                  branchIdProp={branch.id}
+                  onZoneCreated={handleZoneCreated}
+                />
               ) : (
                 <Button disabled variant="outline">
                   Cargando sede...

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { MoreVertical } from "lucide-react";
 import {
   Dialog,
   DialogClose,
@@ -12,11 +13,11 @@ import {
 } from "@/components/ui/dialog";
 import { apiRequest } from "@/services";
 import { ApiResponse } from "@/interfaces";
-import { VehicleType } from "@/interfaces/zona";
+import { Zone, VehicleType } from "@/interfaces/zona";
 import { InputField } from "@/components/InputField/InputField";
 import { showAlert } from "@/utils/alerts";
 
-interface RequestData {
+interface CreateZoneRequest {
   branchId: number;
   name: string;
   vehicleTypeId: number;
@@ -24,11 +25,28 @@ interface RequestData {
   description: string;
 }
 
-interface ZoneDialogFormProps {
-  branchIdProp?: number;
+interface UpdateZoneRequest {
+  name?: string;
+  vehicleTypeId?: number;
+  totalCapacity?: number;
+  description?: string;
 }
 
-export default function ZoneDialogForm({ branchIdProp }: ZoneDialogFormProps) {
+interface ZoneDialogFormProps {
+  branchIdProp?: number;
+  onZoneCreated?: (zone: Zone) => void;
+  onZoneUpdated?: (zone: Zone) => void;
+  isEditing?: boolean;
+  zoneToEdit?: Zone;
+}
+
+export default function ZoneDialogForm({
+  branchIdProp,
+  onZoneCreated,
+  onZoneUpdated,
+  isEditing = false,
+  zoneToEdit,
+}: ZoneDialogFormProps) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [vehicleTypeId, setVehicleTypeId] = useState(0);
@@ -38,6 +56,16 @@ export default function ZoneDialogForm({ branchIdProp }: ZoneDialogFormProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
+
+  // Cargar datos si está en modo edición
+  useEffect(() => {
+    if (isEditing && zoneToEdit && open) {
+      setName(zoneToEdit.name);
+      setDescription(zoneToEdit.description || "");
+      setVehicleTypeId(zoneToEdit.vehicleTypeId);
+      setTotalCapacity(zoneToEdit.totalCapacity);
+    }
+  }, [isEditing, zoneToEdit, open]);
 
   // Obtener tipos de vehículo
   useEffect(() => {
@@ -49,8 +77,11 @@ export default function ZoneDialogForm({ branchIdProp }: ZoneDialogFormProps) {
           "/api/vehicleTypes",
           "GET"
         );
-        if (result.success && result.data) setVehicleTypes(result.data);
-        else setError(result.message || "Error al cargar tipos de vehículo");
+        if (result.success && result.data) {
+          setVehicleTypes(result.data);
+        } else {
+          setError(result.message || "Error al cargar tipos de vehículo");
+        }
       } catch (err: any) {
         console.error("Error al cargar vehicleTypes:", err);
         setError(err.message || "Error de conexión con el servidor");
@@ -81,7 +112,7 @@ export default function ZoneDialogForm({ branchIdProp }: ZoneDialogFormProps) {
 
   // Validaciones
   const validateForm = (): boolean => {
-    if (!branchIdProp) {
+    if (!branchIdProp && !isEditing) {
       setError("No se ha especificado la sede");
       showAlert("No se ha especificado la sede", "error");
       return false;
@@ -129,53 +160,128 @@ export default function ZoneDialogForm({ branchIdProp }: ZoneDialogFormProps) {
     return true;
   };
 
+  // Crear nueva zona
   const onCreateZone = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
 
-    const payload: RequestData = {
+    const payload: CreateZoneRequest = {
       branchId: branchIdProp!,
-      name,
+      name: name.trim(),
       vehicleTypeId,
       totalCapacity,
-      description,
+      description: description.trim(),
     };
 
     try {
       setLoading(true);
-      const response: ApiResponse<any> = await apiRequest(
+      setError(null);
+
+      const response: ApiResponse<Zone> = await apiRequest<Zone>(
         "/api/zones",
         "POST",
         payload
       );
-      if (response.success) {
+
+      if (response.success && response.data) {
         showAlert("Zona creada correctamente", "success");
+        if (onZoneCreated) onZoneCreated(response.data);
+        resetForm();
         setOpen(false);
       } else {
+        setError(response.message || "Error al crear la zona");
         showAlert("Error al crear la zona: " + response.message, "error");
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error en la creación:", err);
-      showAlert("Error de conexión con el servidor", "error");
+      const errorMessage = err.message || "Error de conexión con el servidor";
+      setError(errorMessage);
+      showAlert(errorMessage, "error");
     } finally {
       setLoading(false);
     }
   };
 
+  // Actualizar zona existente
+  const onUpdateZone = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+
+    if (!zoneToEdit) {
+      setError("No se ha especificado la zona a actualizar");
+      showAlert("No se ha especificado la zona a actualizar", "error");
+      return;
+    }
+
+    const payload: UpdateZoneRequest = {
+      name: name.trim(),
+      vehicleTypeId,
+      totalCapacity,
+      description: description.trim(),
+    };
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      const response: ApiResponse<Zone> = await apiRequest<Zone>(
+        `/api/zones/${zoneToEdit.id}`,
+        "PUT",
+        payload
+      );
+
+      if (response.success && response.data) {
+        showAlert("Zona actualizada correctamente", "success");
+        if (onZoneUpdated) onZoneUpdated(response.data);
+        resetForm();
+        setOpen(false);
+      } else {
+        setError(response.message || "Error al actualizar la zona");
+        showAlert("Error al actualizar la zona: " + response.message, "error");
+      }
+    } catch (err: any) {
+      console.error("Error en la actualización:", err);
+      const errorMessage = err.message || "Error de conexión con el servidor";
+      setError(errorMessage);
+      showAlert(errorMessage, "error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Manejar envío del formulario
+  const handleSubmit = (e: React.FormEvent) => {
+    if (isEditing) {
+      onUpdateZone(e);
+    } else {
+      onCreateZone(e);
+    }
+  };
+
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <form onSubmit={onCreateZone}>
-        <DialogTrigger asChild>
+      <DialogTrigger asChild>
+        {isEditing ? (
+          <button className="w-10 p-2 rounded-md bg-gray-200 hover:bg-gray-300 flex items-center justify-center">
+            <MoreVertical className="w-5 h-5" />
+          </button>
+        ) : (
           <Button variant="default" disabled={!branchIdProp}>
             Crear Zona
           </Button>
-        </DialogTrigger>
+        )}
+      </DialogTrigger>
 
-        <DialogContent className="w-[340px] sm:w-[400px]">
+      <DialogContent className="w-[340px] sm:w-[400px]">
+        <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>Crear Zona</DialogTitle>
+            <DialogTitle>
+              {isEditing ? "Editar Zona" : "Crear Zona"}
+            </DialogTitle>
             <DialogDescription>
-              Completa los datos para crear una nueva zona en tu parqueadero.
+              {isEditing
+                ? "Modifica la información de la zona."
+                : "Completa los datos para crear una nueva zona en tu parqueadero."}
             </DialogDescription>
           </DialogHeader>
 
@@ -186,9 +292,10 @@ export default function ZoneDialogForm({ branchIdProp }: ZoneDialogFormProps) {
           )}
 
           <div className="grid mt-2 gap-3">
+            {/* Nombre */}
             <InputField
               id="name"
-              label="Nombre"
+              label="Nombre *"
               value={name}
               onChange={(e) => {
                 setName(e.target.value);
@@ -197,6 +304,7 @@ export default function ZoneDialogForm({ branchIdProp }: ZoneDialogFormProps) {
               placeholder="Ej. Zona A"
             />
 
+            {/* Descripción */}
             <InputField
               id="description"
               label="Descripción"
@@ -208,9 +316,10 @@ export default function ZoneDialogForm({ branchIdProp }: ZoneDialogFormProps) {
               placeholder="Ej. Zona norte del parqueadero"
             />
 
+            {/* Tipo de vehículo */}
             <InputField
               id="vehicleTypeId"
-              label="Tipo de vehículo"
+              label="Tipo de vehículo *"
               type="select"
               value={vehicleTypeId.toString()}
               onChange={(e) => {
@@ -220,16 +329,26 @@ export default function ZoneDialogForm({ branchIdProp }: ZoneDialogFormProps) {
               options={vehicleOptions}
             />
 
-            <InputField
-              id="totalCapacity"
-              label="Capacidad total"
-              type="number"
-              value={totalCapacity.toString()}
-              onChange={(e) => {
-                setTotalCapacity(Number(e.target.value));
-                setError(null);
-              }}
-            />
+            {/* Capacidad total */}
+            <div>
+              <InputField
+                id="totalCapacity"
+                label="Capacidad total *"
+                type="number"
+                value={totalCapacity.toString()}
+                onChange={(e) => {
+                  setTotalCapacity(Number(e.target.value));
+                  setError(null);
+                }}
+                placeholder="Número de espacios"
+              />
+              {totalCapacity > 0 && (
+                <p className="text-xs text-green-600 mt-1">
+                  ✓ {isEditing ? "Capacidad actual" : "Se crearán"}{" "}
+                  {totalCapacity} espacio(s)
+                </p>
+              )}
+            </div>
           </div>
 
           <DialogFooter className="mt-4">
@@ -239,11 +358,17 @@ export default function ZoneDialogForm({ branchIdProp }: ZoneDialogFormProps) {
               </Button>
             </DialogClose>
             <Button type="submit" disabled={loading}>
-              {loading ? "Creando..." : "Crear zona"}
+              {loading
+                ? isEditing
+                  ? "Guardando..."
+                  : "Creando..."
+                : isEditing
+                ? "Guardar cambios"
+                : "Crear zona"}
             </Button>
           </DialogFooter>
-        </DialogContent>
-      </form>
+        </form>
+      </DialogContent>
     </Dialog>
   );
 }
