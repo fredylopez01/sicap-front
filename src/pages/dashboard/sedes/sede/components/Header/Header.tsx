@@ -31,10 +31,12 @@ export default function Header({
   return (
     <div>
       <div className="branch-header">
-        <div className="flex items-center gap3">
-          <Button className="btn-back-branches" size="sm" onClick={handleBack}>
-            <ArrowLeft size={20} />
-          </Button>
+        <div className="flex items-center gap-3">
+          <div className="cancel-btn-container">
+            <button type="button" className="cancel-btn" onClick={handleBack}>
+              <ArrowLeft />
+            </button>
+          </div>
           <h2 className="branch-title">{branch?.name || "Sede principal"}</h2>
         </div>
 
