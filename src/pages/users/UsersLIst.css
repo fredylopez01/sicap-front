@@ -100,11 +100,15 @@
 .status-active {
   color: var(--green-stand);
   font-weight: 600;
+  padding: 3px 12px;
+  border-radius: 16px;
 }
 
 .status-inactive {
   color: var(--neutral-gray);
   font-weight: 500;
+  padding: 3px 12px;
+  border-radius: 16px;
 }
 
 .btn-delete-user {

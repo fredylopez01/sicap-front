@@ -15,6 +15,7 @@ import { apiRequest } from "@/services";
 import { ApiResponse } from "@/interfaces";
 import { Branch, UpdateBranchRequest, BranchStatus } from "@/interfaces/Branch";
 import { showAlert } from "@/utils/alerts";
+import { EditIcon } from "lucide-react";
 
 interface BranchSheetProps {
   branch: Branch | null;
@@ -171,10 +172,10 @@ export default function BranchSheet({
         <Button
           size="sm"
           variant="default"
-          className="w-full"
+          className="w-full records-button-header btn-create-entry"
           disabled={!branch}
         >
-          {branch ? "Editar datos de sede" : "Cargando sede"}
+          <EditIcon /> {branch ? "Editar datos de sede" : "Cargando sede"}
         </Button>
       </SheetTrigger>
 

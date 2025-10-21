@@ -155,13 +155,14 @@ export function UsersList() {
                       >
                         {user.role}
                       </td>
-                      <td
-                        data-label="Estado"
-                        className={
-                          user.isActive ? "status-active" : "status-inactive"
-                        }
-                      >
-                        {user.isActive ? "Activo" : "Inactivo"}
+                      <td data-label="Estado">
+                        <span
+                          className={
+                            user.isActive ? "status-active" : "status-inactive"
+                          }
+                        >
+                          {user.isActive ? "Activo" : "Inactivo"}
+                        </span>
                       </td>
                       <td data-label="Último Acceso">
                         {formatDateTime(user.lastLogin || "")}

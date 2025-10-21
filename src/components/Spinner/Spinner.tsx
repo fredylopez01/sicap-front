@@ -1,5 +1,5 @@
 import "./Spinner.css";
 
 export function Spinner() {
-  return <div className="spinner"></div>;
+  return <div className="spinner-component"></div>;
 }

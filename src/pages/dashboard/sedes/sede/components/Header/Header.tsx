@@ -2,6 +2,7 @@ import { Branch } from "@/interfaces/zona";
 import { Button } from "@/components/ui/button";
 import BranchSheet from "../Sheet/BranchSheet";
 import "./Header.css";
+import { ArrowLeft, Trash2 } from "lucide-react";
 
 interface HeaderProps {
   branch: Branch | null;
@@ -29,23 +30,26 @@ export default function Header({
 
   return (
     <div>
-      <div className="branch-top">
-        <Button size="sm" variant="outline" onClick={handleBack}>
-          Volver a Sedes
-        </Button>
-      </div>
-
       <div className="branch-header">
-        <h2 className="branch-title">{branch?.name || "Sede principal"}</h2>
+        <div className="flex items-center gap-3">
+          <div className="cancel-btn-container">
+            <button type="button" className="cancel-btn" onClick={handleBack}>
+              <ArrowLeft />
+            </button>
+          </div>
+          <h2 className="branch-title">{branch?.name || "Sede principal"}</h2>
+        </div>
 
         <div className="branch-content">
           <div className="branch-column">
-            <BranchSheet branch={branch}></BranchSheet>
+            <BranchSheet branch={branch} />
             <Button
+              className="btn-exit-modal"
               size="sm"
-              variant="destructive"
+              variant="outline"
               onClick={handleDeleteClick} // <-- aquí se llama
             >
+              <Trash2 />
               Eliminar sede
             </Button>
           </div>

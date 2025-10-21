@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { MoreVertical } from "lucide-react";
+import { Ellipsis } from "lucide-react";
 import {
   Dialog,
   DialogClose,
@@ -217,8 +217,8 @@ export default function ScheduleDialogForm({
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         {isEditing ? (
-          <button className="w-10 p-2 rounded-md bg-gray-200 hover:bg-gray-300 flex items-center justify-center">
-            <MoreVertical className="w-5 h-5" />
+          <button className="w-10 p-1 rounded-md bg-gray-200 hover:bg-gray-300 flex items-center justify-center">
+            <Ellipsis className="w-4 h-4" />
           </button>
         ) : (
           <Button variant="default">Crear Horario</Button>

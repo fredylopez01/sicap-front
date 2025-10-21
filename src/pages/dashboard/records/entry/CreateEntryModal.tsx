@@ -118,9 +118,9 @@ export function CreateEntryModal() {
   const onCreateZone = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    if (licensePlate.length !== 6) {
+    if (licensePlate.trim().length >= 4 && licensePlate.trim().length <= 8) {
       showAlert(
-        "La placa es obligatoria y debe tener una longitud de 6 dígitos"
+        "La placa es obligatoria y debe tener una longitud de entre 4 y 8 dígitos"
       );
     } else {
       const payload: RequestData = {

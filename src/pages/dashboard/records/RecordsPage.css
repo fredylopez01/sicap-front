@@ -39,7 +39,7 @@
   background-color: var(--institutional-blue);
 }
 .btn-create-entry:hover {
-  background-color: var(--institutional-blue-hover);
+  background-color: var(--institutional-blue-hover) !important;
 }
 
 .btn-create-exit {

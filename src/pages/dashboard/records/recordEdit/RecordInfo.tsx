@@ -222,6 +222,7 @@ export function RecordInfo({ record, onSave, onCancel }: ParkingInfoProps) {
             </div>
             {!isEditing && (
               <button
+                disabled={record.exitDate !== null}
                 onClick={() => setIsEditing(true)}
                 className="pr-edit-button"
               >

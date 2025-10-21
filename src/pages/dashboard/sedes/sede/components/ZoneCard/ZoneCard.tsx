@@ -1,5 +1,4 @@
 import { Zone } from "@/interfaces/zona";
-import { Button } from "@/components/ui/button";
 import ZoneDialogForm from "../Dialog/ZoneForm/ZoneDialogForm";
 import "./ZoneCard.css";
 
@@ -16,7 +15,6 @@ export default function ZoneCard({
   zone,
   vehicleTypeName,
   vehicleTypeRate,
-  onRedirect,
   onUpdateZone,
 }: ZoneCardProps) {
   return (
@@ -31,24 +29,14 @@ export default function ZoneCard({
         <p className="zone-atribute">Capacidad: {zone.totalCapacity}</p>
       </div>
 
-      <div className="action-section">
-        <div>
-          {/* Botón de edición (usa el formulario en modo edición) */}
-          <ZoneDialogForm
-            isEditing={true}
-            zoneToEdit={zone}
-            onZoneUpdated={(updatedZone) =>
-              onUpdateZone && onUpdateZone(updatedZone)
-            }
-          />
-        </div>
-        <div>
-          {/* Botón de redirección */}
-          <Button onClick={() => onRedirect && onRedirect(zone.id)}>
-            Ir a la zona
-          </Button>
-        </div>
-      </div>
+      {/* Botón de edición (usa el formulario en modo edición) */}
+      <ZoneDialogForm
+        isEditing={true}
+        zoneToEdit={zone}
+        onZoneUpdated={(updatedZone) =>
+          onUpdateZone && onUpdateZone(updatedZone)
+        }
+      />
     </div>
   );
 }

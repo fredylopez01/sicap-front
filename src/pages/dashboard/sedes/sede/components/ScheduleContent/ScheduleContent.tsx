@@ -87,8 +87,6 @@ export default function ScheduleContent() {
 
   // Formatear rango de horario
   const formatTimeRange = (schedule: Schedule): string => {
-    console.log(schedule);
-
     return `${formatTime(
       schedule.openingTime.split("T")[1].split(".")[0]
     )} - ${formatTime(schedule.closingTime.split("T")[1].split(".")[0])}`;
@@ -122,7 +120,7 @@ export default function ScheduleContent() {
       {/* Estado de carga */}
       {loading && (
         <div className="loading-state">
-          <div className="spinner"></div>
+          <div className="spinner-schedule"></div>
           <p>Cargando horarios...</p>
         </div>
       )}

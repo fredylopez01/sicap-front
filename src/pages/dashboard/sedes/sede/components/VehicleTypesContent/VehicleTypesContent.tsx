@@ -89,7 +89,7 @@ export default function VehicleTypesContent() {
       {/* Estado de carga */}
       {loading && (
         <div className="loading-state">
-          <div className="spinner"></div>
+          <div className="spinner-vehicle-type "></div>
           <p>Cargando tipos de vehículo...</p>
         </div>
       )}
