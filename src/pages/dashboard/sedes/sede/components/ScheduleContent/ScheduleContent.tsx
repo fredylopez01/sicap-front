@@ -120,7 +120,7 @@ export default function ScheduleContent() {
       {/* Estado de carga */}
       {loading && (
         <div className="loading-state">
-          <div className="spinner"></div>
+          <div className="spinner-schedule"></div>
           <p>Cargando horarios...</p>
         </div>
       )}

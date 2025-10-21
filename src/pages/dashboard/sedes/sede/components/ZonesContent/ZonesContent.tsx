@@ -25,7 +25,6 @@ export default function ZonesContent({
   zones,
   loading,
   error,
-  handleRedirectNewZone,
   handleRedirectZone,
   getVehicleTypeName,
   getVehicleTypeRate,
@@ -59,7 +58,7 @@ export default function ZonesContent({
 
       {loading && (
         <div className="loading-state">
-          <div className="spinner"></div>
+          <div className="spinner-vehicle-type "></div>
           <p>Cargando zonas...</p>
         </div>
       )}
