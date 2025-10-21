@@ -1,6 +1,13 @@
 /* ====== Contenedor principal ====== */
 .branch-top {
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.3rem;
+}
+
+.btn-back-branches {
+  cursor: pointer;
+  background-color: transparent;
+  color: black;
+  font-size: 1.3rem;
 }
 
 /* ====== Cabecera principal ====== */
@@ -18,8 +25,7 @@
 .branch-title {
   font-size: 25px;
   font-weight: 600;
-  color: #1f2937; /* Título oscuro */
-  margin-bottom: 12px;
+  color: #1f2937;
 }
 
 /* ====== Contenido principal ====== */

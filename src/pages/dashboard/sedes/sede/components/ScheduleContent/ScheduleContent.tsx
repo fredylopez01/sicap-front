@@ -87,8 +87,6 @@ export default function ScheduleContent() {
 
   // Formatear rango de horario
   const formatTimeRange = (schedule: Schedule): string => {
-    console.log(schedule);
-
     return `${formatTime(
       schedule.openingTime.split("T")[1].split(".")[0]
     )} - ${formatTime(schedule.closingTime.split("T")[1].split(".")[0])}`;

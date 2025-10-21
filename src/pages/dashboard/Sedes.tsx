@@ -5,6 +5,7 @@ import { Sede } from "@/interfaces/sede"; // Asume que la interfaz Sede está de
 import "./Sedes.css"; // Importamos el archivo CSS
 import { ApiResponse } from "@/interfaces";
 import { apiRequest } from "@/services";
+import { MapPinned, MapPinPlus } from "lucide-react";
 
 export default function Sedes() {
   const navigate = useNavigate();
@@ -59,7 +60,10 @@ export default function Sedes() {
         </div>
 
         <div className="header-actions">
-          <Button onClick={handleRedirectNewSede}>Crear sede</Button>
+          <Button onClick={handleRedirectNewSede}>
+            <MapPinPlus />
+            Crear sede
+          </Button>
         </div>
       </header>
 
@@ -97,6 +101,7 @@ export default function Sedes() {
                   className="sede-list-item"
                   onClick={() => handleRedirectSede(sede.id)}
                 >
+                  <MapPinned strokeWidth={1.5} />
                   {sede.name}
                 </li>
               ))}

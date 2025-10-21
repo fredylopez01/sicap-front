@@ -6,6 +6,7 @@ import { ApiResponse, DailySummary, ParkingRecordFiltered } from "@/interfaces";
 import { showAlert } from "@/utils/alerts";
 import { apiRequest } from "@/services";
 import { useAuth } from "@/context/AuthContext";
+import { VehicleExitForm } from "../records/exit/VehicleExitForm";
 
 // Interfaz para la data de espacios (Existente)
 interface ParkingData {
@@ -127,9 +128,10 @@ export default function DashboardOverview() {
         <h2 className="overview-title">Resumen Operacional</h2>
         <div className="quick-actions">
           <CreateEntryModal />
-          <button className="action-button secondary-action">
+          {/* <button className="action-button secondary-action">
             Ver Mapa de Espacios
-          </button>
+          </button> */}
+          <VehicleExitForm />
         </div>
       </div>
 

@@ -196,7 +196,7 @@ export default function VehicleTypeDialogForm({
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         {isEditing ? (
-          <button className="w-10 p-2 rounded-md bg-gray-200 hover:bg-gray-300 flex items-center justify-center">
+          <button className="w-8 p-1 rounded-md bg-gray-200 hover:bg-gray-300 flex items-center justify-center">
             <MoreVertical className="w-5 h-5" />
           </button>
         ) : (

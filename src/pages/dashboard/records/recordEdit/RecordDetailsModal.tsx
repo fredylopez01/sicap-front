@@ -46,6 +46,7 @@ export function RecordDetailsModal({ record, onRecordUpdated }: props) {
           observations: apiResponseData.observations,
           spaceId: apiResponseData.spaceId,
           space: apiResponseData.space,
+          totalToPay: apiResponseData.totalToPay,
         };
 
         onRecordUpdated(partialUpdate);
@@ -66,38 +67,36 @@ export function RecordDetailsModal({ record, onRecordUpdated }: props) {
 
   return (
     <Dialog>
-      <form>
-        <DialogTrigger asChild>
-          <Button
-            variant={"default"}
-            className="btn-record-details"
-            size={"default"}
-          >
-            <Ellipsis />
-          </Button>
-        </DialogTrigger>
+      <DialogTrigger asChild>
+        <Button
+          variant={"default"}
+          className="btn-record-details"
+          size={"default"}
+        >
+          <Ellipsis />
+        </Button>
+      </DialogTrigger>
 
-        {loading ? (
-          <div className="loadingContainer-update-record">
-            <div className="loadingContent">
-              <Loader2 className="spinner-records" />
-              <p className="loadingText">Actualizando registro...</p>
-            </div>
+      {loading ? (
+        <div className="loadingContainer-update-record">
+          <div className="loadingContent">
+            <Loader2 className="spinner-records" />
+            <p className="loadingText">Actualizando registro...</p>
           </div>
-        ) : (
-          <DialogContent className="w-auto record-datails-modal-container">
-            <DialogHeader>
-              <DialogTitle>Información del registro</DialogTitle>
-              <DialogDescription>
-                Los campos de placa, espacio, horas de estacionamiento, tarifa y
-                observaciones pueden ser editadas.
-              </DialogDescription>
-            </DialogHeader>
+        </div>
+      ) : (
+        <DialogContent className="w-auto record-datails-modal-container">
+          <DialogHeader>
+            <DialogTitle>Información del registro</DialogTitle>
+            <DialogDescription>
+              Los campos de placa, espacio, horas de estacionamiento, tarifa y
+              observaciones pueden ser editadas.
+            </DialogDescription>
+          </DialogHeader>
 
-            <RecordInfo record={record} onSave={handleSave} />
-          </DialogContent>
-        )}
-      </form>
+          <RecordInfo record={record} onSave={handleSave} />
+        </DialogContent>
+      )}
     </Dialog>
   );
 }
