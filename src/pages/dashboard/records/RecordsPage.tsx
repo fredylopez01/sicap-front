@@ -9,9 +9,7 @@ export function RecordsPage() {
   const [showExitForm, setShowExitForm] = useState(false);
 
   const handleExitSuccess = () => {
-    // Aquí puedes recargar la lista de vehículos activos o actualizar el estado
     console.log("Salida registrada exitosamente");
-    // Ejemplo: refetch() o updateRecords()
   };
 
   return (

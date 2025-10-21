@@ -19,17 +19,6 @@ interface ExitData {
     observations?: string;
 }
 
-// interface ExitResponse {
-//     id: number;
-//     licensePlate: string;
-//     entryDate: string;
-//     exitDate: string;
-//     parkedHours: number;
-//     appliedRate: number;
-//     totalToPay: number;
-//     status: string;
-// }
-
 export function VehicleExitForm({ onClose, onSuccess }: VehicleExitFormProps) {
     const [licensePlate, setLicensePlate] = useState("");
     const [observations, setObservations] = useState("");
