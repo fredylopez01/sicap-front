@@ -7,29 +7,11 @@ import { showAlert } from "@/utils/alerts";
 import { apiRequest } from "@/services";
 import { useAuth } from "@/context/AuthContext";
 import { VehicleExitForm } from "../records/exit/VehicleExitForm";
-
-// Interfaz para la data de espacios (Existente)
-interface ParkingData {
-  totalSpaces: number;
-  occupiedSpaces: number;
-}
-
-const fetchParkingData = (): Promise<ParkingData> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        totalSpaces: 150,
-        occupiedSpaces: 112,
-      });
-    }, 500);
-  });
-};
+import { ParkingMetrics } from "@/components/ParkingAlert/ParkingMetrics";
 
 export default function DashboardOverview() {
   const { user } = useAuth();
-  const [parkingData, setParkingData] = useState<ParkingData | null>(null);
   const [dailySummary, setDailySummary] = useState<DailySummary | null>(null);
-  // const [dateSummary, setDateSummary] = useState("");
   const [loading, setLoading] = useState(true);
 
   const fetchDailySummary = async () => {
@@ -62,17 +44,7 @@ export default function DashboardOverview() {
   };
 
   useEffect(() => {
-    const loadData = async () => {
-      setLoading(true);
-
-      const [fetchedParkingData] = await Promise.all([fetchParkingData()]);
-
-      setParkingData(fetchedParkingData);
-      fetchDailySummary();
-
-      setLoading(false);
-    };
-    loadData();
+    fetchDailySummary();
   }, []);
 
   const handleRecordUpdatedTable = (
@@ -91,20 +63,7 @@ export default function DashboardOverview() {
     });
   };
 
-  const availableSpaces = parkingData
-    ? parkingData.totalSpaces - parkingData.occupiedSpaces
-    : 0;
-
-  // Determina la clase del indicador basado en la disponibilidad
-  const getAvailabilityStatusClass = () => {
-    if (!parkingData) return "status-unknown";
-    const percentage = (availableSpaces / parkingData.totalSpaces) * 100;
-    if (percentage > 30) return "status-high";
-    if (percentage > 10) return "status-medium";
-    return "status-low";
-  };
-
-  // Función para formatear moneda (copiada de RecordTable para la Card de Recaudación)
+  // Función para formatear moneda
   const formatCurrency = (amount: number | null | undefined): string => {
     if (amount === null || amount === undefined) return "-";
     return new Intl.NumberFormat("es-CO", {
@@ -135,43 +94,39 @@ export default function DashboardOverview() {
         </div>
       </div>
 
-      <div className="stats-grid">
-        {/* Card 1: Espacios Disponibles */}
-        <div
-          className={`stat-card available-spaces ${getAvailabilityStatusClass()}`}
-        >
-          <p className="stat-label">Espacios Disponibles</p>
-          <span className="stat-value">{availableSpaces}</span>
-          <p className="stat-hint">
-            De {parkingData?.totalSpaces || 0} totales
-          </p>
-        </div>
+      {/* Métricas de Parqueadero (4 cards) */}
+      <ParkingMetrics />
 
-        {/* Card 2: Total Vehículos Ingresados Hoy (NUEVO) */}
-        <div className="stat-card daily-registers available-spaces status-high">
-          <p className="stat-label">Entradas Hoy</p>
-          <span className="stat-value">
-            {dailySummary?.totalVehiclesEntered ?? 0}
-          </span>
-          <p className="stat-hint">Vehículos registrados</p>
-        </div>
+      {/* Sección de Métricas del Día */}
+      <div className="daily-metrics-section">
+        <h3 className="section-subtitle">Actividad del Día</h3>
+        <div className="stats-grid">
+          {/* Card: Entradas Hoy */}
+          <div className="stat-card daily-registers available-spaces status-high">
+            <p className="stat-label">Entradas Hoy</p>
+            <span className="stat-value">
+              {dailySummary?.totalVehiclesEntered ?? 0}
+            </span>
+            <p className="stat-hint">Vehículos registrados</p>
+          </div>
 
-        {/* Card 3: Total Vehículos Egresados Hoy (NUEVO) */}
-        <div className="stat-card daily-registers available-spaces status-low">
-          <p className="stat-label">Salidas Hoy</p>
-          <span className="stat-value">
-            {dailySummary?.totalVehiclesExited ?? 0}
-          </span>
-          <p className="stat-hint">Vehículos que egresaron</p>
-        </div>
+          {/* Card: Salidas Hoy */}
+          <div className="stat-card daily-registers available-spaces status-low">
+            <p className="stat-label">Salidas Hoy</p>
+            <span className="stat-value">
+              {dailySummary?.totalVehiclesExited ?? 0}
+            </span>
+            <p className="stat-hint">Vehículos que egresaron</p>
+          </div>
 
-        {/* Card 4: Recaudación Total del Día (NUEVO) */}
-        <div className="stat-card occupied-spaces">
-          <p className="stat-label">Recaudación Hoy</p>
-          <span className="stat-value">
-            {formatCurrency(dailySummary?.totalRevenue)}
-          </span>
-          <p className="stat-hint">Total de ingresos brutos</p>
+          {/* Card: Recaudación Total */}
+          <div className="stat-card occupied-spaces">
+            <p className="stat-label">Recaudación Hoy</p>
+            <span className="stat-value">
+              {formatCurrency(dailySummary?.totalRevenue)}
+            </span>
+            <p className="stat-hint">Total de ingresos brutos</p>
+          </div>
         </div>
       </div>
 

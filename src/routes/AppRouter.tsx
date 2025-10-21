@@ -16,6 +16,7 @@ import SedeForm from "@/pages/dashboard/forms/SedeForm";
 import Zones from "@/pages/dashboard/sedes/sede/Zones";
 import DashboardOverview from "@/pages/dashboard/home/DashboardOverview";
 import { UserProfile } from "@/pages/dashboard/profile/UserProfile";
+import ParkingZonesPage from "@/pages/dashboard/ZonesPage/ZonesPage";
 
 export function AppRouter() {
   return (
@@ -47,6 +48,8 @@ export function AppRouter() {
               </PrivateRoute>
             }
           />
+
+          <Route path="parqueadero" element={<ParkingZonesPage />} />
           <Route
             path="sedes/new"
             element={
