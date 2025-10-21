@@ -8,6 +8,7 @@ import { apiRequest } from "@/services";
 import { InputField, Spinner } from "@/components";
 import { Save } from "lucide-react";
 import { Sede } from "@/interfaces/sede";
+import ErrorSpan from "@/components/ui/errorSpan";
 
 interface BranchOption {
   value: string;
@@ -24,22 +25,6 @@ const roleOptions = [
   { value: "ADMIN", label: "Administrador" },
   { value: "CONTROLLER", label: "Controlador" },
 ];
-
-// Componente ErrorSpan
-const ErrorSpan = ({ message }: { message: string }) => {
-  return (
-    <span
-      style={{
-        color: "red",
-        fontSize: "0.85em",
-        marginTop: "5px",
-        display: "block",
-      }}
-    >
-      {message}
-    </span>
-  );
-};
 
 export function EditUserForm({
   initialUserData,

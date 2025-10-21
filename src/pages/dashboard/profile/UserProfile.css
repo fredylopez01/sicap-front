@@ -15,9 +15,11 @@
 .profile-header {
   background: #e5e7eb;
   padding: 15px 20px;
+  width: 100%;
 }
 
 .header-content-profile {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -86,31 +88,6 @@
 .badge-inactive {
   background: #f87171;
   color: #7f1d1d;
-}
-
-.edit-button {
-  background: var(--institutional-blue);
-  color: white;
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 500;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.2s;
-}
-
-.edit-button:hover {
-  background: var(--institutional-blue-hover);
-}
-
-.edit-icon {
-  width: 20px;
-  height: 20px;
 }
 
 .profile-content {

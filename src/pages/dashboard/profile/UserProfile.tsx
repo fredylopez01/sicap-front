@@ -7,10 +7,10 @@ import {
   Shield,
   Clock,
   Hash,
-  Edit,
 } from "lucide-react";
 import "./UserProfile.css";
 import { useAuth } from "@/context/AuthContext";
+import { EditUserProfileModal } from "./editUserProfile/EditUserProfile";
 
 export function UserProfile() {
   const { user } = useAuth();
@@ -33,10 +33,6 @@ export function UserProfile() {
       hour: "2-digit",
       minute: "2-digit",
     });
-  };
-
-  const handleEdit = () => {
-    console.log("Abrir modal de edición");
   };
 
   return (
@@ -67,10 +63,7 @@ export function UserProfile() {
                   </div>
                 </div>
               </div>
-              <button onClick={handleEdit} className="edit-button">
-                <Edit className="edit-icon" />
-                <span>Editar</span>
-              </button>
+              <EditUserProfileModal />
             </div>
           </div>
 
