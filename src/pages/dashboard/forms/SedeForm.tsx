@@ -39,8 +39,6 @@ export default function SedeForm() {
       city: data.ciudad,
       department: data.departamento,
       phone: data.telefono,
-      openingTime: `1970-01-01T${data.horario_apertura}:00.000Z`,
-      closingTime: `1970-01-01T${data.horario_cierre}:00.000Z`,
     };
 
     console.log(sedeData);
@@ -192,38 +190,6 @@ export default function SedeForm() {
               )}
               {errors.telefono?.type === "maxLength" && (
                 <ErrorSpan message="El teléfono no puede tener más de 20 caracteres" />
-              )}
-            </div>
-
-            {/* Horario apertura */}
-            <div className="input-field">
-              <label htmlFor="horario_apertura" className="input-label">
-                Horario de apertura
-              </label>
-              <input
-                type="time"
-                id="horario_apertura"
-                {...register("horario_apertura", { required: true })}
-                className="input-base"
-              />
-              {errors.horario_apertura?.type === "required" && (
-                <ErrorSpan message="El horario de apertura es obligatorio" />
-              )}
-            </div>
-
-            {/* Horario cierre */}
-            <div className="input-field">
-              <label htmlFor="horario_cierre" className="input-label">
-                Horario de cierre
-              </label>
-              <input
-                type="time"
-                id="horario_cierre"
-                {...register("horario_cierre", { required: true })}
-                className="input-base"
-              />
-              {errors.horario_cierre?.type === "required" && (
-                <ErrorSpan message="El horario de cierre es obligatorio" />
               )}
             </div>
 

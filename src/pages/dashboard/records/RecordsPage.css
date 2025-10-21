@@ -1,0 +1,51 @@
+.records-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.3rem 0 1rem; /* Padding vertical */
+  border-bottom: 2px solid var(--border-color);
+  margin-bottom: 0.5rem;
+}
+
+.records-header-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--black);
+}
+
+.records-actions-header {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.records-button-header {
+  display: flex;
+  gap: 0.5rem;
+  color: var(--primary-bg);
+  padding: 0.6rem 1.2rem 0.6rem 0.6rem;
+  border: none;
+  border-radius: 0.3rem;
+  font-size: 0.9rem;
+  font-weight: 300;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.create-button:hover {
+  background-color: var(--blue-medium); /* Un azul ligeramente más oscuro */
+}
+
+.btn-create-entry {
+  background-color: var(--institutional-blue);
+}
+.btn-create-entry:hover {
+  background-color: var(--institutional-blue-hover) !important;
+}
+
+.btn-create-exit {
+  background-color: var(--neutral-gray);
+}
+
+.btn-create-exit:hover {
+  background-color: var(--neutral-gray-hover);
+}

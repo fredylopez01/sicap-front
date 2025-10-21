@@ -1,0 +1,90 @@
+/* ====== Contenedor principal ====== */
+.branch-top {
+  margin-bottom: 0.3rem;
+}
+
+.btn-back-branches {
+  cursor: pointer;
+  background-color: transparent;
+  color: black;
+  font-size: 1.3rem;
+}
+
+/* ====== Cabecera principal ====== */
+.branch-header {
+  display: block;
+  background-color: #ffffff; /* Antes era negro */
+  color: #1f2937; /* Texto oscuro */
+  border-radius: 0.75rem;
+  padding: 16px;
+  width: 100%;
+  font-family: sans-serif;
+}
+
+/* ====== Título ====== */
+.branch-title {
+  font-size: 25px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* ====== Contenido principal ====== */
+.branch-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; /* Mantener 3 columnas */
+  gap: 5px;
+}
+
+/* ====== Columnas ====== */
+.branch-column {
+  padding: 8px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  justify-content: center;
+  background-color: #f9fafb; /* Fondo claro */
+  border-radius: 0.5rem;
+}
+
+.branch-column:not(:last-child) {
+  border-right: 1px solid #e5e7eb;
+}
+
+/* ====== Botones ====== */
+.branch-column .btn,
+.branch-column button {
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #ffffff;
+  border: none;
+}
+
+.branch-column .btn:hover,
+.branch-column button:hover {
+  background-color: #1d4ed8;
+}
+
+/* ====== Texto final ====== */
+.branch-summary {
+  font-size: 14px;
+  color: #4b5563; /* Gris medio */
+  margin-top: 10px;
+}
+
+/* ====== Responsivo ====== */
+@media (max-width: 768px) {
+  .branch-content {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .branch-column:not(:last-child) {
+    border-right: none;
+    border-bottom: 1px dashed #e5e7eb;
+  }
+
+  .branch-header {
+    padding: 12px;
+  }
+}

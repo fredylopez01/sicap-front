@@ -5,12 +5,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  background: white;
-  padding: 1rem;
-  margin: 1rem auto;
-  border-radius: 16px;
-  border: 1px solid #e0e0e0;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background: #ffffffd7;
+  padding: 0 0.5rem;
+  margin: 0 0 1rem;
+  border-radius: 12px;
   max-width: 1200px;
   box-sizing: border-box;
 }
@@ -21,14 +19,14 @@
   display: flex;
   align-items: center;
   align-content: center;
-  gap: 2rem;
-  margin-bottom: 1rem;
+  gap: 1rem;
+  margin-bottom: 0.6rem;
   width: 100%;
   padding: 0.5rem 0;
 }
 
 .add-user-header h1 {
-  font-size: 2rem;
+  font-size: 1.7rem;
   font-weight: 700;
   color: var(--black);
 }
@@ -51,7 +49,7 @@
   padding: 0.8rem 0.8rem 0;
   background-color: #fafafa;
   min-height: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .form-section h3 {
@@ -73,9 +71,9 @@
 }
 
 /* Inputs dentro del formulario */
-.input-group-new-user > .form-group {
+.input-group-new-user > div {
   width: 30%;
-  min-width: 250px;
+  min-width: 270px;
 }
 
 /* Botones de acción */
@@ -84,12 +82,10 @@
   gap: 0.8rem;
   justify-content: center;
   margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid #eee;
 }
 
 .submit-btn {
-  padding: 1rem;
+  padding: 8px 16px;
   background: var(--black);
   border: none;
   border-radius: 10px;
@@ -116,11 +112,11 @@
 }
 
 .cancel-btn-container > .cancel-btn {
+  align-items: center;
   align-self: flex-start;
-  background-color: #000;
-  color: #fff;
-  padding: 6px 12px;
-  font-size: 0.8rem;
+  color: black;
+  padding: 6px;
+  font-size: 1rem;
   border-radius: 6px;
   min-width: auto;
   display: inline-flex;
@@ -132,7 +128,7 @@
 }
 
 .cancel-btn-container > .cancel-btn:hover:not(:disabled) {
-  background-color: #333;
+  background-color: #e6e0e0;
   transform: translateY(-1px);
 }
 

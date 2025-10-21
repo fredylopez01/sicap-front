@@ -1,30 +1,54 @@
-import { Home, Settings, User, MapPin } from "lucide-react"
-import { SidebarGroup } from "@/interfaces/sidebar"
+import {
+  Home,
+  User,
+  MapPin,
+  ArrowUpDown,
+  UserCog2Icon,
+  Activity,
+} from "lucide-react";
+import { SidebarGroup } from "@/interfaces/sidebar";
 
 export const adminSidebar: SidebarGroup[] = [
   {
     title: "General",
-    items: [
-      { title: "Home", url: "/dashboard", icon: Home },
-    ],
+    items: [{ title: "Home", url: "/dashboard", icon: Home }],
   },
   {
     title: "Parqueadero",
     items: [
-      { title: "Reservas", url: "/dashboard/reservas", icon: Home },
+      { title: "Registros", url: "/dashboard/registros", icon: ArrowUpDown },
+      { title: "Sedes", url: "/dashboard/sedes", icon: MapPin },
+      {
+        title: "Monitoreo de Zonas", // Nueva opción
+        url: "/dashboard/parqueadero",
+        icon: Activity,
+      },
       { title: "Usuarios", url: "/dashboard/usuarios", icon: User },
-      { title: "Configuración", url: "/dashboard/configuracion", icon: Settings },
-      { title: "Sedes", url: "/dashboard/sedes", icon:MapPin }
-    ]
-  }
-]
+      {
+        title: "Perfil",
+        url: "/dashboard/perfil",
+        icon: UserCog2Icon,
+      },
+    ],
+  },
+];
 
 export const userSidebar: SidebarGroup[] = [
   {
     title: "General",
     items: [
       { title: "Home", url: "/dashboard", icon: Home },
-      { title: "Settings", url: "/dashboard/settings", icon: Settings },
+      { title: "Registros", url: "/dashboard/registros", icon: ArrowUpDown },
+      {
+        title: "Monitoreo de Zonas", // Nueva opción
+        url: "/dashboard/parqueadero",
+        icon: Activity,
+      },
+      {
+        title: "Perfil",
+        url: "/dashboard/perfil",
+        icon: UserCog2Icon,
+      },
     ],
   },
-]
+];

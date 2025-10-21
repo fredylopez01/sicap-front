@@ -1,0 +1,97 @@
+/* src/components/parking/ParkingAlert.css */
+.parking-alert {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid;
+  margin-bottom: 1.5rem;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.parking-alert .alert-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+}
+
+.parking-alert .alert-content {
+  flex: 1;
+}
+
+.parking-alert .alert-message {
+  font-weight: 600;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.parking-alert .alert-details {
+  margin: 0.25rem 0 0 0;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+/* Variantes de alerta */
+.parking-alert.critical {
+  background-color: #fef2f2;
+  border-color: #fecaca;
+  color: #991b1b;
+}
+
+.parking-alert.critical .alert-icon {
+  color: #dc2626;
+  animation: pulse 2s infinite;
+}
+
+.parking-alert.warning {
+  background-color: #fffbeb;
+  border-color: #fde68a;
+  color: #92400e;
+}
+
+.parking-alert.warning .alert-icon {
+  color: #f59e0b;
+  animation: pulse 2s infinite;
+}
+
+.parking-alert.info {
+  background-color: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1e40af;
+}
+
+.parking-alert.info .alert-icon {
+  color: #3b82f6;
+}
+
+.parking-alert.normal {
+  background-color: #f0fdf4;
+  border-color: #bbf7d0;
+  color: #166534;
+}
+
+.parking-alert.normal .alert-icon {
+  color: #22c55e;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}

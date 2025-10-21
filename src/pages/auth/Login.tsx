@@ -58,8 +58,8 @@ export function LoginPage() {
         setPassword("admin123");
       } else if (e.key === "F2") {
         e.preventDefault();
-        setUsername("nicolas");
-        setPassword("nicolas123");
+        setUsername("maria.mejia@parking.com");
+        setPassword("@Maria123");
       }
     };
     document.addEventListener("keydown", handleKey);

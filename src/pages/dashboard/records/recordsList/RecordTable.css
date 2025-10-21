@@ -1,0 +1,122 @@
+.tableCard {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 100%;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.thead {
+  background-color: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.th {
+  padding: 12px 10px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 500;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tbody {
+  background-color: white;
+}
+
+.tr {
+  border-bottom: 1px solid #e5e7eb;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.td {
+  padding: 16px 10px;
+  white-space: nowrap;
+}
+
+.td.td-actions-records {
+  padding-left: 0;
+}
+
+.plateText {
+  font-weight: 500;
+  color: #111827;
+}
+
+.normalText {
+  font-size: 14px;
+  color: #4b5563;
+}
+
+.dateCell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.greenDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #10b981;
+}
+
+.redDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #ef4444;
+}
+
+.dateText {
+  font-size: 14px;
+  color: #111827;
+}
+
+.priceText {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.badgeActive {
+  padding: 4px 12px;
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 9999px;
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.badgeFinished {
+  padding: 4px 12px;
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 9999px;
+  background-color: #f3f4f6;
+  color: #1f2937;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 48px;
+}
+
+.emptyText {
+  color: #6b7280;
+  font-style: italic;
+  font-size: 14px;
+}
