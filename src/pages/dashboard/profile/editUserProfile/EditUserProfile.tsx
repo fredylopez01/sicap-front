@@ -134,13 +134,26 @@ export function EditUserProfileModal() {
 
       if (result.success && result.data) {
         const response: Partial<User> = result.data;
-        const branch = user!.branch;
-        // const updatedUser = { branch: user!.branch, ...response };
-        // updateUser(updateUser);
-        // showAlert(
-        //   result.message || "¡Usuario actualizado exitosamente!",
-        //   "success"
-        // );
+        const updatedUser: User = {
+          ...user!,
+          ...(response.names !== undefined && { names: response.names }),
+          ...(response.lastNames !== undefined && {
+            lastNames: response.lastNames,
+          }),
+          ...(response.phone !== undefined && { phone: response.phone }),
+          ...(response.email !== undefined && { email: response.email }),
+          ...(response.userHash !== undefined && {
+            userHash: response.userHash,
+          }),
+        };
+
+        updateUser(updatedUser);
+
+        showAlert(
+          result.message || "¡Usuario actualizado exitosamente!",
+          "success"
+        );
+        setIsOpen(false);
       } else {
         showAlert(result.message || "Error al actualizar el usuario.");
       }
