@@ -11,8 +11,7 @@ export interface Zone {
   vehicleTypeId: number;
   totalCapacity: number;
   description: string;
-  createdAt: string;
-  updatedAt: string;
+  status: string;
 }
 
 /**
@@ -70,7 +69,7 @@ export interface Space {
   id: number;
   zoneId: number;
   spaceNumber: string; // Formato: Z{zoneId}-E{número}
-  physicalStatus: 'available' | 'occupied' | 'maintenance' | 'reserved';
+  physicalStatus: "available" | "occupied" | "maintenance" | "reserved";
   createdAt: string;
   updatedAt: string;
 }
@@ -88,7 +87,7 @@ export interface Branch {
   phone: string;
   openingTime: string;
   closingTime: string;
-  status: 'active' | 'inactive';
+  status: "active" | "inactive";
   createdAt?: string;
   updatedAt?: string;
 }

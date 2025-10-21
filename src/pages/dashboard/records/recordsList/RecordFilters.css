@@ -1,0 +1,136 @@
+.filterCard {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 10px 16px;
+  margin-bottom: 12px;
+}
+
+.filterHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filterToggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px 8px 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #4b5563;
+  transition: color 0.2s;
+}
+
+.filterIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.chevron {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.2s;
+}
+
+.filtersContent {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.filtersGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #6b7280;
+  text-transform: uppercase;
+}
+
+.inputWrapper {
+  position: relative;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  color: #9ca3af;
+}
+
+.input {
+  width: 100%;
+  padding-left: 40px;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.select {
+  width: 100%;
+  padding-left: 40px;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  background-color: white;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.filterActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.clearButton {
+  padding: 8px 16px;
+  background-color: white;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.applyButton {
+  padding: 8px 16px;
+  background-color: #3b82f6;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}

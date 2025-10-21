@@ -7,6 +7,7 @@ import {
   LandingPage,
   AddUserForm,
   UsersList,
+  RecordsPage,
 } from "../pages";
 import { PrivateRoute } from "./PrivateRoute";
 import Dashboard from "@/pages/dashboard/Dashboard";
@@ -36,7 +37,7 @@ export function AppRouter() {
             </PrivateRoute>
           }
         >
-          <Route path="" element={<DashboardOverview />} />
+          <Route index element={<DashboardOverview />} />
           <Route
             path="sedes"
             element={
@@ -62,10 +63,6 @@ export function AppRouter() {
             }
           />
           <Route
-            path="sedes/:branchId/zonas/new"
-            element={<PrivateRoute requiredRole="ADMIN"></PrivateRoute>}
-          />
-          <Route
             path="usuarios"
             element={
               <PrivateRoute requiredRole="ADMIN">
@@ -81,6 +78,7 @@ export function AppRouter() {
               </PrivateRoute>
             }
           />
+          <Route path="registros" element={<RecordsPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>
 

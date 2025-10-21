@@ -7,7 +7,9 @@ interface InputFieldProps {
   type?: string;
   placeholder?: string;
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
   options?: Array<{ value: string; label: string }>;
 }
 
@@ -24,12 +26,7 @@ export function InputField({
     <div className="form-group">
       <label htmlFor={id}>{label}</label>
       {type === "select" && options ? (
-        <select
-          id={id}
-          value={value}
-          onChange={onChange}
-          required
-        >
+        <select id={id} value={value} onChange={onChange} required>
           {options.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
