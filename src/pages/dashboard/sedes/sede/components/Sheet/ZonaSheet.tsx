@@ -36,39 +36,6 @@ export default function ZonaSheet({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  //Cargar los tipos de vehículo desde el backend
-  useEffect(() => {
-    const fetchVehicleTypes = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const result: ApiResponse<VehicleType[]> = await apiRequest<
-          VehicleType[]
-        >("/api/vehicleTypes", "GET");
-
-        if (result.success && result.data) {
-          setVehicleTypes(result.data);
-        } else {
-          setError(result.message || "Error al cargar los tipos de vehículo.");
-        }
-      } catch (err: any) {
-        console.error("Error al cargar vehicleTypes:", err);
-        setError(err.message || "Error de conexión con el servidor");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchVehicleTypes();
-  }, []);
-
-  //Convertir la respuesta del backend a opciones para el select
-  const vehicleOptions = vehicleTypes.map((vt) => ({
-    value: vt.name,
-    label: vt.name,
-  }));
-
   const handleUpdate = async () => {
     /*
     const payload = {

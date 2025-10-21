@@ -5,7 +5,8 @@ import { Zone, VehicleType, Branch } from "@/interfaces/zona";
 import { apiRequest } from "@/services";
 import Header from "./components/Header/Header";
 import ZonesContent from "./components/ZonesContent/ZonesContent";
-import Schedule from "./components/Schedule/Schedule";
+import Schedule from "./components/ScheduleContent/ScheduleContent";
+import VehicleTypesContent from "./components/VehicleTypesContent/VehicleTypesContent";
 import "./Zones.css";
 
 export default function Zonas() {
@@ -31,7 +32,7 @@ export default function Zonas() {
         setLoading(true);
         setError(null);
 
-        // 1. Cargar TODAS las sedes y filtrar la específica
+        // 1. Cargar todas las sedes y filtrar la específica
         const branchesResult: ApiResponse<Branch[]> = await apiRequest<
           Branch[]
         >("/api/branches", "GET");
@@ -50,7 +51,7 @@ export default function Zonas() {
           }
         }
 
-        // 2. Cargar zonas de la sede (endpoint público)
+        // 2. Cargar zonas de la sede
         const zonasResult: ApiResponse<Zone[]> = await apiRequest<Zone[]>(
           `/api/zones/${branchId}`,
           "GET"
@@ -62,7 +63,7 @@ export default function Zonas() {
           setError(zonasResult.message || "No se pudieron cargar las zonas.");
         }
 
-        // 3. Cargar tipos de vehículo (requiere autenticación)
+        // 3. Cargar tipos de vehículo
         const vehicleTypesResult: ApiResponse<VehicleType[]> = await apiRequest<
           VehicleType[]
         >("/api/vehicleTypes", "GET");
@@ -82,6 +83,35 @@ export default function Zonas() {
 
     fetchData();
   }, [branchId]);
+
+  // Función para eliminar la sede
+  const handleDeleteBranch = async (id: number) => {
+    if (
+      !window.confirm(
+        "¿Deseas eliminar esta sede? Esta acción no se puede deshacer."
+      )
+    )
+      return;
+
+    try {
+      setLoading(true);
+      const response: ApiResponse<null> = await apiRequest(
+        `/api/branches/${id}`,
+        "DELETE"
+      );
+      if (response.success) {
+        alert("Sede eliminada correctamente");
+        navigate("/dashboard/sedes"); // Redirige a la lista de sedes
+      } else {
+        alert(response.message || "Error al eliminar la sede");
+      }
+    } catch (err: any) {
+      console.error("Error al eliminar sede:", err);
+      alert(err.message || "Error de conexión al eliminar la sede");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Obtener nombre del tipo de vehículo
   const getVehicleTypeName = (vehicleTypeId: number): string => {
@@ -125,13 +155,19 @@ export default function Zonas() {
           handleBack={handleBack}
           handleRedirectNewZone={handleRedirectNewZone}
           zonasCount={zones.length}
+          onDeleteBranch={handleDeleteBranch}
         />
+      </div>
+
+      <div className="vehicleTypes-container">
+        <VehicleTypesContent></VehicleTypesContent>
       </div>
 
       <div className="content-container">
         <div className="zones-container">
           {/* Contenido */}
           <ZonesContent
+            branch={branch}
             zones={zones}
             loading={loading}
             error={error}

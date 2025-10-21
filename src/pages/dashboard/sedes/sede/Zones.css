@@ -12,7 +12,7 @@
   min-height: 8rem;
   margin-top: 1rem;
   border-radius: 10px;
-  display: flex;
+  display: inline-block;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -40,7 +40,6 @@
 .schedule-container {
   flex: 1;
   border-radius: 10px;
-  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
