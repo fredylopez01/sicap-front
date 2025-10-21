@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./DashboardOverview.css";
 import { CreateEntryModal } from "../records/entry/CreateEntryModal";
 import { RecordTable } from "../records/recordsList/RecordTable";
-import { ApiResponse, DailySummary } from "@/interfaces";
+import { ApiResponse, DailySummary, ParkingRecordFiltered } from "@/interfaces";
 import { showAlert } from "@/utils/alerts";
 import { apiRequest } from "@/services";
 import { useAuth } from "@/context/AuthContext";
@@ -13,7 +13,6 @@ interface ParkingData {
   occupiedSpaces: number;
 }
 
-// SIMULACIÓN DE API para ESPACIOS (EXISTENTE)
 const fetchParkingData = (): Promise<ParkingData> => {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -29,7 +28,7 @@ export default function DashboardOverview() {
   const { user } = useAuth();
   const [parkingData, setParkingData] = useState<ParkingData | null>(null);
   const [dailySummary, setDailySummary] = useState<DailySummary | null>(null);
-  const [dateSummary, setDateSummary] = useState("");
+  // const [dateSummary, setDateSummary] = useState("");
   const [loading, setLoading] = useState(true);
 
   const fetchDailySummary = async () => {
@@ -40,7 +39,7 @@ export default function DashboardOverview() {
       const result: ApiResponse<DailySummary> = await apiRequest<DailySummary>(
         API_URL,
         "POST",
-        { date: dateSummary }
+        { date: "" }
       );
 
       if (result.success) {
@@ -74,6 +73,22 @@ export default function DashboardOverview() {
     };
     loadData();
   }, []);
+
+  const handleRecordUpdatedTable = (
+    updatedRecord: Partial<ParkingRecordFiltered>
+  ) => {
+    setDailySummary((prev) => {
+      if (!prev) return prev;
+
+      const updatedRecords = prev.records.map((record) =>
+        record.id === updatedRecord.id
+          ? { ...record, ...updatedRecord }
+          : record
+      );
+
+      return { ...prev, records: updatedRecords };
+    });
+  };
 
   const availableSpaces = parkingData
     ? parkingData.totalSpaces - parkingData.occupiedSpaces
@@ -164,7 +179,10 @@ export default function DashboardOverview() {
           Registros Recientes del Día ({dailySummary?.date})
         </h3>
         {dailySummary?.records && dailySummary.records.length > 0 ? (
-          <RecordTable records={dailySummary.records} />
+          <RecordTable
+            records={dailySummary.records}
+            onRecordUpdatedTable={handleRecordUpdatedTable}
+          />
         ) : (
           <div className="empty-state">
             Al parecer no se ha presentado ningún tipo de actividad hoy.

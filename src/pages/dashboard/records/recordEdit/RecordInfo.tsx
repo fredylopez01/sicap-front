@@ -189,7 +189,7 @@ export function RecordInfo({ record, onSave, onCancel }: ParkingInfoProps) {
                     onChange={(e) => setZoneId(Number(e.target.value))}
                     className="pr-select-space"
                   >
-                    <option value={0} disabled selected>
+                    <option value={0} disabled>
                       Selecciona
                     </option>
                     {zones.map((zone) => (
@@ -274,7 +274,7 @@ export function RecordInfo({ record, onSave, onCancel }: ParkingInfoProps) {
           <div className="pr-payment-grid">
             <div className="pr-payment-item">
               <p className="pr-payment-label">Horas estacionado</p>
-              {isEditing ? (
+              {/* {isEditing ? (
                 <input
                   type="number"
                   step="0.01"
@@ -285,11 +285,11 @@ export function RecordInfo({ record, onSave, onCancel }: ParkingInfoProps) {
                   className="pr-input-small"
                   placeholder="0.00"
                 />
-              ) : (
-                <p className="pr-payment-value">
-                  {record.parkedHours ? `${record.parkedHours} hrs` : "-"}
-                </p>
-              )}
+              ) : ( */}
+              <p className="pr-payment-value">
+                {record.parkedHours ? `${record.parkedHours} hrs` : "-"}
+              </p>
+              {/* )} */}
             </div>
 
             <div className="pr-payment-item">

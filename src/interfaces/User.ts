@@ -15,4 +15,9 @@ export interface User {
   lockUntil: string | null;
   loginAttempts: number;
   lastLogin: string | null;
+  branch?: {
+    name: string;
+    address: string;
+    city: string;
+  };
 }

@@ -1,4 +1,4 @@
-import { Home, Settings, User, MapPin, ArrowUpDown } from "lucide-react";
+import { Home, User, MapPin, ArrowUpDown, UserCog2Icon } from "lucide-react";
 import { SidebarGroup } from "@/interfaces/sidebar";
 
 export const adminSidebar: SidebarGroup[] = [
@@ -10,13 +10,13 @@ export const adminSidebar: SidebarGroup[] = [
     title: "Parqueadero",
     items: [
       { title: "Registros", url: "/dashboard/registros", icon: ArrowUpDown },
+      { title: "Sedes", url: "/dashboard/sedes", icon: MapPin },
       { title: "Usuarios", url: "/dashboard/usuarios", icon: User },
       {
-        title: "Configuración",
-        url: "/dashboard/configuracion",
-        icon: Settings,
+        title: "Perfil",
+        url: "/dashboard/perfil",
+        icon: UserCog2Icon,
       },
-      { title: "Sedes", url: "/dashboard/sedes", icon: MapPin },
     ],
   },
 ];
@@ -28,9 +28,9 @@ export const userSidebar: SidebarGroup[] = [
       { title: "Home", url: "/dashboard", icon: Home },
       { title: "Registros", url: "/dashboard/registros", icon: ArrowUpDown },
       {
-        title: "Configuración",
-        url: "/dashboard/configuracion",
-        icon: Settings,
+        title: "Perfil",
+        url: "/dashboard/perfil",
+        icon: UserCog2Icon,
       },
     ],
   },

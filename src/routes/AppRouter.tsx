@@ -15,6 +15,7 @@ import Sedes from "@/pages/dashboard/Sedes";
 import SedeForm from "@/pages/dashboard/forms/SedeForm";
 import Zones from "@/pages/dashboard/sedes/sede/Zones";
 import DashboardOverview from "@/pages/dashboard/home/DashboardOverview";
+import { UserProfile } from "@/pages/dashboard/profile/UserProfile";
 
 export function AppRouter() {
   return (
@@ -79,6 +80,7 @@ export function AppRouter() {
             }
           />
           <Route path="registros" element={<RecordsPage />} />
+          <Route path="perfil" element={<UserProfile />} />
           <Route path="*" element={<NotFound />} />
         </Route>
 
