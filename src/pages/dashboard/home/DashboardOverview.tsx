@@ -47,6 +47,10 @@ export default function DashboardOverview() {
     fetchDailySummary();
   }, []);
 
+  const onReload = () => {
+    fetchDailySummary();
+  };
+
   const handleRecordUpdatedTable = (
     updatedRecord: Partial<ParkingRecordFiltered>
   ) => {
@@ -86,11 +90,11 @@ export default function DashboardOverview() {
       <div className="overview-header">
         <h2 className="overview-title">Resumen Operacional</h2>
         <div className="quick-actions">
-          <CreateEntryModal />
+          <CreateEntryModal onCreate={onReload} />
           {/* <button className="action-button secondary-action">
             Ver Mapa de Espacios
           </button> */}
-          <VehicleExitForm />
+          <VehicleExitForm onCreate={onReload} />
         </div>
       </div>
 
