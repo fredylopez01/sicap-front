@@ -2,7 +2,8 @@ import Swal from "sweetalert2";
 
 export function showAlert(
   message: string,
-  type: "success" | "error" | "warning" = "error"
+  type: "success" | "error" | "warning" = "error",
+  timer: number = 3000
 ) {
   Swal.fire({
     text: message,
@@ -13,7 +14,7 @@ export function showAlert(
         : type === "warning"
         ? "#fb8500"
         : "#d90429",
-    timer: 3000,
+    timer: timer,
     timerProgressBar: true,
     showConfirmButton: true,
   });

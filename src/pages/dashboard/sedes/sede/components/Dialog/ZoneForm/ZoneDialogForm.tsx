@@ -326,7 +326,10 @@ export default function ZoneDialogForm({
                 setVehicleTypeId(Number(e.target.value));
                 setError(null);
               }}
-              options={vehicleOptions}
+              options={[
+                ...[{ value: "", label: "Seleccionar tipo..." }],
+                ...vehicleOptions,
+              ]}
             />
 
             {/* Capacidad total */}

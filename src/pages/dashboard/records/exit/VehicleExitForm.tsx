@@ -24,7 +24,11 @@ interface ExitData {
   observations?: string;
 }
 
-export function VehicleExitForm() {
+interface CreateExitFormProps {
+  onCreate: () => void;
+}
+
+export function VehicleExitForm({ onCreate }: CreateExitFormProps) {
   const [licensePlate, setLicensePlate] = useState("");
   const [observations, setObservations] = useState("");
   const [loading, setLoading] = useState(false);
@@ -78,12 +82,13 @@ export function VehicleExitForm() {
         const total = Number(result.data.totalToPay).toFixed(2);
         const rate = Number(result.data.appliedRate).toFixed(2);
 
+        onCreate();
+
         showAlert(
           `Salida registrada exitosamente\n\nPlaca: ${result.data.licensePlate}\nTiempo: ${hours} horas\nTarifa: $${rate}/hora\nTotal a pagar: $${total}`,
-          "success"
+          "success",
+          5000
         );
-
-        window.location.reload();
       } else {
         showAlert(
           result.message || "Error al registrar la salida del vehículo"
