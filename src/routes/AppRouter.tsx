@@ -17,6 +17,7 @@ import Zones from "@/pages/dashboard/sedes/sede/Zones";
 import DashboardOverview from "@/pages/dashboard/home/DashboardOverview";
 import { UserProfile } from "@/pages/dashboard/profile/UserProfile";
 import ParkingZonesPage from "@/pages/dashboard/ZonesPage/ZonesPage";
+import { ParkingProvider } from "@/context/ParkingContext";
 
 export function AppRouter() {
   return (
@@ -35,7 +36,9 @@ export function AppRouter() {
           path="/dashboard"
           element={
             <PrivateRoute>
-              <Dashboard />
+              <ParkingProvider>
+                <Dashboard />
+              </ParkingProvider>
             </PrivateRoute>
           }
         >

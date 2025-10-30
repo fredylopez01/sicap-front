@@ -1,3 +1,5 @@
+import { IPagination } from "./Pagination";
+
 export interface ControllerRecordFiltered {
   names: string;
   lastNames: string;
@@ -5,6 +7,11 @@ export interface ControllerRecordFiltered {
 
 export interface SpaceRecordFiltered {
   spaceNumber: string;
+}
+
+export interface ParkingRecordsPaginated {
+  records: ParkingRecordFiltered[];
+  pagination: IPagination;
 }
 
 export interface ParkingRecordFiltered {
@@ -36,6 +43,8 @@ export interface FiltersRecord {
   entryEndDate: string;
   exitStartDate: string;
   exitEndDate: string;
+  page: number;
+  pageSize: number;
 }
 
 export interface DailySummary {

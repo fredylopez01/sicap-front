@@ -1,31 +1,61 @@
 import { useNavigate } from "react-router-dom";
 import "./LandingPage.css";
 import logo from "/logo.jpg";
+import {
+  Activity,
+  BellRing,
+  ChartColumnBig,
+  LayoutDashboard,
+  Receipt,
+  SquareParking,
+  UserStar,
+  Zap,
+} from "lucide-react";
 
 export function LandingPage() {
   const navigate = useNavigate();
 
   const benefits = [
     {
-      icon: "⚡",
+      icon: <Zap color="#ff9900" />,
       title: "Acceso Rápido",
       desc: "Sin filas, entrada automatizada",
     },
     {
-      icon: "🅿️",
+      icon: <SquareParking color="#007bff" />,
       title: "Sin Estrés",
       desc: "Espacios asignados inteligentemente",
     },
-    { icon: "👀", title: "Tiempo Real", desc: "Disponibilidad actualizada" },
-    { icon: "🤖", title: "Moderno", desc: "Interfaz digital intuitiva" },
     {
-      icon: "👩‍💼",
+      icon: <Activity color="#28a745" />,
+      title: "Tiempo Real",
+      desc: "Disponibilidad actualizada",
+    },
+    {
+      icon: <LayoutDashboard color="#6f42c1" />,
+      title: "Moderno",
+      desc: "Interfaz digital intuitiva",
+    },
+    {
+      icon: <UserStar color="#17a2b8" />,
       title: "Personal Productivo",
       desc: "Automatización de tareas",
     },
-    { icon: "📊", title: "Datos en Vivo", desc: "Reportes instantáneos" },
-    { icon: "🔔", title: "Alertas Smart", desc: "Notificaciones proactivas" },
-    { icon: "💰", title: "Más Ingresos", desc: "Optimización de ocupación" },
+    {
+      icon: <ChartColumnBig color="#ffc107" />,
+      title: "Datos en Vivo",
+      desc: "Reportes instantáneos",
+    },
+    {
+      icon: <BellRing color="#dc3545" />,
+      title: "Alertas Smart",
+      desc: "Notificaciones proactivas",
+    },
+    {
+      icon: <Receipt color="#198754" />,
+      title: "Más Ingresos",
+      desc: "Optimización de ocupación",
+    },
   ];
 
   return (
