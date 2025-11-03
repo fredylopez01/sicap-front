@@ -4,11 +4,13 @@ import { ApiResponse } from "@/interfaces";
 import { VehicleType } from "@/interfaces/vehicleType";
 import { apiRequest } from "@/services";
 import VehicleTypeDialogForm from "../Dialog/VehicleType/VehicleTypeDialogForm";
+import { showConfirmAlert, showAlert } from "@/utils/alerts";
+import { Trash } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import "./VechicleTypesContent.css";
 
 export default function VehicleTypesContent() {
   const { branchId } = useParams<{ branchId: string }>();
-
   const [vehicleTypes, setVehicleTypes] = useState<VehicleType[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -47,6 +49,47 @@ export default function VehicleTypesContent() {
 
     fetchVehicleTypes();
   }, [branchId]);
+
+  const handleDeleteClick = (vehicleType: VehicleType) => {
+    showConfirmAlert(
+      "Eliminar tipo de vehículo",
+      `¿Está seguro de eliminar el tipo de vehículo "${vehicleType.name}"? Esta acción no se puede deshacer.`,
+      "Eliminar",
+      async () => {
+        try {
+          setLoading(true);
+          setError(null);
+
+          const result: ApiResponse<null> = await apiRequest(
+            `/api/vehicleTypes/${vehicleType.id}`,
+            "DELETE"
+          );
+
+          if (result.success) {
+            setVehicleTypes((prev) =>
+              prev.filter((vt) => vt.id !== vehicleType.id)
+            );
+            showAlert("Tipo de vehículo eliminado exitosamente", "success");
+          } else {
+            setError(
+              result.message || "No se pudo eliminar el tipo de vehículo."
+            );
+            showAlert(
+              result.message || "Error al eliminar el tipo de vehículo"
+            );
+          }
+        } catch (err: any) {
+          console.error("Error al eliminar tipo de vehículo:", err);
+          setError(
+            err.message || "Error de conexión. Por favor, intente de nuevo."
+          );
+          showAlert(err.message || "Error de conexión", "error");
+        } finally {
+          setLoading(false);
+        }
+      }
+    );
+  };
 
   // Callback cuando se crea un nuevo tipo de vehículo
   const handleVehicleTypeCreated = (newType: VehicleType) => {
@@ -136,6 +179,13 @@ export default function VehicleTypesContent() {
                   }}
                   branchIdProp={branchId ? Number(branchId) : undefined}
                 />
+                <Button
+                  onClick={() => handleDeleteClick(vehicleType)}
+                  className="small-icon-button"
+                  variant={"default"}
+                >
+                  <Trash />
+                </Button>
               </div>
 
               <p className="vehicle-type-description">
