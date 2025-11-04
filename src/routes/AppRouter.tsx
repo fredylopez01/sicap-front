@@ -8,6 +8,7 @@ import {
   AddUserForm,
   UsersList,
   RecordsPage,
+  Reports,
 } from "../pages";
 import { PrivateRoute } from "./PrivateRoute";
 import Dashboard from "@/pages/dashboard/Dashboard";
@@ -86,6 +87,14 @@ export function AppRouter() {
             }
           />
           <Route path="registros" element={<RecordsPage />} />
+          <Route
+            path="reportes"
+            element={
+              <PrivateRoute requiredRole="ADMIN">
+                <Reports />
+              </PrivateRoute>
+            }
+          />
           <Route path="perfil" element={<UserProfile />} />
           <Route path="*" element={<NotFound />} />
         </Route>
