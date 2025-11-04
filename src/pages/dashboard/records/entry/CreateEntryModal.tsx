@@ -25,7 +25,7 @@ interface RequestData {
 }
 
 interface CreateEntryModalProps {
-  onCreate: () => void;
+  onCreate?: () => void;
 }
 
 export function CreateEntryModal({ onCreate }: CreateEntryModalProps) {
@@ -142,7 +142,7 @@ export function CreateEntryModal({ onCreate }: CreateEntryModalProps) {
 
         if (response.success) {
           setIsOpen(false);
-          onCreate();
+          onCreate && onCreate();
           showAlert("Entrada registrada correctamente", "success");
           setLicensePlate("");
         } else {

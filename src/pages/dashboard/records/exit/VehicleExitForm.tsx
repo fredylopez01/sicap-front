@@ -25,11 +25,12 @@ interface ExitData {
 }
 
 interface CreateExitFormProps {
-  onCreate: () => void;
+  onCreate?: () => void;
 }
 
 export function VehicleExitForm({ onCreate }: CreateExitFormProps) {
   const [licensePlate, setLicensePlate] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
   const [observations, setObservations] = useState("");
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({
@@ -77,12 +78,13 @@ export function VehicleExitForm({ onCreate }: CreateExitFormProps) {
       );
 
       if (result.success && result.data) {
+        setIsOpen(false);
         // Formatear información para mostrar
         const hours = Number(result.data.parkedHours).toFixed(2);
         const total = Number(result.data.totalToPay).toFixed(2);
         const rate = Number(result.data.appliedRate).toFixed(2);
 
-        onCreate();
+        onCreate && onCreate();
 
         showAlert(
           `Salida registrada exitosamente\n\nPlaca: ${result.data.licensePlate}\nTiempo: ${hours} horas\nTarifa: $${rate}/hora\nTotal a pagar: $${total}`,
@@ -116,7 +118,7 @@ export function VehicleExitForm({ onCreate }: CreateExitFormProps) {
   };
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button variant={"default"} className="btn-exit-modal" size={"default"}>
           <ArrowUp /> Registrar salida
