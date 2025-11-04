@@ -7,6 +7,8 @@ import Header from "./components/Header/Header";
 import ZonesContent from "./components/ZonesContent/ZonesContent";
 import Schedule from "./components/ScheduleContent/ScheduleContent";
 import VehicleTypesContent from "./components/VehicleTypesContent/VehicleTypesContent";
+import { showAlert, showConfirmAlert } from "@/utils/alerts";
+
 import "./Zones.css";
 
 export default function Zonas() {
@@ -85,32 +87,36 @@ export default function Zonas() {
   }, [branchId]);
 
   // Función para eliminar la sede
-  const handleDeleteBranch = async (id: number) => {
-    if (
-      !window.confirm(
-        "¿Deseas eliminar esta sede? Esta acción no se puede deshacer."
-      )
-    )
-      return;
+  const handleDeleteBranch = (id: number) => {
+    showConfirmAlert(
+      "Eliminar sede",
+      "¿Deseas eliminar esta sede? Esta acción no se puede deshacer.",
+      "Eliminar",
+      async () => {
+        try {
+          setLoading(true);
+          const response: ApiResponse<null> = await apiRequest(
+            `/api/branches/${id}`,
+            "DELETE"
+          );
 
-    try {
-      setLoading(true);
-      const response: ApiResponse<null> = await apiRequest(
-        `/api/branches/${id}`,
-        "DELETE"
-      );
-      if (response.success) {
-        alert("Sede eliminada correctamente");
-        navigate("/dashboard/sedes"); // Redirige a la lista de sedes
-      } else {
-        alert(response.message || "Error al eliminar la sede");
+          if (response.success) {
+            navigate("/dashboard/sedes"); // Redirige a la lista de sedes
+            showAlert("Sede eliminada correctamente", "success");
+          } else {
+            showAlert(response.message || "Error al eliminar la sede", "error");
+          }
+        } catch (err: any) {
+          console.error("Error al eliminar sede:", err);
+          showAlert(
+            err.message || "Error de conexión al eliminar la sede",
+            "error"
+          );
+        } finally {
+          setLoading(false);
+        }
       }
-    } catch (err: any) {
-      console.error("Error al eliminar sede:", err);
-      alert(err.message || "Error de conexión al eliminar la sede");
-    } finally {
-      setLoading(false);
-    }
+    );
   };
 
   // Obtener nombre del tipo de vehículo

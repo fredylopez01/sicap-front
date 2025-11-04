@@ -9,7 +9,7 @@ interface HeaderProps {
   handleBack: () => void;
   handleRedirectNewZone?: () => void;
   zonasCount?: number;
-  onDeleteBranch?: (branchId: number) => void; // <-- nueva prop
+  onDeleteBranch?: (branchId: number) => void;
 }
 
 export default function Header({
@@ -19,13 +19,9 @@ export default function Header({
   onDeleteBranch,
 }: HeaderProps) {
   const handleDeleteClick = () => {
-    if (!branch) return;
+    if (!branch || !onDeleteBranch) return;
 
-    if (window.confirm(`¿Deseas eliminar la sede "${branch.name}"?`)) {
-      if (onDeleteBranch) {
-        onDeleteBranch(branch.id);
-      }
-    }
+    onDeleteBranch(branch.id);
   };
 
   return (
@@ -47,7 +43,7 @@ export default function Header({
               className="btn-exit-modal"
               size="sm"
               variant="outline"
-              onClick={handleDeleteClick} // <-- aquí se llama
+              onClick={handleDeleteClick}
             >
               <Trash2 />
               Eliminar sede
