@@ -3,20 +3,20 @@
   overflow: hidden;
 }
 
-.header {
+.header-reports {
   background: var(--institutional-blue);
   color: white;
   padding: 10px 32px;
   text-align: center;
 }
 
-.header h1 {
+.header-reports h1 {
   margin: 0 0 8px 0;
   font-size: 1.7rem;
   font-weight: 700;
 }
 
-.header p {
+.header-reports p {
   margin: 0;
   opacity: 0.9;
   font-size: 1rem;
@@ -254,14 +254,14 @@ input[type="date"]:focus {
   transform: translateX(4px);
 }
 
-.zone-header {
+.zone-header-reports {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
 }
 
-.zone-header h4 {
+.zone-header-reports h4 {
   margin: 0;
   color: var(--black);
   font-size: 18px;
@@ -339,11 +339,11 @@ input[type="date"]:focus {
     padding: 16px;
   }
 
-  .header {
+  .header-reports {
     padding: 24px;
   }
 
-  .header h1 {
+  .header-reports h1 {
     font-size: 24px;
   }
 
