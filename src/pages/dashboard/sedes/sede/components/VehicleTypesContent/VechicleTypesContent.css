@@ -258,6 +258,20 @@
   background: #fee2e2;
 }
 
+.small-icon-button {
+  width: 28px; /* equivalente a w-7 */
+  height: 28px; /* equivalente a h-7 */
+  padding: 4px; /* aproximadamente p-1 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.small-icon-button svg {
+  width: 16px; /* icono w-4 */
+  height: 16px; /* icono h-4 */
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .vehicle-types-grid {

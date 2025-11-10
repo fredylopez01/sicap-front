@@ -8,6 +8,7 @@ import {
   AddUserForm,
   UsersList,
   RecordsPage,
+  Reports,
 } from "../pages";
 import { PrivateRoute } from "./PrivateRoute";
 import Dashboard from "@/pages/dashboard/Dashboard";
@@ -17,6 +18,7 @@ import Zones from "@/pages/dashboard/sedes/sede/Zones";
 import DashboardOverview from "@/pages/dashboard/home/DashboardOverview";
 import { UserProfile } from "@/pages/dashboard/profile/UserProfile";
 import ParkingZonesPage from "@/pages/dashboard/ZonesPage/ZonesPage";
+import { ParkingProvider } from "@/context/ParkingContext";
 
 export function AppRouter() {
   return (
@@ -35,7 +37,9 @@ export function AppRouter() {
           path="/dashboard"
           element={
             <PrivateRoute>
-              <Dashboard />
+              <ParkingProvider>
+                <Dashboard />
+              </ParkingProvider>
             </PrivateRoute>
           }
         >
@@ -83,6 +87,14 @@ export function AppRouter() {
             }
           />
           <Route path="registros" element={<RecordsPage />} />
+          <Route
+            path="reportes"
+            element={
+              <PrivateRoute requiredRole="ADMIN">
+                <Reports />
+              </PrivateRoute>
+            }
+          />
           <Route path="perfil" element={<UserProfile />} />
           <Route path="*" element={<NotFound />} />
         </Route>

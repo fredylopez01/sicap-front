@@ -1,5 +1,5 @@
 .login-container {
-  width: 500px;
+  width: 400px;
   padding: 3rem 2.5rem;
   background: var(--primary-bg);
   border: 1px solid var(--border-color);
@@ -18,15 +18,19 @@
   color: var(--black);
 }
 
+.login-input-group {
+  margin-bottom: 1rem;
+}
+
 .login-btn {
   width: 100%;
-  padding: 1rem;
+  padding: 0.8rem 1rem;
   background: var(--black);
   border: none;
   border-radius: 10px;
   color: #fff;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.95rem;
   cursor: pointer;
   transition: all 0.3s ease, transform 0.2s ease;
   display: flex;

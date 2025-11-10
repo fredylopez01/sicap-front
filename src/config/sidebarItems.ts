@@ -5,6 +5,7 @@ import {
   ArrowUpDown,
   UserCog2Icon,
   Activity,
+  PieChart,
 } from "lucide-react";
 import { SidebarGroup } from "@/interfaces/sidebar";
 
@@ -24,6 +25,7 @@ export const adminSidebar: SidebarGroup[] = [
         icon: Activity,
       },
       { title: "Usuarios", url: "/dashboard/usuarios", icon: User },
+      { title: "Reportes", url: "/dashboard/reportes", icon: PieChart },
       {
         title: "Perfil",
         url: "/dashboard/perfil",

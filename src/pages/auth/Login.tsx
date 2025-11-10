@@ -73,7 +73,7 @@ export function LoginPage() {
       </div>
 
       <form className="login-form" onSubmit={handleSubmit}>
-        <div className="input-group">
+        <div className="input-group login-input-group">
           <InputField
             id="username"
             label="Usuario o Email"
@@ -104,7 +104,7 @@ export function LoginPage() {
         </button>
 
         <div className="forgot-password">
-          <a href="/forgot-password">¿Olvidó su contraseña?</a>
+          <a href="/">Volver página de inicio</a>
         </div>
       </form>
     </div>

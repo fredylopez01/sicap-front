@@ -24,8 +24,13 @@ interface RequestData {
   spaceId: number;
 }
 
-export function CreateEntryModal() {
+interface CreateEntryModalProps {
+  onCreate?: () => void;
+}
+
+export function CreateEntryModal({ onCreate }: CreateEntryModalProps) {
   const { user } = useAuth();
+  const [isOpen, setIsOpen] = useState(false);
   const [licensePlate, setLicensePlate] = useState("");
   const [zoneId, setZoneId] = useState(0);
   const [spaceId, setSpaceId] = useState(0);
@@ -118,7 +123,7 @@ export function CreateEntryModal() {
   const onCreateZone = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    if (licensePlate.trim().length >= 4 && licensePlate.trim().length <= 8) {
+    if (licensePlate.trim().length <= 4 && licensePlate.trim().length >= 8) {
       showAlert(
         "La placa es obligatoria y debe tener una longitud de entre 4 y 8 dígitos"
       );
@@ -136,7 +141,10 @@ export function CreateEntryModal() {
         );
 
         if (response.success) {
+          setIsOpen(false);
+          onCreate && onCreate();
           showAlert("Entrada registrada correctamente", "success");
+          setLicensePlate("");
         } else {
           showAlert("Error al registrar entrada: " + response.message, "error");
         }
@@ -150,7 +158,7 @@ export function CreateEntryModal() {
   };
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <form onSubmit={onCreateZone}>
         <DialogTrigger asChild>
           <Button
