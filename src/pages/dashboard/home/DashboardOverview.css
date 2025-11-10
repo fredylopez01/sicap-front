@@ -16,6 +16,7 @@
   font-weight: 700;
   color: var(--black);
   padding-bottom: 0.5rem;
+  margin-right: 0.5rem;
 }
 
 .date-filter-overview {
@@ -102,6 +103,7 @@
 
 .quick-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
 }
 
