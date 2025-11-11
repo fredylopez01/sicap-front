@@ -1,86 +1,49 @@
 .zone-card {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between; /* izquierda más ancha, derecha más estrecha */
-  gap: 1.5rem;
+  flex-direction: column;
   background-color: #ffffff;
   border-radius: 12px;
-  padding: 1rem;
+  padding: 1.5rem;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  margin-top: 1rem;
   margin-bottom: 1rem;
+  border: 1px solid #e5e7eb;
 }
 
 .zone-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .content-section {
   display: flex;
   flex-direction: column;
-}
-
-.action-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 1rem;
   gap: 0.75rem;
-  border-top: 1px solid #e5e7eb;
-  padding-top: 0.75rem;
 }
 
-/* Contenedor del botón de edición */
-.action-section > div:first-child {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Botón de edición (ícono) */
-.action-section button.w-10 {
-  background-color: #f3f4f6;
-  border: 1px solid #d1d5db;
-  transition: all 0.2s ease;
-}
-
-.action-section button.w-10:hover {
-  background-color: #e5e7eb;
-}
-
-/* Botón de redirección */
-.action-section > div:last-child button {
-  color: #fff;
-  border-radius: 8px;
-  font-weight: 500;
-  transition: background-color 0.2s ease;
-}
-
-.sheet-container {
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
+.top-section {
+  margin-bottom: 0.5rem;
 }
 
 .zone-title {
-  font-size: 1.2rem;
+  font-size: 1.375rem;
   font-weight: 700;
   color: #1f2937;
   margin: 0;
 }
 
 .zone-description {
-  color: #374151;
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
+  color: #6b7280;
+  font-size: 0.95rem;
+  margin: 0;
   line-height: 1.5;
+  min-height: 1.5rem;
 }
 
 .zone-atribute {
   color: #374151;
   font-size: 0.9rem;
+  margin: 0.25rem 0;
 }
 
 .zone-atribute strong,
@@ -89,16 +52,63 @@
   color: #1f2937;
 }
 
-.zone-atribute:hover {
-  color: #111827;
+.action-section {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
 }
 
+/* Botón de edición - más pequeño */
+.action-section>button[class*="w-8"],
+.action-section>button[class*="w-10"] {
+  background-color: #f3f4f6;
+  border: 1px solid #d1d5db;
+  transition: all 0.2s ease;
+  padding: 0.5rem;
+  color: #374151;
+}
+
+.action-section>button[class*="w-8"]:hover,
+.action-section>button[class*="w-10"]:hover {
+  background-color: #e5e7eb;
+}
+
+/* Botón de eliminar - FONDO NEGRO */
+.action-section button {
+  background-color: #000000;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.action-section button:hover {
+  background-color: #1f2937;
+}
+
+/* Responsive */
 @media (max-width: 640px) {
   .zone-card {
-    grid-template-columns: 1fr;
+    padding: 1rem;
   }
 
   .zone-title {
-    font-size: 1rem;
+    font-size: 1.125rem;
+  }
+
+  .action-section {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .action-section>* {
+    width: 100%;
   }
 }

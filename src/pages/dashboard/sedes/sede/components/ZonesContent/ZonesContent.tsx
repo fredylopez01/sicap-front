@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Zone } from "@/interfaces/zona";
 import { Branch } from "@/interfaces/Branch";
 import { Button } from "@/components/ui/button";
@@ -22,7 +22,7 @@ interface ZonesContentProps {
 
 export default function ZonesContent({
   branch,
-  zones,
+  zones: initialZones,
   loading,
   error,
   handleRedirectZone,
@@ -30,8 +30,26 @@ export default function ZonesContent({
   getVehicleTypeRate,
   onZoneCreated,
 }: ZonesContentProps) {
+  const [zones, setZones] = useState<Zone[]>(initialZones);
+
+  // Sincronizar con el prop cuando cambie
+  React.useEffect(() => {
+    setZones(initialZones);
+  }, [initialZones]);
+
   const handleZoneCreated = (newZone: Zone) => {
+    setZones(prev => [...prev, newZone]);
     if (onZoneCreated) onZoneCreated(newZone);
+  };
+
+  const handleZoneUpdated = (updatedZone: Zone) => {
+    setZones(prev =>
+      prev.map(zone => (zone.id === updatedZone.id ? updatedZone : zone))
+    );
+  };
+
+  const handleZoneDeleted = (zoneId: number) => {
+    setZones(prev => prev.filter(zone => zone.id !== zoneId));
   };
 
   return (
@@ -58,14 +76,14 @@ export default function ZonesContent({
 
       {loading && (
         <div className="loading-state">
-          <div className="spinner-vehicle-type "></div>
+          <div className="spinner-vehicle-type"></div>
           <p>Cargando zonas...</p>
         </div>
       )}
 
       {error && (
         <div className="error-state">
-          <span className="error-icon"></span>
+          <span className="error-icon">⚠️</span>
           <p className="error-message">{error}</p>
           <Button onClick={() => window.location.reload()}>Reintentar</Button>
         </div>
@@ -96,6 +114,8 @@ export default function ZonesContent({
                     zone={zone}
                     vehicleTypeName={getVehicleTypeName(zone.vehicleTypeId)}
                     vehicleTypeRate={getVehicleTypeRate(zone.vehicleTypeId)}
+                    onUpdateZone={handleZoneUpdated}
+                    onDelete={handleZoneDeleted}
                     onRedirect={handleRedirectZone}
                   />
                   <Separator />
