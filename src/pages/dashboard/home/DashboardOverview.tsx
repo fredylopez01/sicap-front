@@ -8,6 +8,7 @@ import { apiRequest } from "@/services";
 import { useAuth } from "@/context/AuthContext";
 import { VehicleExitForm } from "../records/exit/VehicleExitForm";
 import { ParkingMetrics } from "@/components/ParkingAlert/ParkingMetrics";
+import { Button } from "@/components/ui/button";
 
 export default function DashboardOverview() {
   const { user } = useAuth();
@@ -67,6 +68,10 @@ export default function DashboardOverview() {
     });
   };
 
+  const redirectToBranch = () => {
+    window.location.href = `/dashboard/sedes/${user?.branchId}`;
+  };
+
   // Función para formatear moneda
   const formatCurrency = (amount: number | null | undefined): string => {
     if (amount === null || amount === undefined) return "-";
@@ -90,6 +95,15 @@ export default function DashboardOverview() {
       <div className="overview-header">
         <h2 className="overview-title">Resumen Operacional</h2>
         <div className="quick-actions">
+          {user?.role === "ADMIN" ? (
+            <Button
+              onClick={redirectToBranch}
+              className="action-button secondary-action"
+            >
+              Ir a mi parqueadero
+            </Button>
+          ) : null}
+
           <CreateEntryModal onCreate={onReload} />
           {/* <button className="action-button secondary-action">
             Ver Mapa de Espacios
