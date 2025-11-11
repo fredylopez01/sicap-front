@@ -5,6 +5,8 @@ import { Schedule, DAY_NAMES, DayOfWeek } from "@/interfaces/Schedule";
 import { apiRequest } from "@/services";
 import ScheduleDialogForm from "../Dialog/Schedule/ScheduleDialogForm";
 import "./ScheduleContent.css";
+import { Trash } from "lucide-react";
+import { showAlert, showConfirmAlert } from "@/utils/alerts";
 
 export default function ScheduleContent() {
   const { branchId } = useParams<{ branchId: string }>();
@@ -12,6 +14,7 @@ export default function ScheduleContent() {
   const [schedules, setSchedules] = useState<Schedule[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
 
   // Cargar horarios al montar el componente
   useEffect(() => {
@@ -60,6 +63,43 @@ export default function ScheduleContent() {
       sortSchedulesByDay(
         prev.map((s) => (s.id === updatedSchedule.id ? updatedSchedule : s))
       )
+    );
+  };
+
+  // Manejar eliminación de horario
+  const handleDeleteClick = (schedule: Schedule) => {
+    showConfirmAlert(
+      "Eliminar horario",
+      `¿Está seguro de eliminar el horario de ${DAY_NAMES[schedule.dayOfWeek]}? Esta acción no se puede deshacer.`,
+      "Eliminar",
+      async () => {
+        try {
+          setDeletingId(schedule.id);
+
+          const result: ApiResponse<null> = await apiRequest(
+            `/api/schedules/${schedule.id}`,
+            "DELETE"
+          );
+
+          if (result.success) {
+            setSchedules((prev) => prev.filter((s) => s.id !== schedule.id));
+            showAlert("Horario eliminado exitosamente", "success");
+          } else {
+            showAlert(
+              result.message || "Error al eliminar el horario",
+              "error"
+            );
+          }
+        } catch (err: any) {
+          console.error("Error al eliminar horario:", err);
+          showAlert(
+            err.message || "Error de conexión. Intente de nuevo.",
+            "error"
+          );
+        } finally {
+          setDeletingId(null);
+        }
+      }
     );
   };
 
@@ -172,6 +212,16 @@ export default function ScheduleContent() {
                     scheduleToEdit={schedule}
                     onScheduleUpdated={handleScheduleUpdated}
                   />
+
+                  {/* Botón de eliminar */}
+                  <button
+                    onClick={() => handleDeleteClick(schedule)}
+                    disabled={deletingId === schedule.id}
+                    className="delete-button"
+                    title="Eliminar horario"
+                  >
+                    <Trash />
+                  </button>
                 </div>
               </div>
 

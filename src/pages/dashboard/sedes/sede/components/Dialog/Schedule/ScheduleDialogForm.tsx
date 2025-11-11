@@ -99,7 +99,7 @@ export default function ScheduleDialogForm({
 
   // Limpiar formulario
   const resetForm = () => {
-    setDayOfWeek("");
+    setDayOfWeek("monday");
     setOpeningTime("");
     setClosingTime("");
     setIsActive(true);
@@ -110,6 +110,8 @@ export default function ScheduleDialogForm({
   const onCreateSchedule = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
+
+    console.log("Creating schedule for day:", dayOfWeek);
 
     const payload: CreateScheduleRequest = {
       branchId: branchIdProp,
@@ -335,8 +337,8 @@ export default function ScheduleDialogForm({
                   ? "Guardando..."
                   : "Creando..."
                 : isEditing
-                ? "Guardar cambios"
-                : "Crear horario"}
+                  ? "Guardar cambios"
+                  : "Crear horario"}
             </Button>
           </DialogFooter>
         </form>
