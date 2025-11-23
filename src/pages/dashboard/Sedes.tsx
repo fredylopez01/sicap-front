@@ -5,7 +5,7 @@ import { Sede } from "@/interfaces/sede"; // Asume que la interfaz Sede está de
 import "./Sedes.css"; // Importamos el archivo CSS
 import { ApiResponse } from "@/interfaces";
 import { apiRequest } from "@/services";
-import { MapPinned, MapPinPlus } from "lucide-react";
+import { ChevronRight, MapPinned, MapPinPlus } from "lucide-react";
 
 export default function Sedes() {
   const navigate = useNavigate();
@@ -69,27 +69,6 @@ export default function Sedes() {
 
       {/* Contenido dividido */}
       <div className="content-grid-wrapper">
-        {/* Panel principal */}
-        <section className="main-panel">
-          <h2 className="panel-title">Mapa / Visualización</h2>
-          <div className="map-placeholder">
-            <iframe
-              className="map-iframe"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15878.077209303038!2d-73.38541783477839!3d5.534271032849081!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e6a71e619175409%3A0x8979d381b1062f6b!2sTunja%2C%20Boyac%C3%A1%2C%20Colombia!5e0!3m2!1ses!2sus!4v1678825200000!5m2!1ses!2sus"
-              width="100%" // Lo hacemos 100% para que sea responsivo dentro de su contenedor
-              height="100%"
-              style={{ border: 0, borderRadius: "8px" }}
-              allowFullScreen={true}
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="Mapa de Tunja, Boyacá"
-            ></iframe>
-          </div>
-        </section>
-
-        {/* Panel lateral */}
-        <aside className="sidebar-panel">
-          <h2 className="panel-title">Lista de sedes</h2>
           {loading && <p className="status-message">Cargando sedes...</p>}
           {error && <p className="status-message error">{error}</p>}
 
@@ -101,8 +80,13 @@ export default function Sedes() {
                   className="sede-list-item"
                   onClick={() => handleRedirectSede(sede.id)}
                 >
-                  <MapPinned strokeWidth={1.5} />
-                  {sede.name}
+                  <div className="sede-card-content">
+                    <h3 className="sede-card-title"><MapPinned size={20} />{sede.name}</h3>
+                    <div className="sede-card-address">
+                      <span>{sede.address}</span>
+                    </div>
+                  </div>
+                  <ChevronRight className="sede-card-icon" size={20} />
                 </li>
               ))}
             </ul>
@@ -111,7 +95,6 @@ export default function Sedes() {
           {!loading && !error && sedes.length === 0 && (
             <p className="status-message">No se encontraron sedes.</p>
           )}
-        </aside>
       </div>
     </div>
   );
