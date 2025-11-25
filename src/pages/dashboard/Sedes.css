@@ -1,84 +1,100 @@
 .sedes-container {
   width: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #f3f4f6;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
 }
 
 .sedes-header {
-  padding: 0.3rem;
-  border-bottom: 1px solid #e5e7eb;
+  padding: 2rem 2.5rem;
+  background: white;
+  border-bottom: 1px solid #e9ecef;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 @media (min-width: 640px) {
   .sedes-header {
-    flex-direction: row; /* sm:flex-row */
-    align-items: center; /* sm:items-center */
-    justify-content: space-between; /* sm:justify-between */
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
   }
 }
 
+.header-info {
+  flex: 1;
+}
+
 .header-title {
-  font-size: 1.5rem; /* text-2xl */
-  font-weight: 700; /* font-bold */
-  color: #1f2937; /* text-gray-800 */
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.5px;
 }
 
 .header-subtitle {
-  /* text-gray-600 */
-  color: #4b5563; /* text-gray-600 */
+  color: #6b7280;
+  font-size: 0.95rem;
+  margin: 0;
+  font-weight: 400;
 }
 
 .header-actions {
   display: flex;
-  flex-wrap: wrap; /* flex-wrap */
-  align-items: center; /* items-center */
-  gap: 0.5rem; /* gap-2 */
-}
-
-.header-actions > Button {
-  cursor: pointer;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .content-grid-wrapper {
   flex: 1;
-  display: flex;
-  gap: 1rem;
-  padding: 1rem;
-  background-color: #ffffff;
-  border-radius: 0.75rem;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  padding: 2.5rem;
+}
+
+.status-message {
+  text-align: center;
+  color: #6b7280;
+  font-size: 1rem;
+  padding: 3rem;
+  width: 100%;
+}
+
+.status-message.error {
+  color: #ef4444;
 }
 
 .sede-list {
   list-style: none;
   padding: 0;
   margin: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  flex: 1;
-  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .sede-list {
+    grid-template-columns: 1fr;
+  }
 }
 
 .sede-list-item {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 0.5rem;
-  background: linear-gradient(135deg, var(--institutional-blue) 0%, var(--institutional-blue-hover) 100%);
-  box-shadow: 0 8px 24px rgba(102, 164, 234, 0.25);
-  border-radius: 0.25rem;
+  background: white;
+  border-radius: 16px;
+  padding: 1.75rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  color: #1f2937;
-  width: 250px;
-  height: 250px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid #e9ecef;
+  position: relative;
   overflow: hidden;
-   position: relative; 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 180px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .sede-list-item::before {
@@ -87,62 +103,143 @@
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  height: 4px;
+  background: linear-gradient(90deg, var(--institutional-blue), var(--institutional-blue-hover));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sede-list-item:hover::before {
+  transform: scaleX(1);
 }
 
 .sede-list-item:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(102, 181, 234, 0.35);
-}
-
-.sede-list-item:hover::before {
-  opacity: 1;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+  border-color: var(--institutional-blue);
 }
 
 .sede-card-content {
   flex: 1;
-  position: relative;
-  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sede-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.sede-icon-wrapper {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--institutional-blue) 0%, var(--institutional-blue-hover) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.sede-list-item:hover .sede-icon-wrapper {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(102, 164, 234, 0.3);
+}
+
+.sede-card-info {
+  flex: 1;
+  min-width: 0;
 }
 
 .sede-card-title {
-  margin: 0 0 10px 0;
-  font-size: 20px;
-  font-weight: 700;
-  color: white;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1a1a1a;
   letter-spacing: -0.3px;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sede-card-city {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  background: #f1f5f9;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #64748b;
+  margin-bottom: 0.5rem;
 }
 
 .sede-card-address {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 14px;
-  font-weight: 500;
+  align-items: flex-start;
+  gap: 0.5rem;
+  color: #6b7280;
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
 .sede-card-address svg {
   flex-shrink: 0;
-  color: rgba(255, 255, 255, 0.8);
+  margin-top: 0.15rem;
+  color: var(--institutional-blue);
 }
 
-.sede-card-icon {
-  color: white;
+.sede-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1rem;
+  border-top: 1px solid #f1f5f9;
+  margin-top: auto;
+}
+
+.sede-card-action {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--institutional-blue);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: gap 0.3s ease;
+}
+
+.sede-list-item:hover .sede-card-action {
+  gap: 0.75rem;
+}
+
+.sede-card-action svg {
   transition: transform 0.3s ease;
-  position: relative;
-  z-index: 1;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  padding: 8px;
-  width: 36px;
-  height: 36px;
 }
 
-.sede-list-item:hover .sede-card-icon {
-  transform: translateX(6px);
-  background-color: rgba(255, 255, 255, 0.3);
+.sede-list-item:hover .sede-card-action svg {
+  transform: translateX(3px);
+}
+
+/* Loading animation */
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.status-message {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
