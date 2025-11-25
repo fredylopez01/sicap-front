@@ -15,7 +15,6 @@ import { apiRequest } from "@/services";
 import { ApiResponse } from "@/interfaces";
 import {
   Schedule,
-  CreateScheduleRequest,
   UpdateScheduleRequest,
   DayOfWeek,
   DAY_OPTIONS,
