@@ -6,6 +6,7 @@ import { ApiResponse } from "../../interfaces";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
+import { Eye, EyeOff } from "lucide-react";
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ export function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isVisiblePassowrd, setIsVisblePassword] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,15 +83,29 @@ export function LoginPage() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
+          <div className="form-group">
+            <label htmlFor="password-login">Contraseña</label>
+            <div className="flex items-center gap-2 border border-[var(--border-color)] rounded-[10px] bg-white transition duration-200 focus-within:border-[var(--blue-medium-light)] focus-within:shadow-[0_0_0_3px_var(--blue-light)]">
+              <input
+                className="flex-1 px-4 py-2 text-[0.85rem] text-[var(--black)] placeholder-[var(--neutral-gray)] bg-transparent focus:outline-none"
+                id="password-login"
+                type={isVisiblePassowrd ? "text" : "password"}
+                placeholder="Ingrese su contraseña"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete="password"
+              />
 
-          <InputField
-            id="password"
-            label="Contraseña"
-            type="password"
-            placeholder="Ingrese su contraseña"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+              <button
+                type="button"
+                onClick={() => setIsVisblePassword(!isVisiblePassowrd)}
+                className="px-2 text-[var(--neutral-gray)] hover:text-[var(--blue-medium-light)] transition"
+              >
+                {isVisiblePassowrd ? <EyeOff /> : <Eye />}
+              </button>
+            </div>
+          </div>
         </div>
 
         <button type="submit" className="login-btn" disabled={loading}>

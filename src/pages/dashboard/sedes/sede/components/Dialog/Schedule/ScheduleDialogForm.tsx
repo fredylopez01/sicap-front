@@ -15,7 +15,6 @@ import { apiRequest } from "@/services";
 import { ApiResponse } from "@/interfaces";
 import {
   Schedule,
-  CreateScheduleRequest,
   UpdateScheduleRequest,
   DayOfWeek,
   DAY_OPTIONS,
@@ -38,9 +37,11 @@ export default function ScheduleDialogForm({
   isEditing = false,
   scheduleToEdit,
 }: ScheduleDialogFormProps) {
+  const [scheduleType, setScheduleType] = useState<"DIURNO" | "NOCTURNO">("DIURNO");
   const [dayOfWeek, setDayOfWeek] = useState<DayOfWeek | "">("monday");
   const [openingTime, setOpeningTime] = useState<string>("");
   const [closingTime, setClosingTime] = useState<string>("");
+  const [nightRate, setNightRate] = useState<string>("");
   const [isActive, setIsActive] = useState(true);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -49,7 +50,7 @@ export default function ScheduleDialogForm({
   // Cargar datos si está en modo edición
   useEffect(() => {
     if (isEditing && scheduleToEdit && open) {
-      setDayOfWeek(scheduleToEdit.dayOfWeek);
+      setDayOfWeek(scheduleToEdit.dayOfWeek || "");
       setIsActive(scheduleToEdit.isActive);
     }
   }, [isEditing, scheduleToEdit, open]);
@@ -59,6 +60,11 @@ export default function ScheduleDialogForm({
     label: day.label,
   }));
 
+  const scheduleTypeOptions = [
+    { value: "DIURNO", label: "Diurno (Por días)" },
+    { value: "NOCTURNO", label: "Nocturno (Tarifa plana)" },
+  ];
+
   const statusOptions = [
     { value: "true", label: "Activo" },
     { value: "false", label: "Inactivo" },
@@ -66,28 +72,29 @@ export default function ScheduleDialogForm({
 
   // Validaciones
   const validateForm = (): boolean => {
-    if (!isEditing && !dayOfWeek) {
-      setError("El día de la semana es requerido");
-      showAlert("El día de la semana es requerido", "error");
-      return false;
-    }
-    if (!openingTime) {
-      setError("La hora de apertura es requerida");
-      showAlert("La hora de apertura es requerida", "error");
-      return false;
-    }
-    if (!closingTime) {
-      setError("La hora de cierre es requerida");
-      showAlert("La hora de cierre es requerida", "error");
-      return false;
-    }
-    if (closingTime <= openingTime) {
-      setError("La hora de cierre debe ser posterior a la hora de apertura");
-      showAlert(
-        "La hora de cierre debe ser posterior a la hora de apertura",
-        "error"
-      );
-      return false;
+    if (scheduleType === "DIURNO") {
+      if (!isEditing && !dayOfWeek) {
+        setError("El día de la semana es requerido");
+        showAlert("El día de la semana es requerido", "error");
+        return false;
+      }
+      if (!openingTime) {
+        setError("La hora de apertura es requerida");
+        showAlert("La hora de apertura es requerida", "error");
+        return false;
+      }
+      if (!closingTime) {
+        setError("La hora de cierre es requerida");
+        showAlert("La hora de cierre es requerida", "error");
+        return false;
+      }
+    } else {
+      // NOCTURNO
+      if (!nightRate || parseFloat(nightRate) <= 0) {
+        setError("La tarifa nocturna es requerida y debe ser mayor a 0");
+        showAlert("La tarifa nocturna es requerida y debe ser mayor a 0", "error");
+        return false;
+      }
     }
     if (!branchIdProp && !isEditing) {
       setError("No se ha especificado la sede");
@@ -99,9 +106,11 @@ export default function ScheduleDialogForm({
 
   // Limpiar formulario
   const resetForm = () => {
-    setDayOfWeek("");
+    setScheduleType("DIURNO");
+    setDayOfWeek("monday");
     setOpeningTime("");
     setClosingTime("");
+    setNightRate("");
     setIsActive(true);
     setError(null);
   };
@@ -111,12 +120,21 @@ export default function ScheduleDialogForm({
     e.preventDefault();
     if (!validateForm()) return;
 
-    const payload: CreateScheduleRequest = {
+    console.log("Creating schedule, type:", scheduleType);
+
+    const payload: any = {
       branchId: branchIdProp,
-      dayOfWeek: dayOfWeek as DayOfWeek,
-      openingTime: openingTime,
-      closingTime: closingTime,
+      scheduleType: scheduleType,
     };
+
+    if (scheduleType === "DIURNO") {
+      payload.dayOfWeek = dayOfWeek as DayOfWeek;
+      payload.openingTime = openingTime;
+      payload.closingTime = closingTime;
+    } else {
+      // NOCTURNO - tiempos por defecto en el backend
+      payload.nightRate = parseFloat(nightRate);
+    }
 
     try {
       setLoading(true);
@@ -245,8 +263,31 @@ export default function ScheduleDialogForm({
           )}
 
           <div className="grid mt-2 gap-3">
-            {/* Día de la semana - Solo en modo crear */}
+            {/* Tipo de horario - Solo en modo crear */}
             {!isEditing && (
+              <InputField
+                id="scheduleType"
+                label="Tipo de horario *"
+                type="select"
+                value={scheduleType}
+                onChange={(e) => {
+                  const type = e.target.value as "DIURNO" | "NOCTURNO";
+                  setScheduleType(type);
+                  if (type === "NOCTURNO") {
+                    setOpeningTime("20:00");
+                    setClosingTime("06:00");
+                  } else {
+                    setOpeningTime("");
+                    setClosingTime("");
+                  }
+                  setError(null);
+                }}
+                options={scheduleTypeOptions}
+              />
+            )}
+
+            {/* Día de la semana - Solo para horarios diurnos */}
+            {!isEditing && scheduleType === "DIURNO" && (
               <InputField
                 id="dayOfWeek"
                 label="Día de la semana *"
@@ -276,35 +317,57 @@ export default function ScheduleDialogForm({
               </div>
             )}
 
-            {/* Hora de apertura */}
-            <InputField
-              id="openingTime"
-              label="Hora de apertura *"
-              type="time"
-              value={openingTime}
-              onChange={(e) => {
-                setOpeningTime(e.target.value);
-                setError(null);
-              }}
-            />
+            {/* Horarios - Solo para horarios diurnos o en edición */}
+            {(scheduleType === "DIURNO" || isEditing) && (
+              <>
+                <InputField
+                  id="openingTime"
+                  label="Hora de apertura *"
+                  type="time"
+                  value={openingTime}
+                  onChange={(e) => {
+                    setOpeningTime(e.target.value);
+                    setError(null);
+                  }}
+                />
 
-            {/* Hora de cierre */}
-            <InputField
-              id="closingTime"
-              label="Hora de cierre *"
-              type="time"
-              value={closingTime}
-              onChange={(e) => {
-                setClosingTime(e.target.value);
-                setError(null);
-              }}
-            />
+                <InputField
+                  id="closingTime"
+                  label="Hora de cierre *"
+                  type="time"
+                  value={closingTime}
+                  onChange={(e) => {
+                    setClosingTime(e.target.value);
+                    setError(null);
+                  }}
+                />
 
-            {/* Preview del horario */}
-            {openingTime && closingTime && (
-              <div className="bg-blue-50 border border-blue-200 text-blue-700 px-3 py-2 rounded text-sm">
-                📅 Horario: {openingTime} - {closingTime}
-              </div>
+                {openingTime && closingTime && (
+                  <div className="bg-blue-50 border border-blue-200 text-blue-700 px-3 py-2 rounded text-sm">
+                    📅 Horario: {openingTime} - {closingTime}
+                  </div>
+                )}
+              </>
+            )}
+
+            {/* Tarifa nocturna - Solo para horarios nocturnos */}
+            {!isEditing && scheduleType === "NOCTURNO" && (
+              <>
+                <div className="bg-purple-50 border border-purple-200 text-purple-700 px-3 py-2 rounded text-sm">
+                  🌙 Horario nocturno: 8:00 PM - 6:00 AM (tarifa única)
+                </div>
+                <InputField
+                  id="nightRate"
+                  label="Tarifa nocturna *"
+                  type="number"
+                  value={nightRate}
+                  onChange={(e) => {
+                    setNightRate(e.target.value);
+                    setError(null);
+                  }}
+                  placeholder="Ej: 5000"
+                />
+              </>
             )}
 
             {/* Estado */}
@@ -335,8 +398,8 @@ export default function ScheduleDialogForm({
                   ? "Guardando..."
                   : "Creando..."
                 : isEditing
-                ? "Guardar cambios"
-                : "Crear horario"}
+                  ? "Guardar cambios"
+                  : "Crear horario"}
             </Button>
           </DialogFooter>
         </form>

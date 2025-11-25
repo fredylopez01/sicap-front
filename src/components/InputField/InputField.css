@@ -10,7 +10,7 @@
   color: var(--text-dark);
 }
 
-.form-group input,
+.form-group > input,
 .form-group select {
   width: 100%;
   padding: 0.5rem 1rem;
@@ -22,11 +22,11 @@
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.form-group input::placeholder {
+.form-group > input::placeholder {
   color: var(--neutral-gray);
 }
 
-.form-group input:focus,
+.form-group > input:focus,
 .form-group select:focus {
   border-color: var(--blue-medium-light);
   box-shadow: 0 0 0 3px var(--blue-light);

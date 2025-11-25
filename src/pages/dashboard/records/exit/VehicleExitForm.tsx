@@ -18,10 +18,27 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ArrowUp } from "lucide-react";
+import { ReceiptModal } from "./ReceiptModal";
 
 interface ExitData {
   licensePlate: string;
   observations?: string;
+}
+
+interface ReceiptData {
+  id: number;
+  licensePlate: string;
+  spaceId: number;
+  entryControllerId: number;
+  exitControllerId: number;
+  entryDate: string;
+  exitDate: string;
+  parkedHours: string;
+  appliedRate: string;
+  totalToPay: string;
+  observations: string | null;
+  status: string;
+  branchId: number;
 }
 
 interface CreateExitFormProps {
@@ -37,6 +54,10 @@ export function VehicleExitForm({ onCreate }: CreateExitFormProps) {
     licensePlate: "",
   });
 
+  // Estados para el recibo
+  const [receiptData, setReceiptData] = useState<ReceiptData | null>(null);
+  const [showReceipt, setShowReceipt] = useState(false);
+
   const validateForm = (): boolean => {
     const newErrors = {
       licensePlate: "",
@@ -45,7 +66,7 @@ export function VehicleExitForm({ onCreate }: CreateExitFormProps) {
     // Validar placa (requerida, formato básico)
     if (!licensePlate.trim()) {
       newErrors.licensePlate = "La placa es obligatoria";
-    } else if (licensePlate.trim().length < 4) {
+    } else if (licensePlate.trim().length < 3) {
       newErrors.licensePlate = "La placa debe tener al menos 4 caracteres";
     } else if (licensePlate.trim().length > 10) {
       newErrors.licensePlate = "La placa no puede exceder 10 caracteres";
@@ -53,6 +74,12 @@ export function VehicleExitForm({ onCreate }: CreateExitFormProps) {
 
     setErrors(newErrors);
     return !Object.values(newErrors).some((error) => error !== "");
+  };
+
+  const resetForm = () => {
+    setLicensePlate("");
+    setObservations("");
+    setErrors({ licensePlate: "" });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -78,19 +105,22 @@ export function VehicleExitForm({ onCreate }: CreateExitFormProps) {
       );
 
       if (result.success && result.data) {
+        // Cerrar el modal de salida
         setIsOpen(false);
-        // Formatear información para mostrar
-        const hours = Number(result.data.parkedHours).toFixed(2);
-        const total = Number(result.data.totalToPay).toFixed(2);
-        const rate = Number(result.data.appliedRate).toFixed(2);
 
+        // Guardar los datos del recibo
+        setReceiptData(result.data);
+
+        // Resetear el formulario
+        resetForm();
+
+        // Llamar al callback onCreate si existe
         onCreate && onCreate();
 
-        showAlert(
-          `Salida registrada exitosamente\n\nPlaca: ${result.data.licensePlate}\nTiempo: ${hours} horas\nTarifa: $${rate}/hora\nTotal a pagar: $${total}`,
-          "success",
-          5000
-        );
+        // Mostrar el recibo después de un breve delay
+        setTimeout(() => {
+          setShowReceipt(true);
+        }, 300);
       } else {
         showAlert(
           result.message || "Error al registrar la salida del vehículo"
@@ -100,7 +130,7 @@ export function VehicleExitForm({ onCreate }: CreateExitFormProps) {
       console.error("Error en registro de salida:", error);
       showAlert(
         error.message ||
-          "Error de conexión. No se pudo registrar la salida del vehículo."
+        "Error de conexión. No se pudo registrar la salida del vehículo."
       );
     } finally {
       setLoading(false);
@@ -117,67 +147,83 @@ export function VehicleExitForm({ onCreate }: CreateExitFormProps) {
     }
   };
 
+  const handleCloseReceipt = () => {
+    setShowReceipt(false);
+    setReceiptData(null);
+  };
+
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <Button variant={"default"} className="btn-exit-modal" size={"default"}>
-          <ArrowUp /> Registrar salida
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="w-auto record-datails-modal-container">
-        <DialogHeader>
-          <DialogTitle>Registrar salida de vehículo</DialogTitle>
-          <DialogDescription>
-            El sistema calculará automáticamente el tiempo de permanencia y el
-            monto a pagar basado en la tarifa del espacio asignado.
-          </DialogDescription>
-        </DialogHeader>
+    <>
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogTrigger asChild>
+          <Button variant={"default"} className="btn-exit-modal" size={"default"}>
+            <ArrowUp /> Registrar salida
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="w-auto record-datails-modal-container">
+          <DialogHeader>
+            <DialogTitle>Registrar salida de vehículo</DialogTitle>
+            <DialogDescription>
+              El sistema calculará automáticamente el tiempo de permanencia y el
+              monto a pagar basado en la tarifa del espacio asignado.
+            </DialogDescription>
+          </DialogHeader>
 
-        <form className="exit-form" onSubmit={handleSubmit}>
-          <div className="input-field">
-            <Label htmlFor="licensePlate">
-              Placa del Vehículo <span className="required">*</span>
-            </Label>
-            <Input
-              id="licensePlate"
-              type="text"
-              placeholder="Ej: ABC123"
-              value={licensePlate}
-              onChange={handleLicensePlateChange}
-              disabled={loading}
-              maxLength={10}
-              aria-invalid={!!errors.licensePlate}
-              className={errors.licensePlate ? "input-error" : ""}
-            />
-            {errors.licensePlate && <ErrorSpan message={errors.licensePlate} />}
-          </div>
+          <form className="exit-form" onSubmit={handleSubmit}>
+            <div className="input-field">
+              <Label htmlFor="licensePlate">
+                Placa del Vehículo <span className="required">*</span>
+              </Label>
+              <Input
+                id="licensePlate"
+                type="text"
+                placeholder="Ej: ABC123"
+                value={licensePlate}
+                onChange={handleLicensePlateChange}
+                disabled={loading}
+                maxLength={10}
+                aria-invalid={!!errors.licensePlate}
+                className={errors.licensePlate ? "input-error" : ""}
+              />
+              {errors.licensePlate && <ErrorSpan message={errors.licensePlate} />}
+            </div>
 
-          <div className="input-field">
-            <Label htmlFor="observations">
-              Observaciones <span className="optional">(Opcional)</span>
-            </Label>
-            <textarea
-              id="observations"
-              placeholder="Observaciones adicionales sobre la salida..."
-              value={observations}
-              onChange={(e) => setObservations(e.target.value)}
-              disabled={loading}
-              rows={4}
-              maxLength={500}
-              className="textarea-input"
-            />
-            <small className="input-hint">Máximo 500 caracteres</small>
-          </div>
-          <DialogFooter className="mt-4">
-            <DialogClose asChild>
-              <Button variant="outline">Cancelar</Button>
-            </DialogClose>
-            <Button type="submit" disabled={loading}>
-              {loading ? "Registrando..." : "Registrar"}
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+            <div className="input-field">
+              <Label htmlFor="observations">
+                Observaciones <span className="optional">(Opcional)</span>
+              </Label>
+              <textarea
+                id="observations"
+                placeholder="Observaciones adicionales sobre la salida..."
+                value={observations}
+                onChange={(e) => setObservations(e.target.value)}
+                disabled={loading}
+                rows={4}
+                maxLength={500}
+                className="textarea-input"
+              />
+              <small className="input-hint">Máximo 500 caracteres</small>
+            </div>
+            <DialogFooter className="mt-4">
+              <DialogClose asChild>
+                <Button variant="outline">Cancelar</Button>
+              </DialogClose>
+              <Button type="submit" disabled={loading}>
+                {loading ? "Registrando..." : "Registrar"}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Modal del recibo */}
+      {receiptData && (
+        <ReceiptModal
+          isOpen={showReceipt}
+          onClose={handleCloseReceipt}
+          receiptData={receiptData}
+        />
+      )}
+    </>
   );
 }

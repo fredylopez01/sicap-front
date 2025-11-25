@@ -22,6 +22,7 @@ import { useAuth } from "@/context/AuthContext";
 interface RequestData {
   licensePlate: string;
   spaceId: number;
+  scheduleType: "DIURNO" | "NOCTURNO";
 }
 
 interface CreateEntryModalProps {
@@ -34,6 +35,7 @@ export function CreateEntryModal({ onCreate }: CreateEntryModalProps) {
   const [licensePlate, setLicensePlate] = useState("");
   const [zoneId, setZoneId] = useState(0);
   const [spaceId, setSpaceId] = useState(0);
+  const [scheduleType, setScheduleType] = useState<"DIURNO" | "NOCTURNO">("DIURNO");
 
   const [zones, setZones] = useState<Zone[]>([]);
   const [spaces, setSpaces] = useState<Space[]>([]);
@@ -119,6 +121,11 @@ export function CreateEntryModal({ onCreate }: CreateEntryModalProps) {
       (space.physicalStatus === "available" ? "Disponible" : "No disponible"),
   }));
 
+  const scheduleTypeOptions = [
+    { value: "DIURNO", label: "Diurno (Tarifa por hora)" },
+    { value: "NOCTURNO", label: "Nocturno (Tarifa plana)" },
+  ];
+
   //Crear zona
   const onCreateZone = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -131,6 +138,7 @@ export function CreateEntryModal({ onCreate }: CreateEntryModalProps) {
       const payload: RequestData = {
         licensePlate,
         spaceId,
+        scheduleType,
       };
 
       try {
@@ -204,6 +212,21 @@ export function CreateEntryModal({ onCreate }: CreateEntryModalProps) {
               onChange={(e) => setSpaceId(Number(e.target.value))}
               options={spaceOptions}
             />
+
+            <InputField
+              id="scheduleType"
+              label="Tipo de horario"
+              type="select"
+              value={scheduleType}
+              onChange={(e) => setScheduleType(e.target.value as "DIURNO" | "NOCTURNO")}
+              options={scheduleTypeOptions}
+            />
+
+            {scheduleType === "NOCTURNO" && (
+              <div className="bg-purple-50 border border-purple-200 text-purple-700 px-3 py-2 rounded text-sm">
+                🌙 Tarifa nocturna (tarifa única independiente de horas)
+              </div>
+            )}
             <span>{error}</span>
           </div>
 

@@ -5,6 +5,8 @@ import { Schedule, DAY_NAMES, DayOfWeek } from "@/interfaces/Schedule";
 import { apiRequest } from "@/services";
 import ScheduleDialogForm from "../Dialog/Schedule/ScheduleDialogForm";
 import "./ScheduleContent.css";
+import { Trash } from "lucide-react";
+import { showAlert, showConfirmAlert } from "@/utils/alerts";
 
 export default function ScheduleContent() {
   const { branchId } = useParams<{ branchId: string }>();
@@ -12,6 +14,7 @@ export default function ScheduleContent() {
   const [schedules, setSchedules] = useState<Schedule[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
 
   // Cargar horarios al montar el componente
   useEffect(() => {
@@ -63,6 +66,47 @@ export default function ScheduleContent() {
     );
   };
 
+  // Manejar eliminación de horario
+  const handleDeleteClick = (schedule: Schedule) => {
+    const scheduleName = schedule.scheduleType === "NOCTURNO"
+      ? "Nocturno"
+      : (schedule.dayOfWeek ? DAY_NAMES[schedule.dayOfWeek] : "este horario");
+
+    showConfirmAlert(
+      "Eliminar horario",
+      `¿Está seguro de eliminar el horario de ${scheduleName}? Esta acción no se puede deshacer.`,
+      "Eliminar",
+      async () => {
+        try {
+          setDeletingId(schedule.id);
+
+          const result: ApiResponse<null> = await apiRequest(
+            `/api/schedules/${schedule.id}`,
+            "DELETE"
+          );
+
+          if (result.success) {
+            setSchedules((prev) => prev.filter((s) => s.id !== schedule.id));
+            showAlert("Horario eliminado exitosamente", "success");
+          } else {
+            showAlert(
+              result.message || "Error al eliminar el horario",
+              "error"
+            );
+          }
+        } catch (err: any) {
+          console.error("Error al eliminar horario:", err);
+          showAlert(
+            err.message || "Error de conexión. Intente de nuevo.",
+            "error"
+          );
+        } finally {
+          setDeletingId(null);
+        }
+      }
+    );
+  };
+
   // Ordenar horarios por día de la semana
   const sortSchedulesByDay = (schedules: Schedule[]): Schedule[] => {
     const dayOrder: DayOfWeek[] = [
@@ -76,7 +120,15 @@ export default function ScheduleContent() {
     ];
 
     return [...schedules].sort((a, b) => {
-      return dayOrder.indexOf(a.dayOfWeek) - dayOrder.indexOf(b.dayOfWeek);
+      // Poner horarios nocturnos al final
+      if (a.scheduleType === "NOCTURNO" && b.scheduleType !== "NOCTURNO") return 1;
+      if (a.scheduleType !== "NOCTURNO" && b.scheduleType === "NOCTURNO") return -1;
+
+      // Ordenar diurnos por día
+      if (a.dayOfWeek && b.dayOfWeek) {
+        return dayOrder.indexOf(a.dayOfWeek) - dayOrder.indexOf(b.dayOfWeek);
+      }
+      return 0;
     });
   };
 
@@ -155,7 +207,9 @@ export default function ScheduleContent() {
             <div key={schedule.id} className="schedule-card">
               <div className="schedule-card-header">
                 <h3 className="schedule-day">
-                  {DAY_NAMES[schedule.dayOfWeek]}
+                  {schedule.scheduleType === "NOCTURNO"
+                    ? "Nocturno"
+                    : (schedule.dayOfWeek ? DAY_NAMES[schedule.dayOfWeek] : "Sin día")}
                 </h3>
                 <div className="header-actions">
                   <span
@@ -172,6 +226,16 @@ export default function ScheduleContent() {
                     scheduleToEdit={schedule}
                     onScheduleUpdated={handleScheduleUpdated}
                   />
+
+                  {/* Botón de eliminar */}
+                  <button
+                    onClick={() => handleDeleteClick(schedule)}
+                    disabled={deletingId === schedule.id}
+                    className="delete-button"
+                    title="Eliminar horario"
+                  >
+                    <Trash />
+                  </button>
                 </div>
               </div>
 
@@ -182,6 +246,13 @@ export default function ScheduleContent() {
                     {formatTimeRange(schedule)}
                   </span>
                 </div>
+                {schedule.scheduleType === "NOCTURNO" && schedule.nightRate && (
+                  <div className="info-row">
+                    <span className="info-value">
+                      ${parseFloat(schedule.nightRate.toString()).toLocaleString()} (tarifa plana)
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           ))}
