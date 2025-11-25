@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./UsersList.css";
+import "./UsersLIst.css";
 import { ApiResponse, User } from "@/interfaces";
 import { apiRequest } from "@/services";
 import { CircleUserRound, Plus, Trash2 } from "lucide-react";
