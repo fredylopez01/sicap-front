@@ -66,7 +66,7 @@ export function VehicleExitForm({ onCreate }: CreateExitFormProps) {
     // Validar placa (requerida, formato básico)
     if (!licensePlate.trim()) {
       newErrors.licensePlate = "La placa es obligatoria";
-    } else if (licensePlate.trim().length < 4) {
+    } else if (licensePlate.trim().length < 3) {
       newErrors.licensePlate = "La placa debe tener al menos 4 caracteres";
     } else if (licensePlate.trim().length > 10) {
       newErrors.licensePlate = "La placa no puede exceder 10 caracteres";
@@ -107,16 +107,16 @@ export function VehicleExitForm({ onCreate }: CreateExitFormProps) {
       if (result.success && result.data) {
         // Cerrar el modal de salida
         setIsOpen(false);
-        
+
         // Guardar los datos del recibo
         setReceiptData(result.data);
-        
+
         // Resetear el formulario
         resetForm();
-        
+
         // Llamar al callback onCreate si existe
         onCreate && onCreate();
-        
+
         // Mostrar el recibo después de un breve delay
         setTimeout(() => {
           setShowReceipt(true);
@@ -130,7 +130,7 @@ export function VehicleExitForm({ onCreate }: CreateExitFormProps) {
       console.error("Error en registro de salida:", error);
       showAlert(
         error.message ||
-          "Error de conexión. No se pudo registrar la salida del vehículo."
+        "Error de conexión. No se pudo registrar la salida del vehículo."
       );
     } finally {
       setLoading(false);

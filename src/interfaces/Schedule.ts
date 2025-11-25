@@ -1,9 +1,11 @@
 export interface Schedule {
   id: number;
   branchId: number;
-  dayOfWeek: DayOfWeek;
+  scheduleType?: "DIURNO" | "NOCTURNO";
+  dayOfWeek?: DayOfWeek;
   openingTime: string; // Formato: "HH:mm:ss"
   closingTime: string; // Formato: "HH:mm:ss"
+  nightRate?: number | string;
   isActive: boolean;
   createdAt: string;
 }
