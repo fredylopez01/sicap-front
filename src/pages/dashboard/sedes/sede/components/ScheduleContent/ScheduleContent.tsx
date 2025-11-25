@@ -68,9 +68,13 @@ export default function ScheduleContent() {
 
   // Manejar eliminación de horario
   const handleDeleteClick = (schedule: Schedule) => {
+    const scheduleName = schedule.scheduleType === "NOCTURNO"
+      ? "Nocturno"
+      : (schedule.dayOfWeek ? DAY_NAMES[schedule.dayOfWeek] : "este horario");
+
     showConfirmAlert(
       "Eliminar horario",
-      `¿Está seguro de eliminar el horario de ${DAY_NAMES[schedule.dayOfWeek]}? Esta acción no se puede deshacer.`,
+      `¿Está seguro de eliminar el horario de ${scheduleName}? Esta acción no se puede deshacer.`,
       "Eliminar",
       async () => {
         try {
@@ -116,7 +120,15 @@ export default function ScheduleContent() {
     ];
 
     return [...schedules].sort((a, b) => {
-      return dayOrder.indexOf(a.dayOfWeek) - dayOrder.indexOf(b.dayOfWeek);
+      // Poner horarios nocturnos al final
+      if (a.scheduleType === "NOCTURNO" && b.scheduleType !== "NOCTURNO") return 1;
+      if (a.scheduleType !== "NOCTURNO" && b.scheduleType === "NOCTURNO") return -1;
+
+      // Ordenar diurnos por día
+      if (a.dayOfWeek && b.dayOfWeek) {
+        return dayOrder.indexOf(a.dayOfWeek) - dayOrder.indexOf(b.dayOfWeek);
+      }
+      return 0;
     });
   };
 
@@ -195,7 +207,9 @@ export default function ScheduleContent() {
             <div key={schedule.id} className="schedule-card">
               <div className="schedule-card-header">
                 <h3 className="schedule-day">
-                  {DAY_NAMES[schedule.dayOfWeek]}
+                  {schedule.scheduleType === "NOCTURNO"
+                    ? "Nocturno"
+                    : (schedule.dayOfWeek ? DAY_NAMES[schedule.dayOfWeek] : "Sin día")}
                 </h3>
                 <div className="header-actions">
                   <span
@@ -232,6 +246,13 @@ export default function ScheduleContent() {
                     {formatTimeRange(schedule)}
                   </span>
                 </div>
+                {schedule.scheduleType === "NOCTURNO" && schedule.nightRate && (
+                  <div className="info-row">
+                    <span className="info-value">
+                      ${parseFloat(schedule.nightRate.toString()).toLocaleString()} (tarifa plana)
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           ))}
