@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Sede } from "@/interfaces/sede"; // Asume que la interfaz Sede está definida
-import "./Sedes.css"; // Importamos el archivo CSS
+import { Sede } from "@/interfaces/sede";
+import "./Sedes.css";
 import { ApiResponse } from "@/interfaces";
 import { apiRequest } from "@/services";
-import { ChevronRight, MapPinned, MapPinPlus } from "lucide-react";
+import { ChevronRight, Building2, MapPin, MapPinPlus } from "lucide-react";
 
 export default function Sedes() {
   const navigate = useNavigate();
@@ -55,46 +55,66 @@ export default function Sedes() {
         <div className="header-info">
           <h1 className="header-title">Sedes</h1>
           <p className="header-subtitle">
-            Gestión de las sedes de la organización
+            Gestión y administración de las sedes de la organización
           </p>
         </div>
 
         <div className="header-actions">
           <Button onClick={handleRedirectNewSede}>
-            <MapPinPlus />
+            <MapPinPlus size={18} />
             Crear sede
           </Button>
         </div>
       </header>
 
-      {/* Contenido dividido */}
+      {/* Content */}
       <div className="content-grid-wrapper">
-          {loading && <p className="status-message">Cargando sedes...</p>}
-          {error && <p className="status-message error">{error}</p>}
+        {loading && <p className="status-message">Cargando sedes...</p>}
+        {error && <p className="status-message error">{error}</p>}
 
-          {!loading && !error && (
-            <ul className="sede-list">
-              {sedes.map((sede) => (
-                <li
-                  key={sede.id}
-                  className="sede-list-item"
-                  onClick={() => handleRedirectSede(sede.id)}
-                >
-                  <div className="sede-card-content">
-                    <h3 className="sede-card-title"><MapPinned size={20} />{sede.name}</h3>
-                    <div className="sede-card-address">
-                      <span>{sede.address}</span>
+        {!loading && !error && (
+          <ul className="sede-list">
+            {sedes.map((sede) => (
+              <li
+                key={sede.id}
+                className="sede-list-item"
+                onClick={() => handleRedirectSede(sede.id)}
+              >
+                <div className="sede-card-content">
+                  <div className="sede-card-header">
+                    <div className="sede-icon-wrapper">
+                      <Building2 size={24} />
+                    </div>
+                    <div className="sede-card-info">
+                      <h3 className="sede-card-title">{sede.name}</h3>
+                      {sede.city && (
+                        <span className="sede-card-city">
+                          📍 {sede.city}
+                        </span>
+                      )}
                     </div>
                   </div>
-                  <ChevronRight className="sede-card-icon" size={20} />
-                </li>
-              ))}
-            </ul>
-          )}
 
-          {!loading && !error && sedes.length === 0 && (
-            <p className="status-message">No se encontraron sedes.</p>
-          )}
+                  <div className="sede-card-address">
+                    <MapPin size={16} />
+                    <span>{sede.address}</span>
+                  </div>
+                </div>
+
+                <div className="sede-card-footer">
+                  <div className="sede-card-action">
+                    <span>Ver detalles</span>
+                    <ChevronRight size={18} />
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {!loading && !error && sedes.length === 0 && (
+          <p className="status-message">No se encontraron sedes.</p>
+        )}
       </div>
     </div>
   );
